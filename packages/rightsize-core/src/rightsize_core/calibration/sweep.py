@@ -29,11 +29,12 @@ class Rung:
     name: str
     model: str
     params: dict
+    concurrency: int | None = None  # overrides the sweep's --concurrency (local servers want 1)
 
 
 def load_ladder(path: Path) -> list[Rung]:
     data = yaml.safe_load(path.read_text())
-    return [Rung(r["name"], r["model"], r.get("params", {})) for r in data["rungs"]]
+    return [Rung(r["name"], r["model"], r.get("params", {}), r.get("concurrency")) for r in data["rungs"]]
 
 
 def sample_tasks(tasks: list, n: int | None, seed: int = 7) -> list:

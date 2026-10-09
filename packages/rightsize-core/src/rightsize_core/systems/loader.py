@@ -3,7 +3,7 @@
 * http(s)://host      a native rightsize/v1 HTTP server
 * mcp+http(s)://host  a native rightsize/v1 MCP server over streamable HTTP
 * mcp+stdio:<cmd>     a native rightsize/v1 MCP server started as a subprocess
-* ref:<name>          a reference system in-process (bm25, dense, llm, oracle)
+* ref:<name>          a reference system in-process (bm25, llm, oracle)
 * plugin:<mod:attr>   any in-process object with info() and run()
 * path/to/file.yaml   a system config (native or declarative)
 """

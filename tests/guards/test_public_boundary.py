@@ -16,7 +16,7 @@ DENYLIST = ROOT / "private/guard/denylist.txt"
 SKIP_SUFFIXES = {".lock", ".png", ".jpg", ".ico", ".pdf"}
 PUBLIC_RULES = [
     (re.compile(r"(?<![pw])rote(?!-compliance-skills)", re.IGNORECASE), set()),
-    (re.compile(r"private/"), {".gitignore", "configs/suites/m1.yaml"}),
+    (re.compile(r"private/"), {".gitignore", "configs/suites/m1.yaml", "configs/suites/m2.yaml"}),
 ]
 
 

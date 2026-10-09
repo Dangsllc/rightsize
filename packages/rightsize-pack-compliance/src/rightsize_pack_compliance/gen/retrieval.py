@@ -4,6 +4,7 @@ Three styles, in rising difficulty:
 * exact_term: a template around the provision's own title
 * paraphrase: a practitioner's question, LLM-written once, frozen, and overlap-filtered
 * scenario: a short workplace vignette, LLM-written once, frozen, and overlap-filtered
+* clause: a contract clause that puts the provision into agreement terms (suite m2)
 """
 
 from __future__ import annotations
@@ -44,8 +45,9 @@ def select_targets(corpus: Corpus, cfg: dict) -> list[Target]:
     missing = [c for c in codes if c not in corpus]
     if missing:
         raise ValueError(f"Retrieval targets not found in the source corpus: {missing}")
+    titles = cfg.get("titles", {})  # where eCFR headings do not tell targets apart
     return [
-        Target(c, corpus.display_title(c), corpus.subtree_text(c), corpus.rows[c]["subpart"] or "")
+        Target(c, titles.get(c) or corpus.display_title(c), corpus.subtree_text(c), corpus.rows[c]["subpart"] or "")
         for c in codes
     ]
 

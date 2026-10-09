@@ -19,16 +19,17 @@ def build_suite(root: Path, cfg: dict, allow_missing_seeds: bool = False) -> dic
     reports: dict = {}
     inputs = list(sources)
 
+    seeds_rel = cfg["retrieval"].get("seeds", RETRIEVAL_SEEDS)
     store = seed_queries.store_for(root, cfg, corpus)
     seeds = store.load()
-    seed_path = root / RETRIEVAL_SEEDS
+    seed_path = root / seeds_rel
     if seed_path.exists():
         inputs.append(seed_path)
     has_private = store.private is not None and store.private.exists()
     if not has_private:
         # Public clone: build public/dev only. Held-out tasks need the private seeds.
         seeds = {k: v for k, v in seeds.items() if k[0] not in store.heldout}
-    rtasks, rreport = retrieval.build(corpus, cfg, seeds, RETRIEVAL_SEEDS if seeds else None,
+    rtasks, rreport = retrieval.build(corpus, cfg, seeds, seeds_rel if seeds else None,
                                       include_heldout=has_private)
     missing = [r for r in rreport if not r["ok"]]
     # Slots whose every candidate failed the filters are a result, recorded in the report. A slot
@@ -48,9 +49,12 @@ def build_suite(root: Path, cfg: dict, allow_missing_seeds: bool = False) -> dic
     }
 
     if "control_classification" in cfg:
-        from rightsize_pack_compliance.gen import manuals
+        if cfg["control_classification"].get("doc_family", "manual") == "baa":
+            from rightsize_pack_compliance.gen import baas as builder
+        else:
+            from rightsize_pack_compliance.gen import manuals as builder
 
-        ctasks, docs, creport, cinputs = manuals.build(root, corpus, cfg)
+        ctasks, docs, creport, cinputs = builder.build(root, corpus, cfg)
         tasks += ctasks
         reports["control_classification"] = creport
         inputs += cinputs
@@ -69,7 +73,11 @@ def _public_only(reports: dict, heldout_targets: set[str]) -> dict:
     out["retrieval"] = r
     if "control_classification" in out:
         c = dict(out["control_classification"])
-        c["manuals"] = [m for m in c.get("manuals", []) if m.get("split") != "heldout"]
-        c["leaks"] = [lk for lk in c.get("leaks", []) if lk["manual"] in {m["manual"] for m in c["manuals"]}]
+        if "agreements" in c:
+            c["agreements"] = [a for a in c["agreements"] if a["split"] != "heldout"]
+            c["leaks"] = [lk for lk in c.get("leaks", []) if lk["split"] != "heldout"]
+        else:
+            c["manuals"] = [m for m in c.get("manuals", []) if m.get("split") != "heldout"]
+            c["leaks"] = [lk for lk in c.get("leaks", []) if lk["manual"] in {m["manual"] for m in c["manuals"]}]
         out["control_classification"] = c
     return out

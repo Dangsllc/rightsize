@@ -76,3 +76,49 @@ def test_unknown_cost_falls_back_to_ladder_order(tmp_path, monkeypatch):
         for r in json.loads((sweep_dir / "sweep.json").read_text())["runs"]:
             shutil.rmtree(r["run_dir"], ignore_errors=True)
         shutil.rmtree(sweep_dir, ignore_errors=True)
+
+
+def test_ladder_rung_concurrency_is_optional(tmp_path):
+    from rightsize_core.calibration.sweep import load_ladder
+
+    ladder = tmp_path / "ladder.yaml"
+    ladder.write_text(yaml.safe_dump({"rungs": [{"name": "a", "model": "m"},
+                                                {"name": "b", "model": "m", "concurrency": 1, "params": {"x": 1}}]}))
+    a, b = load_ladder(ladder)
+    assert (a.concurrency, b.concurrency, b.params) == (None, 1, {"x": 1})
+
+
+def test_shipped_ladders_load_and_are_priced():
+    from rightsize_core.calibration.sweep import load_ladder
+    from rightsize_core.usage.pricing import Pricing
+
+    pricing = Pricing(ROOT / "configs/pricing/2026-10.yaml")
+    for path in (ROOT / "configs/ladders").glob("*.yaml"):
+        for rung in load_ladder(path):
+            assert pricing.rate(rung.model) is not None, f"{path.name}: {rung.name} has no price on file"
+
+
+def test_diff_fail_on_regression(monkeypatch):
+    import shutil
+
+    monkeypatch.setenv("RIGHTSIZE_PLUGIN_PATH", str(ROOT / "tests/fixtures"))
+    monkeypatch.setenv("RIGHTSIZE_ROOT", str(ROOT))
+    runner = CliRunner()
+    dirs = {}
+    try:
+        for model in ("fake-large", "fake-small"):
+            res = runner.invoke(app, ["run", "--system", "plugin:fake_ladder_system:make", "--model", model,
+                                      "--task-type", "retrieval"])
+            assert res.exit_code == 0, res.output
+            dirs[model] = next(ln for ln in res.output.splitlines() if "scorecard.html" in ln).strip().split()[-1]
+            dirs[model] = str(Path(dirs[model]).parent)
+        worse = runner.invoke(app, ["diff", dirs["fake-large"], dirs["fake-small"], "--fail-on-regression"])
+        assert worse.exit_code == 1, worse.output
+        assert "REGRESSION" in worse.output
+        better = runner.invoke(app, ["diff", dirs["fake-small"], dirs["fake-large"], "--fail-on-regression"])
+        assert better.exit_code == 0, better.output
+        plain = runner.invoke(app, ["diff", dirs["fake-large"], dirs["fake-small"]])
+        assert plain.exit_code == 0
+    finally:
+        for d in dirs.values():
+            shutil.rmtree(d, ignore_errors=True)

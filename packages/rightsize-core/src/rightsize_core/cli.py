@@ -163,6 +163,76 @@ def data_check_manual(base: str = typer.Option(...), suite: str = "m1"):
     raise typer.Exit(1 if problems else 0)
 
 
+@data_app.command("check-baa")
+def data_check_baa(base: str = typer.Option(...), suite: str = "m2"):
+    """Run the seed checker over a base agreement file and list every problem (exit 1 if any)."""
+    from rightsize_pack_compliance.gen.seed_baas import base_seed_path, check_seed, load_elements
+
+    from rightsize_core.integrity.dataset import load_suite_config
+
+    root = _root()
+    cfg = load_suite_config(root, suite)
+    ccfg = cfg["control_classification"]
+    path = base_seed_path(root, cfg, next(b for b in ccfg["bases"] if b["id"] == base))
+    if not path.exists():
+        typer.echo(f"no seed at {path}")
+        raise typer.Exit(1)
+    problems = check_seed(json.loads(path.read_text()), load_elements(root / ccfg["elements"]))
+    for p in problems:
+        typer.echo(p)
+    typer.echo(f"{len(problems)} problems in {path.name}")
+    raise typer.Exit(1 if problems else 0)
+
+
+@data_app.command("baa-brief")
+def data_baa_brief(base: str = typer.Option(...), suite: str = "m2",
+                   hhs: Path = typer.Option(Path("data/sources/hhs_sample_baa_provisions@2013-01-25.md"))):
+    """Print the writing brief for one base agreement, including where its seed file goes."""
+    from rightsize_pack_compliance.gen.seed_baas import base_seed_path, brief, load_elements
+
+    from rightsize_core.integrity.dataset import load_suite_config
+
+    root = _root()
+    cfg = load_suite_config(root, suite)
+    ccfg = cfg["control_classification"]
+    b = next(x for x in ccfg["bases"] if x["id"] == base)
+    typer.echo(brief(b, load_elements(root / ccfg["elements"]), (root / hhs).read_text()))
+    typer.echo(f"\nWrite the seed to: {base_seed_path(root, cfg, b)}")
+
+
+@data_app.command("agent-io")
+def data_agent_io(
+    action: str = typer.Argument(..., help="export-write | import-write | export-verify | import-verify"),
+    path: Path = typer.Argument(..., help="JSONL to write (export) or read (import)"),
+    suite: str = "m1",
+    label: str = typer.Option("claude-code-agent:claude-opus-5-5", help="Writer/verifier recorded with the rows"),
+    share: str = typer.Option("1/2", help="export-write: i/n share of targets this writer takes"),
+):
+    """Exchange retrieval seed-writing or verification work with an agent that is not an API backend,
+    using the same prompts `data seed` and `data verify` send."""
+    from rightsize_pack_compliance.gen import agent_io, seed_queries
+    from rightsize_pack_compliance.gen.corpus import Corpus
+
+    from rightsize_core.integrity.dataset import load_suite_config
+
+    root = _root()
+    cfg = load_suite_config(root, suite)
+    corpus = Corpus.load([root / s for s in cfg["sources"]])
+    store = seed_queries.store_for(root, cfg, corpus)
+    if action == "export-write":
+        i, _, n = share.partition("/")
+        count = agent_io.export_write(corpus, cfg, store, (int(i), int(n)), path)
+    elif action == "import-write":
+        count = agent_io.import_write(store, label, path)
+    elif action == "export-verify":
+        count = agent_io.export_verify(corpus, cfg, store, label, path)
+    elif action == "import-verify":
+        count = agent_io.import_verify(corpus, cfg, store, label, path)
+    else:
+        raise typer.BadParameter("unknown action")
+    typer.echo(f"{action}: {count} items ({path})")
+
+
 @data_app.command("verify")
 def data_verify(
     suite: str = "m1",
@@ -273,11 +343,16 @@ def report(run_dir: Path):
 
 
 @app.command()
-def diff(run_a: Path, run_b: Path, delta: float = typer.Option(0.0, help="Regression margin")):
+def diff(run_a: Path, run_b: Path, delta: float = typer.Option(0.0, help="Regression margin"),
+         fail_on_regression: bool = typer.Option(False, help="Exit 1 if any primary metric regressed (for CI)")):
     """Paired comparison of two runs on the items both scored (B minus A)."""
-    from rightsize_core.report.diff import diff_runs
+    from rightsize_core.report.diff import diff_data, primary_regressions, render_diff
 
-    typer.echo(diff_runs(_root(), run_a, run_b, delta))
+    data = diff_data(_root(), run_a, run_b, delta)
+    typer.echo(render_diff(data))
+    if fail_on_regression and (bad := primary_regressions(data)):
+        typer.echo(f"\nPrimary metric regressed: {', '.join(bad)}", err=True)
+        raise typer.Exit(1)
 
 
 @app.command()
@@ -340,7 +415,8 @@ def sweep(
     for r in ladder_rungs:
         rate = pricing.rate(r.model)
         price = f"${rate['input']:.2f}/${rate['output']:.2f} per MTok" if rate else "no price on file"
-        typer.echo(f"  {r.name:<18} {r.model:<20} {r.params}  {price}")
+        conc = f"  concurrency {r.concurrency}" if r.concurrency else ""
+        typer.echo(f"  {r.name:<18} {r.model:<20} {r.params}  {price}{conc}")
     if dry_run:
         return
     sweep_id = f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}_{uuid.uuid4().hex[:6]}"
@@ -359,7 +435,7 @@ def sweep(
             if not info.supports_model_param:
                 raise typer.BadParameter(f"{info.name} does not take a model parameter; it can't be swept")
             remaining = None if max_cost is None else max(0.0, max_cost - spent)
-            return await execute(root, sysobj, tasks, suite, split, repeats, concurrency, pricing=pricing,
+            return await execute(root, sysobj, tasks, suite, split, repeats, r.concurrency or concurrency, pricing=pricing,
                                  sweep_id=sweep_id, max_cost=remaining)
         finally:
             await sysobj.aclose()
@@ -423,7 +499,7 @@ def spec_export():
 
 @app.command()
 def serve(
-    name: str = typer.Argument(..., help="Reference system: bm25 | dense | llm | oracle"),
+    name: str = typer.Argument(..., help="Reference system: bm25 | llm | oracle"),
     suite: str = "m1",
     port: int = 8701,
     host: str = "127.0.0.1",

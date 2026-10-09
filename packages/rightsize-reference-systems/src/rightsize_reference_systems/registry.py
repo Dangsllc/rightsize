@@ -22,8 +22,4 @@ def make(name: str, root: Path, suite: str = "m1", **kwargs) -> ReferenceSystem:
         from rightsize_reference_systems.llm import LLMSystem
 
         return LLMSystem(root, sources, **kwargs)
-    if name == "dense":
-        from rightsize_reference_systems.dense import DenseSystem
-
-        return DenseSystem(sources)
-    raise KeyError(f"Unknown reference system {name!r} (bm25, dense, llm, oracle)")
+    raise KeyError(f"Unknown reference system {name!r} (bm25, llm, oracle)")

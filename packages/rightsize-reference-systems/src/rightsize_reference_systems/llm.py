@@ -116,9 +116,16 @@ class LLMSystem(ReferenceSystem):
                 "fallbacks": "disabled"}
 
     # ------------------------------------------------------------------ calls
+    def route(self, params: dict) -> tuple[str, str | None, str | None]:
+        """Provider, base URL, and API-key env var for one call. A ladder rung may override all
+        three through its params, so one sweep can mix local servers and hosted APIs."""
+        return (params.get("provider") or self.provider, params.get("base_url") or self.base_url,
+                params.get("api_key_env") or self.api_key_env)
+
     async def _call(self, model: str, system: str, user: str, schema: dict, params: dict) -> tuple[dict, list[UsageRecord], dict]:
         t0 = time.monotonic()
-        if self.provider == "anthropic":
+        provider, base_url, api_key_env = self.route(params)
+        if provider == "anthropic":
             import anthropic
 
             client = anthropic.AsyncAnthropic()
@@ -145,7 +152,7 @@ class LLMSystem(ReferenceSystem):
                                  cache_read_tokens=getattr(u, "cache_read_input_tokens", None),
                                  latency_ms=int((time.monotonic() - t0) * 1000), call_role="assess")]
             return json.loads(text), usage, sent
-        if self.provider == "ollama":
+        if provider == "ollama":
             # Native API, so the context window is explicit. Ollama's OpenAI-compatible endpoint
             # silently truncates prompts to its default context (often 4096 tokens).
             num_ctx = int(params.get("num_ctx", 32768))
@@ -153,7 +160,7 @@ class LLMSystem(ReferenceSystem):
                     "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
                     "options": {"num_ctx": num_ctx, "temperature": float(params.get("temperature", 0.0))}}
             async with httpx.AsyncClient(timeout=3600) as c:
-                r = await c.post(f"{(self.base_url or 'http://127.0.0.1:11434').rstrip('/')}/api/chat", json=body)
+                r = await c.post(f"{(base_url or 'http://127.0.0.1:11434').rstrip('/')}/api/chat", json=body)
                 r.raise_for_status()
                 data = r.json()
             from rightsize_pack_compliance.gen.llm import parse_json_block
@@ -161,15 +168,19 @@ class LLMSystem(ReferenceSystem):
             n_in = data.get("prompt_eval_count", 0)
             if n_in >= num_ctx:
                 raise RuntimeError(f"prompt filled the whole {num_ctx}-token context; raise params.num_ctx")
+            if data.get("done_reason") == "length":
+                raise RuntimeError("output hit the token limit before the answer finished; raise params.num_predict")
             usage = [UsageRecord(provider="ollama", model=data.get("model", model), input_tokens=n_in,
                                  output_tokens=data.get("eval_count", 0),
                                  latency_ms=int((time.monotonic() - t0) * 1000), call_role="assess")]
-            sent = {"model": model, "options": body["options"], "format": "json_schema"}
+            sent = {"provider": "ollama", "model": model, "options": body["options"], "format": "json_schema"}
             return parse_json_block(data["message"]["content"]), usage, sent
         # OpenAI-compatible (LM Studio, vLLM)
         headers = {}
-        if self.api_key_env and os.environ.get(self.api_key_env):
-            headers["Authorization"] = f"Bearer {os.environ[self.api_key_env]}"
+        if api_key_env and os.environ.get(api_key_env):
+            headers["Authorization"] = f"Bearer {os.environ[api_key_env]}"
+        if not base_url:
+            raise RuntimeError(f"provider {provider!r} needs a base_url (params.base_url or RIGHTSIZE_LLM_BASE_URL)")
         body: dict[str, Any] = {
             "model": model,
             "messages": [{"role": "system", "content": system},
@@ -179,17 +190,21 @@ class LLMSystem(ReferenceSystem):
             "max_tokens": int(params.get("max_tokens", 8000)),
         }
         async with httpx.AsyncClient(timeout=1800) as c:
-            r = await c.post(f"{self.base_url.rstrip('/')}/chat/completions", json=body, headers=headers)
+            r = await c.post(f"{base_url.rstrip('/')}/chat/completions", json=body, headers=headers)
             r.raise_for_status()
             data = r.json()
         from rightsize_pack_compliance.gen.llm import parse_json_block
 
-        text = data["choices"][0]["message"]["content"]
+        choice = data["choices"][0]
         u = data.get("usage") or {}
+        check_not_truncated(choice.get("finish_reason"), u.get("prompt_tokens"), system + user)
+        # Reasoning models on OpenAI-compatible servers put their chain of thought in a separate
+        # field (dropped here) or inline in <think> tags (stripped by parse_json_block).
+        text = choice["message"].get("content") or ""
         usage = [UsageRecord(provider="openai-compatible", model=data.get("model", model),
                              input_tokens=u.get("prompt_tokens", 0), output_tokens=u.get("completion_tokens", 0),
                              estimated=not u, latency_ms=int((time.monotonic() - t0) * 1000), call_role="assess")]
-        sent = {k: v for k, v in body.items() if k != "messages"}
+        sent = {"provider": provider, **{k: v for k, v in body.items() if k != "messages"}}
         return parse_json_block(text), usage, sent
 
     # ------------------------------------------------------------------ tasks
@@ -251,3 +266,22 @@ class LLMSystem(ReferenceSystem):
 
 class RefusalError(RuntimeError):
     pass
+
+
+# Every tokenizer in use averages well under 6 characters per token on English and legal text, so
+# a server reporting fewer prompt tokens than characters / 6 did not read the whole prompt.
+CHARS_PER_TOKEN_CEILING = 6
+
+
+def check_not_truncated(finish_reason: str | None, prompt_tokens: int | None, prompt: str) -> None:
+    """Fail loudly instead of scoring a model on a prompt or answer the server cut short. Local
+    servers (LM Studio, Ollama's OpenAI endpoint) load models with small default contexts and may
+    drop the middle of a long document without an error, which would read as a weak model."""
+    if finish_reason == "length":
+        raise RuntimeError("output hit the token limit before the answer finished; raise params.max_tokens")
+    floor = len(prompt) // CHARS_PER_TOKEN_CEILING
+    if prompt_tokens and prompt_tokens < floor:
+        raise RuntimeError(
+            f"server reports {prompt_tokens} prompt tokens for a prompt of about {floor}+ tokens: it is "
+            "truncating the context. Load the model with a larger context length."
+        )

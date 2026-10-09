@@ -28,7 +28,7 @@ def http_app(system: ReferenceSystem) -> FastAPI:
 def mcp_server(system: ReferenceSystem):
     from mcp.server.mcpserver import MCPServer
 
-    mcp = MCPServer(f"gq-{system.info().name}")
+    mcp = MCPServer(f"rightsize-{system.info().name}")
 
     @mcp.tool(name="rightsize_info", description="Describe this system under the rightsize/v1 protocol.")
     def rightsize_info() -> dict[str, Any]:

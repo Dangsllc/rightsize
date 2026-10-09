@@ -54,7 +54,9 @@ class ManualPlan:
     units: dict[str, UnitPlan] = field(default_factory=dict)
 
 
-def plan_manual(base_id: str, base_index: int, index: int, groups: list[dict], pattern: list[str]) -> ManualPlan:
+def plan_manual(base_id: str, base_index: int, index: int, groups: list[dict], pattern: list[str],
+                allow_hollow: bool = True) -> ManualPlan:
+    """`allow_hollow=False` turns every gap into a removal (agreements have no "hollowed" sections)."""
     mp = ManualPlan(manual_id=f"{base_id}-{index:02d}", base=base_id, index=index)
     L = len(pattern)
     for gi, g in enumerate(groups):
@@ -72,7 +74,7 @@ def plan_manual(base_id: str, base_index: int, index: int, groups: list[dict], p
         if label == "gap":
             for u in units:
                 p = mp.units[u["code"]]
-                p.mutation = "hollow" if h(u["code"], "gap") % 2 else "remove_section"
+                p.mutation = "hollow" if allow_hollow and h(u["code"], "gap") % 2 else "remove_section"
                 p.status = "gap"
         elif label == "partial":
             # Prefer a member that can be partially met (2+ elements), so spec-level "partial"
@@ -96,7 +98,7 @@ def plan_manual(base_id: str, base_index: int, index: int, groups: list[dict], p
                 else:
                     # Weakening a unit's only element would leave vague language behind, which most
                     # assessors call "partial"; removing or hollowing it is an unambiguous gap.
-                    p.mutation = "hollow" if h("mut", u["code"]) % 2 else "remove_section"
+                    p.mutation = "hollow" if allow_hollow and h("mut", u["code"]) % 2 else "remove_section"
                     p.element = None
                     p.status = "gap"
     return mp

@@ -150,3 +150,15 @@ def test_coarser_group_code_maps_to_its_group():
     g = {u.unit_id.split("::")[1]: u for u in units if u.level == "group"}
     assert g["164.312(a)"].pred == "partial"
     assert units[0].extra["extras"] == 1
+
+
+def test_documents_of_one_variant_share_a_cluster():
+    base = ctask()
+    other = base.model_copy(update={"id": "c2", "expected": {**base.expected, "cluster": "pair-01"},
+                                    "inputs": {**base.inputs, "document_id": "pair-01b"}})
+    first = base.model_copy(update={"expected": {**base.expected, "cluster": "pair-01"},
+                                    "inputs": {**base.inputs, "document_id": "pair-01a"}})
+    pred = ControlPrediction(assessments=[])
+    clusters = {u.cluster for t in (first, other) for u in score_control(t, pred, "predicted")}
+    assert clusters == {"pair-01"}
+    assert {u.cluster for u in score_control(base, pred, "predicted")} == {base.inputs["document_id"]}

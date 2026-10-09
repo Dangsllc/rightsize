@@ -1,0 +1,256 @@
+# Required elements for each m2 BAA classification unit, taken from 45 CFR 164.504(e)(2),
+# 164.314(a)(2)(i) and 164.410 (eCFR edition 2026-09-29). This is the only hand-written
+# artifact behind the m2 classification labels: a `partial` label means one of these elements
+# was removed or weakened in the agreement; `gap` means every element of the unit is absent.
+#
+#   title:      unit name shown to systems (the eCFR heading for all of 164.504(e) is just
+#               "Business associate contracts", which does not tell units apart)
+#   id:         element id, unique within the unit
+#   cfr:        the words of the regulation the element comes from (verbatim fragment)
+#   requires:   what the agreement must say to meet the element, in plain words (shown to
+#               the seed writer)
+#   implied_by: other elements of the unit that presuppose this one; the builder never drops
+#               an element while an element that implies it remains.
+#   signature:  regexes (case-insensitive). A sentence meets the element when it matches one
+#               of them AND states a binding term (shall / will / agrees / must / may only /
+#               may not / may terminate ...). Definitions ("shall mean") are not binding.
+#               Signatures never name a party, because agreements name the parties
+#               differently ("Covered Entity", "Customer", "the Plan", ...).
+#
+# Unit choices that need Dan's judgment are marked REVIEW.
+#
+# Review status: draft for Dan's review (2026-10-09).
+version: 1
+edition: "2026-09-29"
+family: baa
+groups:
+  - code: baa.uses
+    topic: permitted and required uses and disclosures of PHI
+    units:
+      - code: "164.504(e)(2)(i)"
+        title: Permitted and required uses and disclosures
+        elements:
+          - id: E1
+            cfr: "Establish the permitted and required uses and disclosures of protected health information by the business associate"
+            requires: >-
+              states the purposes for which the business associate may use or disclose PHI,
+              either as a list or "only as necessary to perform the services" under a named
+              underlying agreement
+            signature: ['(?=.*\b(use|uses|using)\b)(?=.*disclos)(?=.*\b(only|solely)\b)(?=.*(perform|provid|services|functions|activities|purposes))']
+          - id: E2
+            cfr: "may not authorize the business associate to use or further disclose the information in a manner that would violate the requirements of this subpart, if done by the covered entity"
+            requires: >-
+              the business associate may not use or disclose PHI in a way that would violate
+              the Privacy Rule if the covered entity did it
+            signature: ['(?=.*\b(violate|impermissible|not be permitted|not permitted)\b)(?=.*(if (it were |they were )?(done|performed|made|undertaken|carried out) by|\bitself\b))']
+      - code: "164.504(e)(2)(ii)(A)"
+        title: No use or disclosure beyond the agreement
+        elements:
+          - id: E1
+            cfr: "Not use or further disclose the information other than as permitted or required by the contract or as required by law"
+            requires: >-
+              the business associate will not use or further disclose PHI other than as the
+              agreement permits or requires, or as required by law
+            signature: ['(?=.*\bnot\b[^.]{0,40}\b(use|disclose|used|disclosed)\b)(?=.*\b(other than|except)\b)']
+
+  - code: baa.safeguards
+    topic: safeguards and the Security Rule
+    units:
+      - code: "164.504(e)(2)(ii)(B)"
+        title: Safeguards and Security Rule compliance
+        elements:
+          - id: E1
+            cfr: "Use appropriate safeguards ... to prevent use or disclosure of the information other than as provided for by its contract"
+            requires: >-
+              the business associate uses appropriate safeguards to prevent use or disclosure
+              of PHI not provided for by the agreement
+            signature: ['(reasonable and appropriate|appropriate) (administrative, physical,? and technical )?safeguards', 'administrative, physical,? and technical safeguards']
+          - id: E2
+            cfr: "comply, where applicable, with subpart C of this part with respect to electronic protected health information"
+            requires: >-
+              the business associate complies with the Security Rule (45 CFR Part 164,
+              Subpart C) for electronic PHI. This also carries 164.314(a)(2)(i)(A).
+            signature: ['subpart c\b', 'security rule', '164\.3(08|10|12|14|16)\b', 'security standards for the protection of electronic protected health information']
+
+  - code: baa.reporting
+    topic: reporting improper uses, security incidents, and breaches
+    units:
+      - code: "164.504(e)(2)(ii)(C)"
+        title: Reporting uses and disclosures not provided for
+        elements:
+          - id: E1
+            cfr: "Report to the covered entity any use or disclosure of the information not provided for by its contract of which it becomes aware"
+            requires: >-
+              the business associate reports to the covered entity any use or disclosure of
+              PHI not provided for by the agreement that it becomes aware of
+            signature: ['(?=.*\b(report|notify|notif)\w*)(?=.*\b(use|disclosure)s?\b)(?=.*(not (provided for|permitted|authorized)|unauthori[sz]ed|impermissible|in violation of))']
+          - id: E2
+            cfr: "including breaches of unsecured protected health information as required by § 164.410"
+            requires: the reporting obligation covers breaches of unsecured PHI
+            signature: ['(?=.*\b(report|notify|notif)\w*)(?=.*\bbreach(es)?\b)(?=.*\bunsecured\b)']
+      - code: "164.314(a)(2)(i)(C)"
+        title: Reporting security incidents
+        elements:
+          - id: E1
+            cfr: "Report to the covered entity any security incident of which it becomes aware"
+            requires: >-
+              the business associate reports security incidents it becomes aware of (not only
+              confirmed breaches). A carve-out for unsuccessful attempts such as pings and port
+              scans still meets the element.
+            signature: ['(?=.*\b(report|notify|notif)\w*)(?=.*security incidents?)']
+      # REVIEW: 164.410 binds the business associate by statute whether or not the contract
+      # says so. It is included because an agreement that states a longer period, or no outer
+      # limit, is a standard review finding. Drop these two units if you'd rather score only
+      # what 164.504(e)(2) and 164.314(a) require the contract itself to say.
+      - code: "164.410(b)"
+        title: Timeliness of breach notice to the covered entity
+        elements:
+          - id: E1
+            cfr: "without unreasonable delay"
+            requires: the business associate notifies of a breach without unreasonable delay (or promptly, or immediately)
+            signature: ['(?=.*\bbreach)(?=.*(without unreasonable delay|\bpromptly\b|\bimmediately\b|as soon as (reasonably )?practicable))']
+          - id: E2
+            cfr: "and in no case later than 60 calendar days after discovery of a breach"
+            requires: >-
+              states an outer deadline of no more than 60 calendar days after discovery (any
+              shorter stated period, in days or hours, also meets the element)
+            signature:
+              - '(?=.*\bbreach)(?=.*(?<![\d,.])([1-9]|[1-5]\d|60)\)?\s*(calendar |business )?(days?|hours)\b)'
+              - '(?=.*\bbreach)(?=.*\b(one|two|three|four|five|seven|ten|fifteen|twenty|thirty|forty-five|sixty|twenty-four|forty-eight|seventy-two)\s*(\(\d+\)\s*)?(calendar |business )?(days?|hours)\b)'
+      - code: "164.410(c)"
+        title: Content of breach notice to the covered entity
+        elements:
+          - id: E1
+            cfr: "identification of each individual whose unsecured protected health information has been, or is reasonably believed by the business associate to have been, accessed, acquired, used, or disclosed during the breach"
+            requires: the breach notice identifies each affected individual, to the extent possible
+            signature: ['(?=.*identif)(?=.*\b(individuals?|persons?|patients?|members?|enrollees?)\b)(?=.*(affected|involved|whose))']
+          - id: E2
+            cfr: "any other available information that the covered entity is required to include in notification to the individual under § 164.404(c)"
+            requires: >-
+              the business associate provides any other available information the covered
+              entity needs for its own notices to individuals
+            signature: ['(?=.*\b(other|additional|any) (available |relevant )?information\b)(?=.*\b(notif|notice)\w*)(?=.*\b(individuals?|required to include|needs?|requires?)\b)']
+
+  - code: baa.subcontractors
+    topic: subcontractors
+    units:
+      - code: "164.504(e)(2)(ii)(D)"
+        title: Subcontractor flow-down
+        elements:
+          - id: E1
+            cfr: "ensure that any subcontractors that create, receive, maintain, or transmit protected health information on behalf of the business associate agree to the same restrictions and conditions that apply to the business associate"
+            requires: >-
+              every subcontractor that handles PHI for the business associate agrees to the
+              same restrictions and conditions that bind the business associate (not only
+              "material" or selected subcontractors, and not "substantially similar" terms)
+            signature: ['(?=.*subcontractor)(?=.*\b(any|all|each|every)\b)(?=.*((same|identical) (restrictions|terms|obligations|conditions|requirements)|at least as (stringent|protective|restrictive)))']
+          - id: E2
+            cfr: "by entering into a contract or other arrangement that complies with this section (164.314(a)(2)(i)(B), 164.308(b)(2))"
+            requires: the subcontractor's commitment is made in a written agreement (a written subcontract or business associate agreement)
+            signature: ['(?=.*subcontractor)(?=.*(written|in writing|business associate (agreement|contract)|subcontractor (agreement|contract)))']
+
+  - code: baa.individual_rights
+    topic: access, amendment, and accounting of disclosures
+    units:
+      - code: "164.504(e)(2)(ii)(E)"
+        title: Individuals' access to PHI
+        elements:
+          - id: E1
+            implied_by: ['E2']
+            cfr: "Make available protected health information"
+            requires: the business associate makes PHI in a designated record set available for individuals' access requests
+            signature: ['^(?!.*\bamend)(?=.*\b(make|makes|provide|provides)\b[^.]{0,60}\b(available|access|copies|copy)\b)(?=.*(designated record set|request(s)? for access|access request|right of access|right to access))']
+          - id: E2
+            cfr: "in accordance with § 164.524"
+            requires: >-
+              availability is tied to the access rule: it cites 164.524, or commits to a time
+              that lets the covered entity meet its access obligations, or to meeting the
+              covered entity's obligations under the Privacy Rule
+            signature: ['164\.524', '(?=.*\baccess)(?=.*(within|no later than|not later than)\s+\S+\s*(\(\d+\)\s*)?(calendar |business )?days\b)', '(?=.*\baccess)(?=.*(obligations|requirements) under\b)']
+      - code: "164.504(e)(2)(ii)(F)"
+        title: Amendment of PHI
+        elements:
+          - id: E1
+            implied_by: ['E2']
+            cfr: "Make available protected health information for amendment"
+            requires: the business associate makes PHI in a designated record set available for amendment
+            signature: ['(?=.*amend\w*)(?=.*(protected health information|\bphi\b|designated record set))(?=.*\b(make|makes|provide|provides|available)\b)']
+          - id: E2
+            cfr: "and incorporate any amendments to protected health information in accordance with § 164.526"
+            requires: the business associate incorporates the amendments the covered entity directs (or cites 164.526)
+            signature: ['(?=.*amend\w*)(?=.*\bincorporat\w*)', '164\.526']
+      - code: "164.504(e)(2)(ii)(G)"
+        title: Accounting of disclosures
+        elements:
+          - id: E1
+            implied_by: ['E2']
+            cfr: "Make available the information required to provide an accounting of disclosures"
+            requires: the business associate makes available the information needed for an accounting of disclosures
+            signature: ['accounting of (the )?disclosures', '(?=.*\baccounting\b)(?=.*disclos)']
+          - id: E2
+            cfr: "in accordance with § 164.528"
+            requires: >-
+              tied to the accounting rule: cites 164.528, or commits to a time that lets the
+              covered entity respond, or to meeting the covered entity's obligations under the
+              Privacy Rule
+            signature: ['164\.528', '(?=.*\baccounting\b)(?=.*(within|no later than|not later than)\s+\S+\s*(\(\d+\)\s*)?(calendar |business )?days\b)', '(?=.*\baccounting\b)(?=.*(obligations|requirements) under\b)']
+
+  - code: baa.oversight
+    topic: delegated Privacy Rule duties and HHS access to records
+    units:
+      - code: "164.504(e)(2)(ii)(H)"
+        title: Carrying out the covered entity's Privacy Rule obligations
+        elements:
+          - id: E1
+            cfr: "To the extent the business associate is to carry out a covered entity's obligation under this subpart, comply with the requirements of this subpart that apply to the covered entity in the performance of such obligation"
+            requires: >-
+              where the business associate carries out any of the covered entity's Privacy Rule
+              obligations, it complies with the requirements that apply to the covered entity
+            signature: ['(?=.*(carr(y|ies) out|perform\w*|fulfil\w*))(?=.*obligations?)(?=.*(subpart e\b|privacy rule|164\.5\d\d|requirements (of|that apply)))(?=.*\bcompl(y|ies|iance)\b)']
+      - code: "164.504(e)(2)(ii)(I)"
+        title: Books and records available to the Secretary
+        elements:
+          - id: E1
+            cfr: "Make its internal practices, books, and records relating to the use and disclosure of protected health information ... available to the Secretary for purposes of determining the covered entity's compliance with this subpart"
+            requires: >-
+              the business associate makes its internal practices, books, and records available
+              to the Secretary of HHS for determining compliance (making them available only to
+              the other party does not meet it)
+            signature: ['(?=.*\b(books|records|practices)\b)(?=.*(secretary|\bhhs\b|health and human services))']
+
+  - code: baa.termination
+    topic: termination and disposition of PHI
+    units:
+      - code: "164.504(e)(2)(ii)(J)"
+        title: Return or destruction of PHI at termination
+        elements:
+          - id: E1
+            implied_by: ['E2']
+            cfr: "At termination of the contract, if feasible, return or destroy all protected health information received from, or created or received by the business associate on behalf of, the covered entity"
+            requires: at termination or expiration, the business associate returns or destroys all PHI it still maintains, in any form
+            signature: ['(?=.*(terminat|expir|end of))(?=.*\b(return|destroy|destruction)\w*)(?=.*(\ball\b|in any form))']
+          # REVIEW: the HHS sample's Option 1 requires return with "retain no copies" and has no
+          # infeasibility clause, which is compliant. So E2 is met either by retaining no copies,
+          # or by keeping any retained PHI under the agreement's protections with uses limited to
+          # the purposes of retention. The weakening it tests: retention (archives, backups,
+          # "standard retention schedule") with no continuing protections or limits.
+          - id: E2
+            cfr: "that the business associate still maintains in any form and retain no copies of such information or, if such return or destruction is not feasible, extend the protections of the contract to the information and limit further uses and disclosures to those purposes that make the return or destruction of the information infeasible"
+            requires: >-
+              the business associate keeps no copies; or, for any PHI it retains (because return
+              or destruction is infeasible, or for its own management and legal duties), the
+              agreement's protections continue and further uses and disclosures are limited to
+              the purposes that require retention
+            signature:
+              - '\b(retain|keep|maintain)s? no copies\b'
+              - '(?=.*(retain|retained|retention|infeasib|not feasible))(?=.*\b(extend|continue|survive)\w*[^.]{0,80}\b(protections|safeguards|obligations|terms)\b)'
+              - '(?=.*(retain|retained|retention|infeasib|not feasible))(?=.*\blimit\w*[^.]{0,60}\b(uses?|disclosures?)\b)'
+      - code: "164.504(e)(2)(iii)"
+        title: Termination for material violation
+        elements:
+          - id: E1
+            cfr: "Authorize termination of the contract by the covered entity, if the covered entity determines that the business associate has violated a material term of the contract"
+            requires: >-
+              the covered entity may terminate the agreement if the business associate violates
+              a material term (an opportunity to cure first still meets the element)
+            signature: ['(?=.*terminat)(?=.*(material (term|breach|provision|obligation)|materially (breach|violat)))']

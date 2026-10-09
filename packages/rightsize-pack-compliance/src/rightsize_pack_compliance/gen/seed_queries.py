@@ -35,6 +35,13 @@ STYLE_INSTRUCTIONS = {
         "question, where the provision below is the rule that answers the question. Describe what "
         "happened; do not name the rule."
     ),
+    "clause": (
+        "Write {n} different clauses, as they would appear in a business associate agreement or a "
+        "vendor's services agreement, that each put the provision below into contract terms. Each "
+        "is one or two sentences in contract drafting voice and names the parties the way a "
+        "contract would (for example Vendor, Customer, Business Associate, the Plan). State only "
+        "what this provision requires, so a reader could tell which provision the clause implements."
+    ),
 }
 
 
@@ -89,10 +96,12 @@ def _negs(rcfg: dict) -> dict[str, set[str]]:
 
 
 def generate(corpus: Corpus, suite_cfg: dict, llm: SeedLLM, store: SeedStore, n: int = 5,
-             styles: tuple[str, ...] = ("paraphrase", "scenario"), share: tuple[int, int] = (0, 1),
+             styles: tuple[str, ...] | None = None, share: tuple[int, int] = (0, 1),
              retry: set[tuple[str, str]] | None = None) -> Path:
-    """Write seeds for this writer's share of targets: those with hash % share[1] == share[0]."""
+    """Write seeds for this writer's share of targets: those with hash % share[1] == share[0].
+    `styles` defaults to the suite's LLM-written styles (everything but exact_term)."""
     rcfg = suite_cfg["retrieval"]
+    styles = styles or tuple(s for s in rcfg["styles"] if s != "exact_term")
     allow = set(rcfg.get("overlap_filter", {}).get("allow_words", []))
     existing = store.load()
     retry = set(retry or ())
@@ -107,7 +116,8 @@ def generate(corpus: Corpus, suite_cfg: dict, llm: SeedLLM, store: SeedStore, n:
                 continue
             for attempt in range(3):
                 try:
-                    reply = llm.complete(SYSTEM, _prompt(t, style, n, allow, avoid), json_mode=True)
+                    system = CLAUSE_SYSTEM if style == "clause" else SYSTEM
+                    reply = llm.complete(system, _prompt(t, style, n, allow, avoid), json_mode=True)
                     cands = [c.strip() for c in items_of(parse_json_block(reply)) if isinstance(c, str) and c.strip()]
                     if cands:
                         break
@@ -130,6 +140,11 @@ def generate(corpus: Corpus, suite_cfg: dict, llm: SeedLLM, store: SeedStore, n:
     store.save(existing)
     return store.public
 
+
+CLAUSE_SYSTEM = (
+    "You draft realistic business associate agreements and vendor contracts for US healthcare "
+    "organizations. You never quote regulations and never cite section numbers."
+)
 
 VERIFY_SYSTEM = "You are an expert in the HIPAA Privacy, Security, and Breach Notification Rules."
 
@@ -160,8 +175,11 @@ def verify(corpus: Corpus, suite_cfg: dict, llm: SeedLLM, store: SeedStore) -> P
                 continue
             order = sorted(range(len(options)), key=lambda i: stable_hash("mc", t.code, ci, i))
             lines = [f"{letters[j]}. {options[i].title}: {options[i].rule_text[:500]}" for j, i in enumerate(order)]
+            ask = (f"Contract clause: {cand}\n\nWhich provision does this clause put into contract terms?"
+                   if row["style"] == "clause" else
+                   f"Question: {cand}\n\nWhich provision most specifically answers this question?")
             user = (
-                f"Question: {cand}\n\nWhich provision most specifically answers this question?\n\n"
+                ask + "\n\n"
                 + "\n".join(lines)
                 + '\n\nReply with only a JSON object like {"answer": "A"}.'
             )
@@ -210,11 +228,12 @@ class SeedStore:
             raise RuntimeError("held-out seed rows but no private directory configured")
 
 
-def store_for(root: Path, suite_cfg: dict, corpus: Corpus, name: str = "retrieval_queries.v1.jsonl") -> SeedStore:
+def store_for(root: Path, suite_cfg: dict, corpus: Corpus, name: str | None = None) -> SeedStore:
     from rightsize_core.integrity.dataset import heldout_dir
 
     from rightsize_pack_compliance.gen.retrieval import heldout_targets
 
+    name = name or Path(suite_cfg["retrieval"].get("seeds", "data/seeds/retrieval_queries.v1.jsonl")).name
     return SeedStore(root / "data" / "seeds" / name, heldout_dir(root, suite_cfg).parent / "seeds" / name,
                      heldout_targets(corpus, suite_cfg), suite_cfg.get("canary"))
 

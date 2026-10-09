@@ -127,7 +127,9 @@ def _coarser_match(code: str, group_codes: list[str]) -> str | None:
 def score_control(task: Task, pred: ControlPrediction | None, outcome: str) -> list[UnitRecord]:
     exp_units: dict[str, dict] = task.expected["units"]
     exp_groups: dict[str, dict] = task.expected.get("groups", {})
-    cluster = task.inputs.get("document_id", task.id)
+    # Documents rendered from one labelled variant (e.g. two presentations of an agreement) share
+    # a cluster, so the repeated measure does not count as independent evidence.
+    cluster = task.expected.get("cluster") or task.inputs.get("document_id", task.id)
 
     by_code: dict[str, object] = {}
     extras = 0
