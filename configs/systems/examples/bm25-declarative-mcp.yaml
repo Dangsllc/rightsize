@@ -1,0 +1,16 @@
+# Declarative mapping over MCP: call a tool, pull the answer out of its result.
+name: bm25-via-declarative-mcp
+transport: mcp
+server: uv run rightsize serve bm25 --transport mcp-stdio
+trusted: true
+tasks:
+  retrieval:
+    steps:
+      - tool: rightsize_run
+        args: {task_type: retrieval, inputs: {query: "{{ inputs.query }}", k: "{{ inputs.k }}"}}
+    extract:
+      hits:
+        each: $.prediction.hits[*]
+        fields:
+          citation: {path: $.citation, transform: citation}
+          score: {path: $.score, type: float}

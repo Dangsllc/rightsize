@@ -1,0 +1,24 @@
+# Template: a typical third-party search API that returns passages with a citation field.
+# Copy to your own config, fill in the endpoint, paths, and auth env var name.
+name: my-search-api
+transport: http
+base_url: ${MY_SEARCH_URL}
+auth: {type: bearer, env: MY_SEARCH_TOKEN}     # env var NAME only; the value never lives in the file
+trusted: false                                  # third parties never receive the held-out split
+throttle: {rps: 2, concurrency: 2}
+tasks:
+  retrieval:
+    steps:
+      - call: POST /v1/search
+        body: {query: "{{ inputs.query }}", top_k: "{{ inputs.k }}"}
+    extract:
+      hits:
+        each: $.results[*]
+        fields:
+          citation: {path: $.metadata.citation, transform: citation}
+          score: {path: $.score, type: float}
+          text: $.text
+# If the API only returns prose, pull citations out of the text instead (scored separately as
+# "inferred"):
+#   extract:
+#     hits: {from_text: $.answer, transform: citations_in_text}

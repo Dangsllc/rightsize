@@ -1,0 +1,37 @@
+{
+  "description": "`POST /rightsize/v1/run` / MCP `rightsize_run`.",
+  "properties": {
+    "inputs": {
+      "additionalProperties": true,
+      "title": "Inputs",
+      "type": "object"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model"
+    },
+    "params": {
+      "additionalProperties": true,
+      "title": "Params",
+      "type": "object"
+    },
+    "task_type": {
+      "title": "Task Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "task_type",
+    "inputs"
+  ],
+  "title": "RunRequest",
+  "type": "object"
+}

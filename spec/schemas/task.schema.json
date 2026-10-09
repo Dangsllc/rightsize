@@ -1,0 +1,167 @@
+{
+  "$defs": {
+    "Provenance": {
+      "additionalProperties": true,
+      "description": "How the item was made. Labels come from construction, so this is the audit trail.",
+      "properties": {
+        "generator": {
+          "title": "Generator",
+          "type": "string"
+        },
+        "generator_llm": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generator Llm"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "seed_artifact": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed Artifact"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "generator"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "SourceRef": {
+      "additionalProperties": true,
+      "properties": {
+        "citation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Citation"
+        },
+        "edition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Edition"
+        }
+      },
+      "title": "SourceRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "canary": {
+      "title": "Canary",
+      "type": "string"
+    },
+    "expected": {
+      "additionalProperties": true,
+      "title": "Expected",
+      "type": "object"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "inputs": {
+      "additionalProperties": true,
+      "title": "Inputs",
+      "type": "object"
+    },
+    "metric": {
+      "additionalProperties": true,
+      "title": "Metric",
+      "type": "object"
+    },
+    "pack": {
+      "title": "Pack",
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "split": {
+      "enum": [
+        "public",
+        "dev",
+        "heldout"
+      ],
+      "title": "Split",
+      "type": "string"
+    },
+    "strata": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Strata",
+      "type": "object"
+    },
+    "suite": {
+      "title": "Suite",
+      "type": "string"
+    },
+    "task_type": {
+      "title": "Task Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "suite",
+    "pack",
+    "task_type",
+    "split",
+    "inputs",
+    "expected",
+    "provenance",
+    "canary"
+  ],
+  "title": "Task",
+  "type": "object"
+}

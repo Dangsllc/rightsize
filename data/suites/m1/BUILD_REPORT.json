@@ -1,0 +1,354 @@
+{
+  "control_classification": {
+    "label_mix_public": {
+      "group": {
+        "covered": 76,
+        "gap": 52,
+        "partial": 48
+      },
+      "spec": {
+        "covered": 291,
+        "gap": 162,
+        "partial": 43
+      }
+    },
+    "leaks": [],
+    "manuals": [
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "covered",
+          "164.308(a)(3)(i)": "covered",
+          "164.308(a)(5)(i)": "partial",
+          "164.308(a)(6)(i)": "gap",
+          "164.308(a)(7)(i)": "covered",
+          "164.310(d)(1)": "partial",
+          "164.312(a)(1)": "gap",
+          "164.312(b)": "covered",
+          "164.312(d)": "covered",
+          "164.312(e)(1)": "gap",
+          "164.316(b)(1)": "covered"
+        },
+        "leaked_units": [],
+        "manual": "clinic-00",
+        "split": "dev"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "covered",
+          "164.308(a)(3)(i)": "partial",
+          "164.308(a)(5)(i)": "gap",
+          "164.308(a)(6)(i)": "covered",
+          "164.308(a)(7)(i)": "covered",
+          "164.310(d)(1)": "partial",
+          "164.312(a)(1)": "gap",
+          "164.312(b)": "covered",
+          "164.312(d)": "gap",
+          "164.312(e)(1)": "gap",
+          "164.316(b)(1)": "covered"
+        },
+        "leaked_units": [],
+        "manual": "clinic-01",
+        "split": "dev"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "covered",
+          "164.308(a)(3)(i)": "partial",
+          "164.308(a)(5)(i)": "gap",
+          "164.308(a)(6)(i)": "covered",
+          "164.308(a)(7)(i)": "partial",
+          "164.310(d)(1)": "gap",
+          "164.312(a)(1)": "covered",
+          "164.312(b)": "covered",
+          "164.312(d)": "covered",
+          "164.312(e)(1)": "gap",
+          "164.316(b)(1)": "covered"
+        },
+        "leaked_units": [],
+        "manual": "clinic-02",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "covered",
+          "164.308(a)(3)(i)": "partial",
+          "164.308(a)(5)(i)": "gap",
+          "164.308(a)(6)(i)": "covered",
+          "164.308(a)(7)(i)": "partial",
+          "164.310(d)(1)": "gap",
+          "164.312(a)(1)": "covered",
+          "164.312(b)": "partial",
+          "164.312(d)": "gap",
+          "164.312(e)(1)": "covered",
+          "164.316(b)(1)": "covered"
+        },
+        "leaked_units": [],
+        "manual": "clinic-03",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "partial",
+          "164.308(a)(3)(i)": "gap",
+          "164.308(a)(5)(i)": "covered",
+          "164.308(a)(6)(i)": "covered",
+          "164.308(a)(7)(i)": "partial",
+          "164.310(d)(1)": "gap",
+          "164.312(a)(1)": "covered",
+          "164.312(b)": "partial",
+          "164.312(d)": "gap",
+          "164.312(e)(1)": "covered",
+          "164.316(b)(1)": "partial"
+        },
+        "leaked_units": [],
+        "manual": "clinic-04",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "partial",
+          "164.308(a)(3)(i)": "gap",
+          "164.308(a)(5)(i)": "covered",
+          "164.308(a)(6)(i)": "partial",
+          "164.308(a)(7)(i)": "gap",
+          "164.310(d)(1)": "covered",
+          "164.312(a)(1)": "covered",
+          "164.312(b)": "partial",
+          "164.312(d)": "gap",
+          "164.312(e)(1)": "covered",
+          "164.316(b)(1)": "partial"
+        },
+        "leaked_units": [],
+        "manual": "clinic-05",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "partial",
+          "164.308(a)(3)(i)": "gap",
+          "164.308(a)(5)(i)": "covered",
+          "164.308(a)(6)(i)": "partial",
+          "164.308(a)(7)(i)": "gap",
+          "164.310(d)(1)": "covered",
+          "164.312(a)(1)": "partial",
+          "164.312(b)": "gap",
+          "164.312(d)": "covered",
+          "164.312(e)(1)": "covered",
+          "164.316(b)(1)": "partial"
+        },
+        "leaked_units": [],
+        "manual": "clinic-06",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "gap",
+          "164.308(a)(3)(i)": "covered",
+          "164.308(a)(5)(i)": "covered",
+          "164.308(a)(6)(i)": "partial",
+          "164.308(a)(7)(i)": "gap",
+          "164.310(d)(1)": "covered",
+          "164.312(a)(1)": "partial",
+          "164.312(b)": "gap",
+          "164.312(d)": "covered",
+          "164.312(e)(1)": "partial",
+          "164.316(b)(1)": "gap"
+        },
+        "leaked_units": [],
+        "manual": "clinic-07",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "covered",
+          "164.308(a)(3)(i)": "covered",
+          "164.308(a)(5)(i)": "partial",
+          "164.308(a)(6)(i)": "gap",
+          "164.308(a)(7)(i)": "covered",
+          "164.310(d)(1)": "partial",
+          "164.312(a)(1)": "gap",
+          "164.312(b)": "covered",
+          "164.312(d)": "covered",
+          "164.312(e)(1)": "gap",
+          "164.316(b)(1)": "covered"
+        },
+        "leaked_units": [],
+        "manual": "saas-00",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "covered",
+          "164.308(a)(3)(i)": "partial",
+          "164.308(a)(5)(i)": "gap",
+          "164.308(a)(6)(i)": "covered",
+          "164.308(a)(7)(i)": "covered",
+          "164.310(d)(1)": "partial",
+          "164.312(a)(1)": "gap",
+          "164.312(b)": "covered",
+          "164.312(d)": "gap",
+          "164.312(e)(1)": "gap",
+          "164.316(b)(1)": "covered"
+        },
+        "leaked_units": [],
+        "manual": "saas-01",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "covered",
+          "164.308(a)(3)(i)": "partial",
+          "164.308(a)(5)(i)": "gap",
+          "164.308(a)(6)(i)": "covered",
+          "164.308(a)(7)(i)": "partial",
+          "164.310(d)(1)": "gap",
+          "164.312(a)(1)": "covered",
+          "164.312(b)": "covered",
+          "164.312(d)": "covered",
+          "164.312(e)(1)": "gap",
+          "164.316(b)(1)": "covered"
+        },
+        "leaked_units": [],
+        "manual": "saas-02",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "covered",
+          "164.308(a)(3)(i)": "partial",
+          "164.308(a)(5)(i)": "gap",
+          "164.308(a)(6)(i)": "covered",
+          "164.308(a)(7)(i)": "partial",
+          "164.310(d)(1)": "gap",
+          "164.312(a)(1)": "covered",
+          "164.312(b)": "partial",
+          "164.312(d)": "gap",
+          "164.312(e)(1)": "covered",
+          "164.316(b)(1)": "covered"
+        },
+        "leaked_units": [],
+        "manual": "saas-03",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "partial",
+          "164.308(a)(3)(i)": "gap",
+          "164.308(a)(5)(i)": "covered",
+          "164.308(a)(6)(i)": "covered",
+          "164.308(a)(7)(i)": "partial",
+          "164.310(d)(1)": "gap",
+          "164.312(a)(1)": "covered",
+          "164.312(b)": "partial",
+          "164.312(d)": "gap",
+          "164.312(e)(1)": "covered",
+          "164.316(b)(1)": "partial"
+        },
+        "leaked_units": [],
+        "manual": "saas-04",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "partial",
+          "164.308(a)(3)(i)": "gap",
+          "164.308(a)(5)(i)": "covered",
+          "164.308(a)(6)(i)": "partial",
+          "164.308(a)(7)(i)": "gap",
+          "164.310(d)(1)": "covered",
+          "164.312(a)(1)": "covered",
+          "164.312(b)": "partial",
+          "164.312(d)": "gap",
+          "164.312(e)(1)": "covered",
+          "164.316(b)(1)": "partial"
+        },
+        "leaked_units": [],
+        "manual": "saas-05",
+        "split": "dev"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "partial",
+          "164.308(a)(3)(i)": "gap",
+          "164.308(a)(5)(i)": "covered",
+          "164.308(a)(6)(i)": "partial",
+          "164.308(a)(7)(i)": "gap",
+          "164.310(d)(1)": "covered",
+          "164.312(a)(1)": "partial",
+          "164.312(b)": "gap",
+          "164.312(d)": "covered",
+          "164.312(e)(1)": "covered",
+          "164.316(b)(1)": "partial"
+        },
+        "leaked_units": [],
+        "manual": "saas-06",
+        "split": "public"
+      },
+      {
+        "groups": {
+          "164.308(a)(1)(i)": "gap",
+          "164.308(a)(3)(i)": "covered",
+          "164.308(a)(5)(i)": "covered",
+          "164.308(a)(6)(i)": "partial",
+          "164.308(a)(7)(i)": "gap",
+          "164.310(d)(1)": "covered",
+          "164.312(a)(1)": "partial",
+          "164.312(b)": "gap",
+          "164.312(d)": "covered",
+          "164.312(e)(1)": "partial",
+          "164.316(b)(1)": "gap"
+        },
+        "leaked_units": [],
+        "manual": "saas-07",
+        "split": "dev"
+      }
+    ],
+    "missing_bases": []
+  },
+  "retrieval": {
+    "items": 193,
+    "missing": [
+      {
+        "reason": "all candidates rejected",
+        "style": "paraphrase",
+        "target": "164.308(a)(4)(ii)(A)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.308(a)(4)(ii)(A)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.308(a)(5)(ii)(B)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.310(a)(2)(iii)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "paraphrase",
+        "target": "164.316(a)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.504(f)(1)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "paraphrase",
+        "target": "164.512(i)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "paraphrase",
+        "target": "164.514(e)(1)"
+      }
+    ],
+    "rejected_candidates": 141
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "$defs": {
+    "Hit": {
+      "properties": {
+        "citation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Citation"
+        },
+        "citation_source": {
+          "default": "field",
+          "enum": [
+            "field",
+            "inferred"
+          ],
+          "title": "Citation Source",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Score"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        }
+      },
+      "title": "Hit",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "hits": {
+      "items": {
+        "$ref": "#/$defs/Hit"
+      },
+      "title": "Hits",
+      "type": "array"
+    }
+  },
+  "title": "RetrievalPrediction",
+  "type": "object"
+}

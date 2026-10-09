@@ -1,0 +1,309 @@
+# Required elements for each M1 classification unit, taken from the text of 45 CFR 164 Subpart C
+# (eCFR edition 2026-09-29). This is the only hand-written artifact behind the labels: a
+# `partial` label means one of these elements was removed or weakened in the manual.
+#
+#   id:         element id, unique within the unit
+#   cfr:        the words of the regulation the element comes from (verbatim fragment)
+#   requires:   what a policy must say to meet the element, in plain words (shown to the
+#               seed writer)
+#   implied_by: other elements of the unit that presuppose this one; the builder never drops
+#               an element while an element that implies it remains.
+#   signature:  regexes (case-insensitive). If any matches a sentence, that sentence plausibly
+#               meets the element. Used by the leakage audit: after an element is removed, no
+#               other section of the same manual may still match its signature.
+#
+# Review status: draft for Dan's review (2026-10-03).
+version: 1
+edition: "2026-09-29"
+groups:
+  - code: "164.308(a)(1)(i)"
+    topic: security management process
+    units:
+      - code: "164.308(a)(1)(ii)(A)"
+        elements:
+          - id: E1
+            implied_by: ['E2']
+            cfr: "Conduct an accurate and thorough assessment of the potential risks and vulnerabilities"
+            requires: performs a risk analysis (assessment of risks and vulnerabilities)
+            signature: ['risk (analysis|assessment)', '(?=.*assess)(?=.*(risks?|vulnerabilit))']
+          - id: E2
+            cfr: "to the confidentiality, integrity, and availability of electronic protected health information"
+            requires: the analysis covers confidentiality, integrity, and availability of ePHI
+            signature: ['(?=.*confidentiality)(?=.*integrity)(?=.*availability)']
+      - code: "164.308(a)(1)(ii)(B)"
+        elements:
+          - id: E1
+            implied_by: ['E2']
+            cfr: "Implement security measures sufficient to reduce risks and vulnerabilities"
+            requires: implements security measures to reduce identified risks (risk management)
+            signature: ['risk (management|treatment|mitigation)', '(?=.*(reduc|mitigat|remediat))(?=.*(risks?|vulnerabilit))']
+          - id: E2
+            cfr: "to a reasonable and appropriate level"
+            requires: reduces risk to a defined reasonable and appropriate (acceptable) level
+            signature: ['reasonable and appropriate', 'acceptable (risk )?(level|threshold)', 'risk (tolerance|appetite|acceptance criteria)']
+      - code: "164.308(a)(1)(ii)(C)"
+        elements:
+          - id: E1
+            cfr: "Apply appropriate sanctions against workforce members who fail to comply"
+            requires: sanctions workforce members who violate security policies
+            signature: ['sanction', 'disciplinary action', 'discipline']
+      - code: "164.308(a)(1)(ii)(D)"
+        elements:
+          - id: E1
+            implied_by: ['E2']
+            cfr: "regularly review records of information system activity"
+            requires: regularly reviews system activity records
+            signature: ['(?=.*review)(?=.*(activity|\blogs?\b|audit trails?))']
+          - id: E2
+            cfr: "such as audit logs, access reports, and security incident tracking reports"
+            requires: the review covers audit logs, access reports, and incident tracking reports
+            signature: ['access reports?', 'incident tracking']
+
+  - code: "164.308(a)(3)(i)"
+    topic: workforce security
+    units:
+      - code: "164.308(a)(3)(ii)(A)"
+        elements:
+          - id: E1
+            cfr: "authorization and/or supervision of workforce members who work with electronic protected health information"
+            requires: workforce members who work with ePHI are authorized or supervised
+            signature: ['supervis', '(?=.*authori[sz])(?=.*(workforce|staff|employees|members))']
+      - code: "164.308(a)(3)(ii)(B)"
+        elements:
+          - id: E1
+            cfr: "determine that the access of a workforce member to electronic protected health information is appropriate"
+            requires: a clearance procedure confirms a workforce member's access is appropriate
+            signature: ['clearance', 'background (check|screening)', 'screen\w* .{0,30}(staff|workforce|employees|hires)']
+      - code: "164.308(a)(3)(ii)(C)"
+        elements:
+          - id: E1
+            cfr: "terminating access to electronic protected health information when the employment of, or other arrangement with, a workforce member ends"
+            requires: access is terminated when employment or the arrangement ends
+            signature: ['(?=.*(terminat|revok|disabl|deactivat|remov))(?=.*(\baccess\b|accounts?))(?=.*(leav|depart|employment|offboard|separat|exit|contract (ends|ended)|last day))', 'offboard']
+
+  - code: "164.308(a)(5)(i)"
+    topic: security awareness and training
+    units:
+      - code: "164.308(a)(5)(ii)(A)"
+        elements:
+          - id: E1
+            cfr: "Periodic security updates"
+            requires: gives the workforce periodic security reminders or updates
+            signature: ['security (reminders?|updates?\b|bulletins?|newsletters?|tips)', '(?=.*(periodic|monthly|quarterly|regular))(?=.*(reminders?|\bupdates?\b))']
+      - code: "164.308(a)(5)(ii)(B)"
+        elements:
+          - id: E1
+            cfr: "guarding against, detecting"
+            requires: guards against and detects malicious software
+            signature: ['(?=.*(anti-?virus|anti-?malware|endpoint (protection|detection)|\bscan|detect|block|guard|protect))(?=.*(malware|malicious|virus))']
+          - id: E2
+            cfr: "and reporting malicious software"
+            requires: workforce reports suspected malicious software
+            signature: ['(?=.*report)(?=.*(malware|malicious|virus))']
+      - code: "164.308(a)(5)(ii)(C)"
+        elements:
+          - id: E1
+            implied_by: ['E2']
+            cfr: "monitoring log-in attempts"
+            requires: monitors log-in attempts
+            signature: ['(log-?in|sign-?in|logon) attempts', 'failed (log-?ins?|sign-?ins?|logons?)']
+          - id: E2
+            cfr: "and reporting discrepancies"
+            requires: reports log-in discrepancies
+            signature: ['discrepanc', '(?=.*report)(?=.*(log-?in|sign-?in|logon))(?=.*(fail|unusual|suspicious|anomal))']
+      - code: "164.308(a)(5)(ii)(D)"
+        elements:
+          - id: E1
+            cfr: "creating, changing"
+            requires: rules for creating and changing passwords
+            signature: ['password (complexity|length|creation|requirements?|rotation|changes?)', '(?=.*(creat|chang|reset))(?=.*passwords?)']
+          - id: E2
+            cfr: "and safeguarding passwords"
+            requires: rules for safeguarding passwords (not sharing, storing securely)
+            signature: ['(?=.*(\bshar(e|ed|es|ing)\b|\bwr(ite|ites|itten|iting)\b|disclos|\bstor(e|ed|es|ing)\b))(?=.*passwords?)', 'password manager', '(?=.*(safeguard|protect))(?=.*passwords?)']
+
+  - code: "164.308(a)(6)(i)"
+    topic: security incident procedures
+    units:
+      - code: "164.308(a)(6)(ii)"
+        elements:
+          - id: E1
+            cfr: "Identify and respond to suspected or known security incidents"
+            requires: identifies and responds to suspected or known security incidents
+            signature: ['(?=.*(respond|response))(?=.*incident)']
+          - id: E2
+            cfr: "mitigate, to the extent practicable, harmful effects of security incidents"
+            requires: mitigates harmful effects of incidents
+            signature: ['(?=.*(mitigat|\bcontain(ed|ing|ment)?\b(?! (e?phi|protected|patient))|\blimit))(?=.*(\beffects?\b|harm|impact|damage|incident))']
+          - id: E3
+            cfr: "document security incidents and their outcomes"
+            requires: documents incidents and their outcomes
+            signature: ['(?=.*(document|record|\blog(s|ged|ging)?\b))(?=.*incident)']
+
+  - code: "164.308(a)(7)(i)"
+    topic: contingency planning
+    units:
+      - code: "164.308(a)(7)(ii)(A)"
+        elements:
+          - id: E1
+            cfr: "create and maintain retrievable exact copies of electronic protected health information"
+            requires: creates and maintains retrievable exact copies (backups) of ePHI
+            signature: ['(create|perform|take|maintain|run|schedul|make)\w* .{0,40}(back ?ups?|cop(y|ies))', '(back ?ups?|cop(y|ies)) (are|is|must be|shall be|will be) (created|performed|taken|run|maintained|made)', '(exact|retrievable) cop(y|ies)', 'backed up (daily|nightly|weekly|hourly)']
+      - code: "164.308(a)(7)(ii)(B)"
+        elements:
+          - id: E1
+            cfr: "procedures to restore any loss of data"
+            requires: has procedures to restore lost data (disaster recovery)
+            signature: ['disaster recovery', '(?=.*restor)(?=.*(data|systems?|operations|information))']
+      - code: "164.308(a)(7)(ii)(C)"
+        elements:
+          - id: E1
+            cfr: "enable continuation of critical business processes for protection of the security of electronic protected health information while operating in emergency mode"
+            requires: keeps critical processes (and ePHI security) running while operating in emergency mode
+            signature: ['emergency (mode|operations?)', 'continu\w* .{0,40}(critical|essential) (business )?(processes|operations|functions)', 'downtime procedures']
+      - code: "164.308(a)(7)(ii)(D)"
+        elements:
+          - id: E1
+            cfr: "periodic testing"
+            requires: tests contingency plans periodically
+            signature: ['(?=.*(\btest(s|ed|ing)?\b|exercise|drill))(?=.*(\bplans?\b|recovery|contingency|restor))', 'tabletop']
+          - id: E2
+            cfr: "and revision of contingency plans"
+            requires: revises contingency plans (after tests or changes)
+            signature: ['(?=.*(revis|updat))(?=.*(contingency|recovery|continuity))']
+
+  - code: "164.310(d)(1)"
+    topic: device and media controls
+    units:
+      - code: "164.310(d)(2)(i)"
+        elements:
+          - id: E1
+            cfr: "address the final disposition of electronic protected health information, and/or the hardware or electronic media on which it is stored"
+            requires: addresses final disposal of ePHI and of the hardware/media that store it
+            signature: ['dispos', 'destr(oy|uction)', 'shred', 'degauss']
+      - code: "164.310(d)(2)(ii)"
+        elements:
+          - id: E1
+            cfr: "removal of electronic protected health information from electronic media before the media are made available for re-use"
+            requires: wipes ePHI from media before the media are re-used
+            signature: ['re-?us(e|ed|ing)', 'reissu', 'redeploy', 'reassign']
+      - code: "164.310(d)(2)(iii)"
+        elements:
+          - id: E1
+            cfr: "Maintain a record of the movements of hardware and electronic media"
+            requires: keeps a record of hardware and media movements
+            signature: ['(?=.*(record|\blog(s|ged|ging)?\b|track|inventor))(?=.*(movements?|\bmoved\b|transfer|relocat))', 'chain of custody']
+          - id: E2
+            cfr: "and any person responsible therefore"
+            requires: records the person responsible for each movement
+            signature: ['person responsible', 'responsible (person|party|individual)', 'who (moved|is responsible|has custody)', 'custodian']
+      - code: "164.310(d)(2)(iv)"
+        elements:
+          - id: E1
+            cfr: "Create a retrievable, exact copy of electronic protected health information, when needed, before movement of equipment"
+            requires: makes a retrievable exact copy of ePHI before equipment is moved
+            signature: ['(?=.*(before|prior to|ahead of))(?=.*(\bmov(e|ed|es|ing)\b|relocat|transport|\bship(ped|ping|s)?\b))(?=.*(cop(y|ies)|back ?up|snapshot|image of the|sync))']
+
+  - code: "164.312(a)(1)"
+    topic: access control
+    units:
+      - code: "164.312(a)(2)(i)"
+        elements:
+          - id: E1
+            cfr: "Assign a unique name and/or number for identifying and tracking user identity"
+            requires: every user gets a unique ID used to identify and track them
+            signature: ['unique (user )?(id|identifier|name|account|login|log-in)', 'shared (accounts?|logins?|credentials)']
+      - code: "164.312(a)(2)(ii)"
+        elements:
+          - id: E1
+            cfr: "procedures for obtaining necessary electronic protected health information during an emergency"
+            requires: has a way to obtain needed ePHI during an emergency (break-glass access)
+            signature: ['break[- ]the[- ]glass|break-?glass', 'emergency access']
+      - code: "164.312(a)(2)(iii)"
+        elements:
+          - id: E1
+            cfr: "terminate an electronic session after a predetermined time of inactivity"
+            requires: sessions end automatically after a set period of inactivity
+            signature: ['(automatic|auto)[- ]?(log ?off|logout|lock|timeout)', 'inactiv', 'idle']
+      - code: "164.312(a)(2)(iv)"
+        elements:
+          - id: E1
+            cfr: "Implement a mechanism to encrypt and decrypt electronic protected health information"
+            requires: encrypts stored ePHI (data at rest) and can decrypt it
+            signature: ['(?=.*encrypt)(?=.*(at rest|stored|storage|databases?|disks?|laptops?|devices?|drives?))']
+
+  - code: "164.312(b)"
+    topic: audit controls
+    units:
+      - code: "164.312(b)"
+        elements:
+          - id: E1
+            implied_by: ['E2']
+            cfr: "Implement hardware, software, and/or procedural mechanisms that record"
+            requires: systems record (log) activity
+            signature: ['audit (logs?|logging|trails?)', '(?=.*(\blog(s|ged|ging)?\b(?! (out|off|in))|\brecord(s|ed|ing)?\b|captur))(?=.*(\bactivity\b|\baccess(es|ed)?\b|\bevents?\b))']
+          - id: E2
+            cfr: "and examine activity in information systems that contain or use electronic protected health information"
+            requires: the recorded activity is examined
+            signature: ['(?=.*(examin|analy[sz]|inspect|monitor))(?=.*(\blogs?\b|audit|activity|events))']
+
+  - code: "164.312(d)"
+    topic: person or entity authentication
+    units:
+      - code: "164.312(d)"
+        elements:
+          - id: E1
+            cfr: "verify that a person or entity seeking access to electronic protected health information is the one claimed"
+            requires: verifies the identity of anyone seeking access (authentication)
+            signature: ['(?<!message )authenticat', 'multi-?factor|two-?factor|\bmfa\b|\b2fa\b', '(?=.*verif)(?=.*identit)']
+
+  - code: "164.312(e)(1)"
+    topic: transmission security
+    units:
+      - code: "164.312(e)(2)(i)"
+        elements:
+          - id: E1
+            cfr: "ensure that electronically transmitted electronic protected health information is not improperly modified without detection"
+            requires: detects improper modification of ePHI in transit
+            signature: ['(?=.*(\bintegrity\b|tamper|\bmodif\w*|\balter(ed|s|ation)?\b))(?=.*(\btransit\b|transmi\w*|\bsent\b|\bsend(s|ing)?\b))', 'checksums?|message authentication codes?|digital signature']
+      - code: "164.312(e)(2)(ii)"
+        elements:
+          - id: E1
+            cfr: "Implement a mechanism to encrypt electronic protected health information whenever deemed appropriate"
+            requires: encrypts ePHI when it is transmitted
+            signature: ['(?=.*encrypt)(?=.*(transit|transmi|sent|send|email|network))', '\btls\b|\bssl\b|https|\bvpn\b']
+
+  - code: "164.316(b)(1)"
+    topic: documentation
+    units:
+      - code: "164.316(b)(2)(i)"
+        elements:
+          - id: E1
+            implied_by: ['E2', 'E3']
+            cfr: "Retain the documentation"
+            requires: retains security documentation
+            signature: ['retain\w*|retention', '(?=.*\b(kept|keep|stored)\b)(?=.*\byears?\b)']
+          - id: E2
+            cfr: "for 6 years"
+            requires: retention period is at least six years
+            signature: ['\b(6|six)\b.{0,10}years?']
+          - id: E3
+            cfr: "from the date of its creation or the date when it last was in effect, whichever is later"
+            requires: the period runs from creation or last-effective date, whichever is later
+            signature: ['(last|latest) (in effect|effective)', 'whichever is later']
+      - code: "164.316(b)(2)(ii)"
+        elements:
+          - id: E1
+            cfr: "Make documentation available to those persons responsible for implementing the procedures"
+            requires: documentation is available to the people who carry out the procedures
+            signature: ['(?=.*(available|accessible))(?=.*(staff|workforce|personnel|those responsible|those who|employees))']
+      - code: "164.316(b)(2)(iii)"
+        elements:
+          - id: E1
+            cfr: "Review documentation periodically"
+            requires: reviews documentation periodically
+            signature: ['(?=.*review)(?=.*(annual|periodic|every (year|six months|quarter|\d+ months)|each year|yearly|regular))']
+          - id: E2
+            cfr: "and update as needed, in response to environmental or operational changes"
+            requires: updates documentation when environmental or operational changes occur
+            signature: ['(?=.*(updat|revis))(?=.*(chang))']

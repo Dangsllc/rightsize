@@ -1,0 +1,81 @@
+{
+  "additionalProperties": true,
+  "description": "`GET /rightsize/v1/info` / MCP `rightsize_info`.",
+  "properties": {
+    "deterministic": {
+      "default": false,
+      "title": "Deterministic",
+      "type": "boolean"
+    },
+    "efforts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Efforts",
+      "type": "array"
+    },
+    "granularity": {
+      "additionalProperties": {
+        "enum": [
+          "spec",
+          "group",
+          "document"
+        ],
+        "type": "string"
+      },
+      "title": "Granularity",
+      "type": "object"
+    },
+    "models": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Models",
+      "type": "array"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "protocol": {
+      "default": "rightsize/v1",
+      "title": "Protocol",
+      "type": "string"
+    },
+    "reports_usage": {
+      "default": false,
+      "title": "Reports Usage",
+      "type": "boolean"
+    },
+    "supports_model_param": {
+      "default": false,
+      "title": "Supports Model Param",
+      "type": "boolean"
+    },
+    "task_types": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Task Types",
+      "type": "array"
+    },
+    "version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Version"
+    }
+  },
+  "required": [
+    "name",
+    "task_types"
+  ],
+  "title": "SystemInfo",
+  "type": "object"
+}

@@ -1,0 +1,12 @@
+# Private targets, held-out split, and plugins live in a separate private repo, linked here as ./private.
+/private
+runs/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.env
+.env.*
+!.env.example
+.DS_Store

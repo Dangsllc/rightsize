@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "ControlUnit": {
+      "properties": {
+        "control_code": {
+          "title": "Control Code",
+          "type": "string"
+        },
+        "group": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Group"
+        },
+        "specification": {
+          "title": "Specification",
+          "type": "string"
+        },
+        "standard_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Type"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "control_code",
+        "title",
+        "specification"
+      ],
+      "title": "ControlUnit",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "document": {
+      "title": "Document",
+      "type": "string"
+    },
+    "document_id": {
+      "title": "Document Id",
+      "type": "string"
+    },
+    "document_sha256": {
+      "title": "Document Sha256",
+      "type": "string"
+    },
+    "groups": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "title": "Groups",
+      "type": "object"
+    },
+    "units": {
+      "items": {
+        "$ref": "#/$defs/ControlUnit"
+      },
+      "title": "Units",
+      "type": "array"
+    }
+  },
+  "required": [
+    "document_id",
+    "document",
+    "document_sha256",
+    "units"
+  ],
+  "title": "ControlInput",
+  "type": "object"
+}

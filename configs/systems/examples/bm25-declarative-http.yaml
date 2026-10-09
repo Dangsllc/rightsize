@@ -1,0 +1,19 @@
+# Declarative mapping: treat the server as if it were someone else's API. This is the shape you
+# write for any system that does NOT speak rightsize/v1: call its endpoints, then say where the answer is.
+name: bm25-via-declarative-http
+transport: http
+base_url: http://127.0.0.1:8701
+trusted: true
+throttle: {concurrency: 4}
+healthcheck: {call: GET /rightsize/v1/info}
+tasks:
+  retrieval:
+    steps:
+      - call: POST /rightsize/v1/run
+        body: {task_type: retrieval, inputs: {query: "{{ inputs.query }}", k: "{{ inputs.k }}"}}
+    extract:
+      hits:
+        each: $.prediction.hits[*]
+        fields:
+          citation: {path: $.citation, transform: citation}
+          score: {path: $.score, type: float}

@@ -1,0 +1,6 @@
+# The same system as an MCP server exposing rightsize_info / rightsize_run, launched over stdio.
+name: bm25
+protocol: rightsize/v1
+transport: mcp
+server: uv run rightsize serve bm25 --transport mcp-stdio
+trusted: true

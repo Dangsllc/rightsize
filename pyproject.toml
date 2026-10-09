@@ -1,0 +1,32 @@
+[project]
+name = "rightsize"
+version = "0.1.0"
+description = "Rightsize: an objective, system-agnostic benchmark harness for compliance AI and model right-sizing"
+requires-python = ">=3.11"
+dependencies = ["rightsize-core", "rightsize-pack-compliance", "rightsize-reference-systems"]
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.uv.sources]
+rightsize-core = { workspace = true }
+rightsize-pack-compliance = { workspace = true }
+rightsize-reference-systems = { workspace = true }
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "packages"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint.per-file-ignores]
+# FastAPI's dependency idiom, and best-effort cleanup that must never mask the real error.
+"tests/**" = ["B008"]
+"packages/rightsize-core/src/rightsize_core/cli.py" = ["B008"]
+"packages/rightsize-core/src/rightsize_core/systems/declarative.py" = ["S110"]
+"packages/rightsize-reference-systems/src/rightsize_reference_systems/*.py" = ["S110"]

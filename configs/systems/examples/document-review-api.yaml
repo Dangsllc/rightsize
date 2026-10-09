@@ -1,0 +1,47 @@
+# Template for a typical document-review API: upload a file, wait for processing, start a review
+# job, wait for it, then fetch its results. Many compliance tools look like this.
+name: document-review-api
+transport: http
+base_url: ${REVIEW_API_URL}
+auth: {type: bearer, env: REVIEW_API_TOKEN}
+trusted: false
+throttle: {rps: 5, concurrency: 1}
+model_param: {path: body.model}
+setup:
+  - call: GET /standards
+    save: {standard_id: '$[?(@.code == "hipaa-security")].id'}
+tasks:
+  retrieval: unsupported
+  control_classification:
+    granularity: group
+    steps:
+      - call: POST /documents
+        multipart:
+          file: {content: "{{ inputs.document }}", filename: "{{ inputs.document_id }}.txt", content_type: text/plain}
+        form: {name: "{{ inputs.document_id }}"}
+        save: {document_id: $.id}
+      - poll:
+          call: "GET /documents/{{ document_id }}"
+          until: {path: $.state, in: [ready]}
+          fail_on: [failed]
+          every_s: 2
+          timeout_s: 600
+      - call: POST /reviews
+        body: {document_id: "{{ document_id }}", standard_id: "{{ standard_id }}", model: "{{ model }}"}
+        save: {review_id: $.id}
+      - poll:
+          call: "GET /reviews/{{ review_id }}"
+          until: {path: $.state, in: [done]}
+          fail_on: [failed]
+          every_s: 5
+          timeout_s: 1800
+      - call: "GET /reviews/{{ review_id }}/results"
+    extract:
+      assessments:
+        each: $.results[*]
+        fields:
+          control_code: {path: $.requirement, transform: citation}
+          status: {path: $.rating, map: {met: covered, partially_met: partial, not_met: gap, "n/a": not_applicable}}
+          confidence: {path: $.score, type: float}
+          evidence: $.excerpt
+          abstained: {path: $.flagged_for_human, type: bool, default: false}

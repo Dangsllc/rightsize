@@ -1,0 +1,6 @@
+# A system that speaks rightsize/v1 itself over HTTP. Start it with: rightsize serve bm25 --port 8701
+name: bm25
+protocol: rightsize/v1
+transport: http
+base_url: http://127.0.0.1:8701
+trusted: true
