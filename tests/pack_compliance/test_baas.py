@@ -71,7 +71,7 @@ def test_valid_seed_passes_and_checker_catches_problems():
     pres["blocks"][1]["sentences"].append({"text": "This section is reserved.", "tag": None})  # placeholder
     probs = "\n".join(check_seed(bad, ELEMENTS))
     assert "twin still meets U1#E1" in probs
-    assert "untagged also meets U2#E1" in probs
+    assert "untagged meets U2#E1" in probs
     assert "placeholder" in probs
 
 
@@ -150,3 +150,14 @@ def test_real_signatures(tag, good, weak):
     assert meets(good, tags[tag])
     assert not meets(weak, tags[tag])
     assert [t for t, e in tags.items() if t != tag and meets(good, e)] == []
+
+
+def test_context_sentences_leave_with_their_unit():
+    seed = _seed()
+    pres = seed["presentations"]["vendor_paper"]
+    pres["blocks"][1]["sentences"].append({"text": "Vendor encrypts its backups.", "tag": "U1#ctx"})
+    assert check_seed(seed, ELEMENTS) == []
+    for i in range(8):
+        mp = plan_manual("toy", 0, i, ELEMENTS["groups"], ["covered", "partial", "gap"], allow_hollow=False)
+        text, _ = render(pres, mp, "C")
+        assert ("encrypts its backups" in text) == (mp.units["U1"].mutation != "remove_section")

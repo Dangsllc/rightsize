@@ -44,7 +44,9 @@ def _keep(tag: str | None, mp: ManualPlan) -> str:
     unit, _, el = tag.partition("#")
     plan = mp.units[unit]
     if plan.mutation == "remove_section":
-        return "drop"
+        return "drop"  # the unit's elements and its supporting (#ctx) language
+    if el == "ctx":
+        return "keep"
     if plan.element == el:
         return "drop" if plan.mutation == "drop_element" else "weaken"
     return "keep"

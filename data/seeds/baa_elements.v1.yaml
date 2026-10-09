@@ -19,6 +19,11 @@
 #
 # Unit choices that need Dan's judgment are marked REVIEW.
 #
+# Context tags: a sentence about a unit's subject that meets none of its elements (encryption
+# details next to the safeguards duty, breach cooperation logistics) is tagged `<unit>#ctx` in a
+# seed. It stays when the unit is partly met and goes away when the unit is removed, so a "gap"
+# label never sits next to supporting language a careful reader would count as partial coverage.
+#
 # Review status: draft for Dan's review (2026-10-09).
 version: 1
 edition: "2026-09-29"
@@ -51,7 +56,7 @@ groups:
             requires: >-
               the business associate will not use or further disclose PHI other than as the
               agreement permits or requires, or as required by law
-            signature: ['(?=.*\bnot\b[^.]{0,40}\b(use|disclose|used|disclosed)\b)(?=.*\b(other than|except)\b)']
+            signature: ['(?=.*\bnot\b[^.]{0,40}\b(use|disclose|used|disclosed)\b)(?=.*\b(other than|except) (as|where|to the extent) (expressly )?(permitted|required|provided|set forth|authori[sz]ed|necessary))']
 
   - code: baa.safeguards
     topic: safeguards and the Security Rule
@@ -70,7 +75,7 @@ groups:
             requires: >-
               the business associate complies with the Security Rule (45 CFR Part 164,
               Subpart C) for electronic PHI. This also carries 164.314(a)(2)(i)(A).
-            signature: ['subpart c\b', 'security rule', '164\.3(08|10|12|14|16)\b', 'security standards for the protection of electronic protected health information']
+            signature: ['subpart c\b', 'security rule', '164\.3(08|10|12|16)\b[^.]{0,40}164\.3(08|10|12|16)\b', 'security standards for the protection of electronic protected health information']
 
   - code: baa.reporting
     topic: reporting improper uses, security incidents, and breaches
@@ -108,15 +113,15 @@ groups:
           - id: E1
             cfr: "without unreasonable delay"
             requires: the business associate notifies of a breach without unreasonable delay (or promptly, or immediately)
-            signature: ['(?=.*\bbreach)(?=.*(without unreasonable delay|\bpromptly\b|\bimmediately\b|as soon as (reasonably )?practicable))']
+            signature: ['(?=.*\bbreach)(?=.*(\bnotif\w*|\breport\w*|\bnotice of (a |any |the |each )?(breach|security incident)))(?=.*(without unreasonable delay|\bpromptly\b|\bimmediately\b|as soon as (reasonably )?practicable))']
           - id: E2
             cfr: "and in no case later than 60 calendar days after discovery of a breach"
             requires: >-
               states an outer deadline of no more than 60 calendar days after discovery (any
               shorter stated period, in days or hours, also meets the element)
             signature:
-              - '(?=.*\bbreach)(?=.*(?<![\d,.])([1-9]|[1-5]\d|60)\)?\s*(calendar |business )?(days?|hours)\b)'
-              - '(?=.*\bbreach)(?=.*\b(one|two|three|four|five|seven|ten|fifteen|twenty|thirty|forty-five|sixty|twenty-four|forty-eight|seventy-two)\s*(\(\d+\)\s*)?(calendar |business )?(days?|hours)\b)'
+              - '(?=.*\bbreach)(?=.*(\bnotif\w*|\breport\w*|\bnotice of (a |any |the |each )?(breach|security incident)))(?=.*(?<![\d,.])([1-9]|[1-5]\d|60)\)?\s*(calendar |business )?(days?|hours)\b)'
+              - '(?=.*\bbreach)(?=.*(\bnotif\w*|\breport\w*|\bnotice of (a |any |the |each )?(breach|security incident)))(?=.*(?<![-\w])(one|two|three|four|five|seven|ten|fifteen|twenty|thirty|forty-five|sixty|twenty-four|forty-eight|seventy-two)\s*(\(\d+\)\s*)?(calendar |business )?(days?|hours)\b)'
       - code: "164.410(c)"
         title: Content of breach notice to the covered entity
         elements:
@@ -159,7 +164,7 @@ groups:
             implied_by: ['E2']
             cfr: "Make available protected health information"
             requires: the business associate makes PHI in a designated record set available for individuals' access requests
-            signature: ['^(?!.*\bamend)(?=.*\b(make|makes|provide|provides)\b[^.]{0,60}\b(available|access|copies|copy)\b)(?=.*(designated record set|request(s)? for access|access request|right of access|right to access))']
+            signature: ['^(?!.*(\bamend|164\.524|(obligations|requirements) under|\bwithin\b|no later than|not later than))(?=.*\b(make|makes|provide|provides)\b[^.]{0,60}\b(available|access|copies|copy)\b)(?=.*(designated record set|request(s)? for access|access request|right of access|right to access))']
           - id: E2
             cfr: "in accordance with § 164.524"
             requires: >-
@@ -174,7 +179,7 @@ groups:
             implied_by: ['E2']
             cfr: "Make available protected health information for amendment"
             requires: the business associate makes PHI in a designated record set available for amendment
-            signature: ['(?=.*amend\w*)(?=.*(protected health information|\bphi\b|designated record set))(?=.*\b(make|makes|provide|provides|available)\b)']
+            signature: ['^(?!.*(incorporat|164\.526))(?=.*amend\w*)(?=.*(protected health information|\bphi\b|designated record set))(?=.*\b(make|makes|provide|provides|available)\b)']
           - id: E2
             cfr: "and incorporate any amendments to protected health information in accordance with § 164.526"
             requires: the business associate incorporates the amendments the covered entity directs (or cites 164.526)
@@ -186,7 +191,7 @@ groups:
             implied_by: ['E2']
             cfr: "Make available the information required to provide an accounting of disclosures"
             requires: the business associate makes available the information needed for an accounting of disclosures
-            signature: ['accounting of (the )?disclosures', '(?=.*\baccounting\b)(?=.*disclos)']
+            signature: ['^(?!.*(164\.528|(obligations|requirements) under|\bwithin\b|no later than|not later than))(?=.*\baccounting\b)(?=.*disclos)']
           - id: E2
             cfr: "in accordance with § 164.528"
             requires: >-

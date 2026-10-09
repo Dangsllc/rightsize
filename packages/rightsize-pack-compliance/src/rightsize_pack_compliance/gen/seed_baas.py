@@ -99,6 +99,7 @@ def check_presentation(pres: dict, elements: dict, name: str) -> list[str]:
         return [f"{name}: needs an object with a blocks list"]
     tags = tags_of(elements)
     unit_of_tag = {t: t.split("#", 1)[0] for t in tags}
+    ctx_tags = {f"{u}#ctx" for u in units_of(elements)}
     problems: list[str] = []
     if not isinstance(pres.get("title"), str) or not pres["title"].strip():
         problems.append(f"{name}: needs a title")
@@ -123,6 +124,8 @@ def check_presentation(pres: dict, elements: dict, name: str) -> list[str]:
                 problems.append(f"{where}: one sentence per entry, split this: {text[:100]!r}")
             if tag in (None, "", "null"):
                 has_untagged = True
+            elif tag in ctx_tags:
+                pass  # supporting language: removed with its unit, must meet no element (checked below)
             elif tag not in tags:
                 problems.append(f"{where}: unknown tag {tag!r}")
                 continue
@@ -132,7 +135,7 @@ def check_presentation(pres: dict, elements: dict, name: str) -> list[str]:
                     problems.append(f"{where}: sentence tagged {tag} does not meet it: {text[:140]!r}")
             for other, e in tags.items():
                 if other != tag and meets(text, e):
-                    problems.append(f"{where}: sentence {('tagged ' + tag) if tag else 'untagged'} also meets "
+                    problems.append(f"{where}: sentence {('tagged ' + tag) if tag else 'untagged'} meets "
                                     f"{other}: {text[:140]!r}")
         if b.get("number") and not has_untagged:
             problems.append(f"{where}: a block with a fixed number needs an untagged sentence so it never empties")
@@ -239,6 +242,15 @@ Derivation: {derivation}
   "will", "agrees to", "may only", "may not"; termination rights may say "may terminate").
 - A sentence may meet only the element it is tagged with. Untagged sentences (definitions,
   recitals, commercial terms) must meet none. Definitions use "means" or "shall mean".
+- Context tags: a sentence about a unit's subject that meets none of its elements (encryption,
+  MFA and SOC 2 details beside the safeguards duty; breach-cooperation logistics; the license to
+  process data "as necessary to provide the Services") is tagged `<unit>#ctx`, e.g.
+  `164.504(e)(2)(ii)(B)#ctx`. It is removed whenever that unit is removed, so a gap is never left
+  sitting next to language a careful reviewer would read as partial coverage. When in doubt
+  whether a commercial sentence touches a unit, give it that unit's ctx tag.
+- Every untagged sentence must still read correctly if every tagged and ctx sentence in the
+  agreement were deleted: no "the refund in 13.3" that assumes a termination right, no
+  "certificate of destruction" without the destruction duty, no "the reports described above".
 - Weakened twin: one sentence that drops in for the tagged sentence and reads naturally, but no
   longer meets the element. Weaken the substance, not just the modal verb, because contracts are
   binding by default. Realistic weakenings: a 90-day or open-ended breach deadline; reporting

@@ -6,9 +6,10 @@
     export_verify -> JSONL of multiple-choice items for rows another writer produced
     import_verify <- JSONL of {code, style, ci, answer: "A".."E"}; stored as this verifier's verdicts
 
-Verification here is lazy: per slot it asks only about the first `per_slot` candidates that pass
-the overlap filter (the build keeps the first verified, overlap-clean candidate), and records
-`null` for the candidates it skipped, which the build treats as unverified.
+Verification here is lazy: per slot it asks only about the next `per_slot` unasked candidates that
+pass the overlap filter (the build keeps the first verified, overlap-clean candidate), records
+`null` for the candidates it skipped, which the build treats as unverified, and stops asking once
+the slot has an accepted candidate. Re-running export_verify continues where the last round left off.
 """
 
 from __future__ import annotations
@@ -84,13 +85,16 @@ def export_verify(corpus: Corpus, cfg: dict, store: SeedStore, label: str, out: 
         t = targets.get(row["control_code"])
         if t is None or row.get("generator_llm", "").split(":", 1)[-1] == label.split(":", 1)[-1]:
             continue
-        if label in row.get("verdicts", {}):
-            continue
+        done = row.get("verdicts", {}).get(label, [])
+        if any(done):
+            continue  # this slot already has a candidate the verifier accepted
         options = [t] + neighbors(t, targets, corpus, negs, distinct=rcfg.get("distinct_neighbors", False))
         asked = 0
         for ci, cand in enumerate(row["candidates"]):
             if asked >= per_slot:
                 break
+            if ci < len(done) and done[ci] is not None:
+                continue  # asked in an earlier round
             if any(re.search(x, cand, re.IGNORECASE) for x in ocfg.get("reject_patterns", [])):
                 continue
             if not overlap.check(cand, t.title, t.rule_text, allow, ocfg.get("max_jaccard", 0.25),
