@@ -1,0 +1,2359 @@
+{
+  "base": "lantern",
+  "derivation": "paraphrased",
+  "elements_version": 1,
+  "generator_llm": "claude-code-agent:claude-opus-5-5",
+  "parties": {
+    "business_associate": "Kindred Connect, Inc.",
+    "covered_entity": "Lantern Behavioral Health, P.C.",
+    "relationship": "Outpatient behavioral health group practice and the telehealth video and secure messaging platform it subscribes to for client sessions."
+  },
+  "presentations": {
+    "template": {
+      "blocks": [
+        {
+          "heading": null,
+          "kind": "para",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Business Associate Agreement (this \"Agreement\") is made effective as of March 1, 2026 (the \"Effective Date\") between Lantern Behavioral Health, P.C., an Oregon professional corporation (\"Lantern\"), and Kindred Connect, Inc., a Delaware corporation (\"Kindred\")."
+            }
+          ]
+        },
+        {
+          "heading": "Background",
+          "kind": "para",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Lantern is a group practice that provides outpatient counseling, psychotherapy, and psychiatric medication management to children, adolescents, and adults in and around Portland, Oregon."
+            },
+            {
+              "tag": null,
+              "text": "Kindred operates a secure telehealth platform that lets Lantern's clinicians hold video sessions, exchange messages, and share intake forms with the people they serve."
+            },
+            {
+              "tag": null,
+              "text": "Lantern and Kindred have entered into a Kindred Connect Subscription Agreement dated February 12, 2026 (the \"Services Agreement\"), under which Kindred will handle protected health information for Lantern, including by collecting, storing, and transmitting it."
+            },
+            {
+              "tag": null,
+              "text": "The people who come to Lantern for care share some of the most personal details of their lives, and both parties want that trust reflected in how their information is handled."
+            },
+            {
+              "tag": null,
+              "text": "This Agreement sets out the terms the HIPAA Rules require for that relationship, along with several additional commitments the parties have chosen to make."
+            }
+          ]
+        },
+        {
+          "heading": "Definitions",
+          "kind": "article",
+          "number": "1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Capitalized terms that this Agreement uses without defining, such as Breach, Data Aggregation, Designated Record Set, Health Care Operations, Individual, Required by Law, Secretary, Security Incident, Subcontractor, and Unsecured Protected Health Information, carry the meanings the HIPAA Rules give them."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Business Associate\" refers to Kindred, which is a business associate of Lantern within the meaning of 45 CFR 160.103."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Covered Entity\" refers to Lantern, which is a covered entity within the meaning of 45 CFR 160.103."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"HIPAA Rules\" means the federal privacy, security, breach notification, and enforcement regulations found at 45 CFR Parts 160 and 164."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"PHI\" means Protected Health Information, as defined at 45 CFR 160.103, that Kindred creates, receives, maintains, or transmits on behalf of Lantern, and includes PHI in electronic form."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Privacy Rule\" means the federal standards for the privacy of individually identifiable health information, codified at 45 CFR Part 160 and Subparts A and E of Part 164."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Security Rule\" means the federal security standards for electronic protected health information, codified at 45 CFR Part 160 and Subparts A and C of Part 164."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Services\" means the telehealth video, secure messaging, intake form, and appointment reminder services that Kindred delivers to Lantern under the Services Agreement."
+            }
+          ]
+        },
+        {
+          "heading": "What Kindred Agrees To Do",
+          "kind": "article",
+          "number": "2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred's commitments in this Article apply to PHI in whatever form Kindred holds it, for as long as Kindred holds it."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(A)#E1",
+              "text": "Kindred will not use or further disclose PHI except as expressly permitted by this Agreement, as this Agreement requires, or as Required by Law."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(B)#E1",
+              "text": "Kindred will use appropriate administrative, physical, and technical safeguards to prevent any use or disclosure of PHI that this Agreement does not provide for."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(B)#E2",
+              "text": "Kindred will comply with the Security Rule with respect to electronic PHI."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(B)#ctx",
+              "text": "Kindred will encrypt electronic PHI in transit and at rest, require multi-factor authentication for workforce members who reach production systems, and complete and document a security risk analysis at least once a year."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(B)#ctx",
+              "text": "Kindred will train each workforce member who handles PHI on privacy and security before that person starts handling PHI and at least once a year after that."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(C)#E1",
+              "text": "Kindred will report to Lantern any use or disclosure of PHI not permitted by this Agreement as soon as Kindred learns of it."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(C)#E2",
+              "text": "Kindred will report to Lantern any Breach of Unsecured Protected Health Information of which it becomes aware, as required by 45 CFR 164.410."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.314(a)(2)(i)(C)#E1",
+              "text": "Kindred will report to Lantern each Security Incident that comes to its attention."
+            },
+            {
+              "tag": "164.314(a)(2)(i)(C)#ctx",
+              "text": "Lantern acknowledges that pings, port scans, blocked log-on attempts, and similar unsuccessful attempts to reach Kindred's systems happen routinely and do not call for individual notice."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.410(b)#E1",
+              "text": "Kindred will notify Lantern of any Breach without unreasonable delay after discovering it."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.410(b)#E2",
+              "text": "In no case will Kindred notify Lantern of a Breach later than five (5) business days after discovery."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.410(c)#E1",
+              "text": "Kindred's notice of a Breach will identify, to the extent possible, each individual whose PHI has been, or is reasonably believed by Kindred to have been, accessed, acquired, used, or disclosed in the Breach."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.410(c)#E2",
+              "text": "Kindred will give Lantern any other available information that Lantern needs to notify affected individuals under 45 CFR 164.404(c), as that information becomes available."
+            },
+            {
+              "tag": "164.410(c)#ctx",
+              "text": "Kindred will cooperate fully with Lantern's investigation of a Breach, and Lantern will decide whether and how to notify affected individuals, regulators, and the media."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(C)#ctx",
+              "text": "Kindred will reimburse Lantern for the reasonable costs of notifying individuals and offering them credit monitoring when a Breach results from Kindred's acts or omissions."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(D)#E1",
+              "text": "Kindred will ensure that any Subcontractor that creates, receives, maintains, or transmits PHI on Kindred's behalf agrees to be bound by the same restrictions and conditions on PHI that bind Kindred under this Agreement."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(D)#E2",
+              "text": "Kindred will obtain each Subcontractor's commitments in a written agreement that meets 45 CFR 164.314(a)(2) and 164.504(e) before the Subcontractor receives any PHI."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(E)#E1",
+              "text": "Kindred will make PHI in a Designated Record Set available to Lantern, or at Lantern's direction to the individual or the individual's designee, so that individuals can exercise their right of access."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(E)#E2",
+              "text": "Kindred will respond to each request from Lantern for access to PHI within ten (10) days, so that Lantern can meet its obligations under 45 CFR 164.524."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(E)#ctx",
+              "text": "Kindred will forward to Lantern, no later than five (5) business days after receipt, any request it receives directly from an individual to see or obtain a copy of PHI, and will not answer the individual unless Lantern asks it to."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(F)#E1",
+              "text": "Kindred will make PHI in a Designated Record Set available to Lantern for amendment."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(F)#ctx",
+              "text": "Kindred will forward to Lantern, no later than five (5) business days after receipt, any request it receives directly from an individual to correct PHI."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(F)#E2",
+              "text": "Kindred will incorporate any amendment to PHI that Lantern directs or agrees to under 45 CFR 164.526."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(G)#E1",
+              "text": "Kindred will keep a record of its disclosures of PHI and make available to Lantern the information Lantern needs to provide an individual with an accounting of disclosures."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(G)#E2",
+              "text": "Kindred will deliver the information needed for an accounting of disclosures within ten (10) days after Lantern's request, so that Lantern can respond in time under 45 CFR 164.528."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(H)#E1",
+              "text": "To the extent Kindred carries out any of Lantern's obligations under the Privacy Rule, Kindred will comply with the requirements of the Privacy Rule that apply to Lantern in carrying out that obligation."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(I)#E1",
+              "text": "Kindred will make its internal practices, books, and records concerning its handling of PHI available to the Secretary, so that the Secretary can determine whether the HIPAA Rules are being followed."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(I)#ctx",
+              "text": "Unless the law forbids it, Kindred will tell Lantern about any request it receives from the Secretary and give Lantern a copy of what Kindred produces in response."
+            }
+          ]
+        },
+        {
+          "heading": "How Kindred May Use and Disclose PHI",
+          "kind": "article",
+          "number": "3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "As between the parties, Lantern owns all PHI, and nothing in this Agreement transfers any ownership interest in PHI to Kindred."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#E1",
+              "text": "Kindred may use and disclose PHI only as necessary to perform the Services for Lantern under the Services Agreement."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred may use or disclose PHI as Required by Law."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred will limit its uses and disclosures of, and requests for, PHI to the minimum necessary to accomplish the intended purpose, consistent with Lantern's minimum necessary policies and procedures."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#E2",
+              "text": "Kindred may not use or disclose PHI in any way that would violate the Privacy Rule if done by Lantern, except for the management and administration uses and disclosures described in this Article."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred may use PHI where needed for the proper administration and management of its own business or to meet its legal duties."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred may disclose PHI for the proper administration and management of its own business or to meet its legal duties, but only when the law requires the disclosure, or when the recipient first gives Kindred reasonable assurances that it will keep the PHI confidential, will use or pass it on only as the law requires or for the reason Kindred shared it, and will tell Kindred if the confidentiality of the PHI is ever compromised."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred may provide Data Aggregation services relating to Lantern's Health Care Operations only with Lantern's prior written approval."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred may de-identify PHI in accordance with 45 CFR 164.514(b) only with Lantern's prior written consent."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred will not sell PHI, use PHI for marketing or advertising, or use PHI to train artificial intelligence models that are offered to anyone other than Lantern."
+            }
+          ]
+        },
+        {
+          "heading": "What Lantern Agrees To Do",
+          "kind": "article",
+          "number": "4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Lantern will designate a privacy officer to serve as Kindred's point of contact for questions about this Agreement."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "If a limitation in Lantern's Notice of Privacy Practices could affect how Kindred uses or discloses PHI, Lantern will tell Kindred about it."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Lantern will tell Kindred when an individual changes or withdraws permission to use or disclose PHI, if the change could affect how Kindred handles PHI."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Lantern will tell Kindred about any restriction it has agreed to, or is required to honor, under 45 CFR 164.522 that could affect how Kindred handles PHI."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Lantern will not ask Kindred to use or disclose PHI in any manner that the Privacy Rule would not allow Lantern to use or disclose it."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Lantern will use the configuration settings in the Services to limit the PHI it sends through the Services to what is reasonably needed for each person's care."
+            }
+          ]
+        },
+        {
+          "heading": "Term and Termination",
+          "kind": "article",
+          "number": "5",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Agreement takes effect on the Effective Date and stays in effect for as long as the Services Agreement is in effect."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(iii)#E1",
+              "text": "Lantern may terminate this Agreement and the Services Agreement if Lantern determines that Kindred has violated a material term of this Agreement and Kindred has not cured the violation within thirty (30) days after receiving written notice from Lantern, or at once if cure is not possible."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(J)#E1",
+              "text": "Upon termination or expiration of this Agreement for any reason, Kindred will return to Lantern, or destroy if Lantern agrees, all PHI that Kindred still maintains in any form."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(J)#E2",
+              "text": "Kindred will retain no copies of PHI, except that if returning or destroying particular PHI is infeasible, Kindred will extend the protections of this Agreement to that PHI and limit further uses and disclosures to the purposes that make its return or destruction infeasible, for as long as Kindred keeps it."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(J)#ctx",
+              "text": "Kindred will see that its Subcontractors return or destroy the PHI they hold for Kindred, and will confirm the outcome to Lantern through a certificate signed by one of its officers."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Any provision of this Agreement that by its nature is meant to continue after this Agreement ends will survive."
+            }
+          ]
+        },
+        {
+          "heading": "General Terms",
+          "kind": "article",
+          "number": "6",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Agreement is governed by the laws of the State of Oregon, except to the extent federal law controls."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Each citation in this Agreement to the HIPAA Rules refers to the provision as currently in effect or as later amended."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "The parties will work together in good faith to amend this Agreement as needed to keep it consistent with the HIPAA Rules and other applicable law."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "If any term of this Agreement is unclear, the parties will read it in the way that best supports compliance with the HIPAA Rules."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "If this Agreement conflicts with the Services Agreement, this Agreement controls with respect to PHI."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "If Kindred receives any records protected by 42 CFR Part 2, Kindred acknowledges that it is fully bound by Part 2 for those records and will resist in judicial proceedings any effort to obtain them except as Part 2 permits."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred is an independent contractor and not Lantern's agent for any purpose under this Agreement."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Nothing in this Agreement gives any right or remedy to anyone other than Lantern, Kindred, and their permitted successors."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Notices under this Agreement must be in writing and sent to the addresses in the signature blocks below, with a copy of any notice to Lantern sent to its privacy officer."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Agreement may be signed in counterparts and by electronic signature, and each counterpart is an original."
+            }
+          ]
+        },
+        {
+          "heading": "Signatures",
+          "kind": "para",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "The parties have signed this Agreement as of the Effective Date."
+            },
+            {
+              "tag": null,
+              "text": "LANTERN BEHAVIORAL HEALTH, P.C., by Renata Alvarez, PsyD, Executive Director, 2210 NE Alberta Street, Suite 300, Portland, Oregon 97211, signed February 26, 2026."
+            },
+            {
+              "tag": null,
+              "text": "KINDRED CONNECT, INC., by Marcus Lindqvist, Chief Executive Officer, 500 Howard Street, 4th Floor, San Francisco, California 94105, signed February 27, 2026."
+            },
+            {
+              "tag": null,
+              "text": "Lantern's privacy officer is Dana Whitfield, LCSW, who may be reached at the Lantern address above."
+            }
+          ]
+        }
+      ],
+      "title": "Business Associate Agreement",
+      "weakened": {
+        "164.314(a)(2)(i)(C)#E1": "Kindred will report to Lantern any attack on its systems that results in a confirmed Breach.",
+        "164.410(b)#E1": "Kindred will notify Lantern of a Breach after Kindred completes its internal investigation.",
+        "164.410(b)#E2": "Kindred will notify Lantern of a Breach within a commercially reasonable time after discovery.",
+        "164.410(c)#E1": "Kindred's notice of a Breach will describe what happened and the types of PHI involved.",
+        "164.410(c)#E2": "Kindred will answer Lantern's reasonable questions about a Breach.",
+        "164.504(e)(2)(i)#E1": "Kindred may use and disclose PHI to provide, support, and improve its products and services.",
+        "164.504(e)(2)(i)#E2": "Kindred will handle PHI in a manner consistent with its own privacy policy.",
+        "164.504(e)(2)(ii)(A)#E1": "Kindred will use reasonable efforts not to use or disclose PHI beyond what this Agreement contemplates.",
+        "164.504(e)(2)(ii)(B)#E1": "Kindred will use commercially reasonable security measures to protect PHI.",
+        "164.504(e)(2)(ii)(B)#E2": "Kindred will maintain an information security program for electronic PHI that is consistent with industry standards.",
+        "164.504(e)(2)(ii)(C)#E1": "Kindred will report to Lantern any use or disclosure of PHI that Kindred determines, in its reasonable judgment, has caused material harm to Lantern or the people it serves.",
+        "164.504(e)(2)(ii)(C)#E2": "Kindred will report to Lantern any Breach that Kindred confirms after completing its own risk assessment.",
+        "164.504(e)(2)(ii)(D)#E1": "Kindred will require its material Subcontractors to agree to restrictions on PHI that are substantially similar to those in this Agreement.",
+        "164.504(e)(2)(ii)(D)#E2": "Kindred will obtain each Subcontractor's commitments through Kindred's standard vendor onboarding process.",
+        "164.504(e)(2)(ii)(E)#E1": "Kindred will give Lantern's staff self-service tools in the Services to download a client's session history and messages.",
+        "164.504(e)(2)(ii)(E)#E2": "Kindred will respond to Lantern's requests for client records on a commercially reasonable timeline.",
+        "164.504(e)(2)(ii)(F)#E1": "Lantern's clinicians may add notes to client records in the Services, but Kindred will not change any stored record once it is created.",
+        "164.504(e)(2)(ii)(F)#E2": "Kindred will consider any amendment Lantern requests and may decline amendments it considers technically impractical.",
+        "164.504(e)(2)(ii)(G)#E1": "Kindred will keep audit logs of system activity and share them with Lantern upon request.",
+        "164.504(e)(2)(ii)(G)#E2": "Kindred will provide information for an accounting of disclosures as its resources reasonably permit.",
+        "164.504(e)(2)(ii)(H)#E1": "If Kindred performs any patient-facing task for Lantern, Kindred will follow Lantern's reasonable instructions for that task.",
+        "164.504(e)(2)(ii)(I)#E1": "Kindred will share its internal policies and compliance records about PHI with Lantern upon reasonable notice.",
+        "164.504(e)(2)(ii)(J)#E1": "Upon termination or expiration of this Agreement, Kindred will delete PHI from its active systems in the ordinary course of business.",
+        "164.504(e)(2)(ii)(J)#E2": "Kindred may keep archival copies of PHI in its backup systems under its standard retention schedule.",
+        "164.504(e)(2)(iii)#E1": "Lantern may terminate this Agreement if a court of competent jurisdiction finally determines that Kindred has violated HIPAA."
+      }
+    },
+    "vendor_paper": {
+      "blocks": [
+        {
+          "heading": null,
+          "kind": "para",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "These Kindred Connect Terms of Service for Healthcare Organizations (the \"Terms\") govern access to and use of the Kindred Connect telehealth platform by healthcare organizations."
+            },
+            {
+              "tag": null,
+              "text": "By signing an Order Form that references these Terms, or by clicking \"I agree\" when creating an organization account, the organization named in the Order Form (\"Customer\") agrees to these Terms on behalf of itself and its Authorized Users."
+            },
+            {
+              "tag": null,
+              "text": "Kindred Connect, Inc., a Delaware corporation (\"Kindred\"), and Customer are each a \"party\" and together the \"parties\"."
+            },
+            {
+              "tag": null,
+              "text": "Kindred has tried to write these Terms in plain language, because the clinicians and patients who rely on Kindred deserve to understand how their information is handled."
+            },
+            {
+              "tag": null,
+              "text": "Last updated: January 15, 2026."
+            }
+          ]
+        },
+        {
+          "heading": "Definitions",
+          "kind": "article",
+          "number": "1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "In these Terms, the capitalized terms below have the meanings given in this Section 1, and other capitalized terms have the meanings given where they first appear."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Agreement\" means these Terms, each Order Form, the Service Level Agreement in Exhibit A, and the Data Processing and Business Associate Addendum in Exhibit B."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Authorized User\" means an employee, clinician, or contractor of Customer whom Customer permits to use the Platform under Customer's account."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Breach\" has the meaning given in 45 CFR 164.402."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Customer Data\" means all data, including PHI, that Customer, its Authorized Users, or Patients submit to the Platform or that the Platform generates from Sessions, but excludes Usage Data and De-identified Data."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.5",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"De-identified Data\" means data that has been de-identified in accordance with 45 CFR 164.514(b)."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.6",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Documentation\" means Kindred's then-current user guides and help center articles for the Platform."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.7",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"HIPAA Rules\" means the federal health information privacy, security, breach notification, and enforcement regulations in 45 CFR Parts 160 and 164."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.8",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Order Form\" means an ordering document or online subscription page, signed or accepted by Customer, that lists the Services, the Subscription Term, and the Fees."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.9",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Patient\" means a person who receives care from Customer and joins a Session or uses the Kindred patient app at Customer's invitation."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.10",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"PHI\" means protected health information, as defined at 45 CFR 160.103, that Kindred creates, receives, maintains, or transmits on behalf of Customer."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.11",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Platform\" means Kindred's hosted telehealth video, secure messaging, intake form, and scheduling software, including the patient app."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.12",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Privacy Rule\" means the federal privacy standards codified at 45 CFR Part 160 and Subparts A and E of Part 164."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.13",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Security Incident\" has the meaning given in 45 CFR 164.304."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.14",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Services\" means the Platform and the implementation, training, and support services Kindred delivers under an Order Form."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.15",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Session\" means a live video or audio visit conducted through the Platform."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.16",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Subcontractor\" has the meaning given in 45 CFR 160.103 and includes Kindred's hosting and communications providers that handle PHI."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.17",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Subscription Term\" means the period stated in an Order Form, together with any renewal period."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": "1.18",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Usage Data\" means technical and operational data about how the Platform performs and is used, such as uptime, feature adoption, and device type, from which Patient identities have been removed."
+            }
+          ]
+        },
+        {
+          "heading": "The Platform",
+          "kind": "article",
+          "number": "2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred will make the Platform available to Customer and its Authorized Users during the Subscription Term in accordance with these Terms and the Documentation."
+            }
+          ]
+        },
+        {
+          "heading": "Accounts",
+          "kind": "clause",
+          "number": "2.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer is responsible for all activity under its account and for making sure its Authorized Users follow these Terms."
+            }
+          ]
+        },
+        {
+          "heading": "Clinical Responsibility",
+          "kind": "clause",
+          "number": "2.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred provides technology, not medical or behavioral health care, and Customer and its clinicians remain responsible for clinical decisions, professional licensure, and the standard of care."
+            }
+          ]
+        },
+        {
+          "heading": "Patient Experience",
+          "kind": "clause",
+          "number": "2.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Patients can join Sessions from a browser link without creating an account, and Kindred will not show advertising to Patients anywhere in the Platform."
+            }
+          ]
+        },
+        {
+          "heading": "Updates",
+          "kind": "clause",
+          "number": "2.4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred may update the Platform from time to time and will describe significant changes in its release notes."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(B)#ctx",
+              "text": "Kindred will not make changes during a Subscription Term that materially reduce the Platform's core privacy or security features."
+            }
+          ]
+        },
+        {
+          "heading": "Not for Emergencies",
+          "kind": "clause",
+          "number": "2.5",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "The Platform is not an emergency service, and Customer will give Patients clear instructions for reaching 988 or 911 in a crisis."
+            }
+          ]
+        },
+        {
+          "heading": "Customer Data",
+          "kind": "article",
+          "number": "3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Section 3 applies to Customer Data and to the data Kindred derives from the operation of the Platform."
+            }
+          ]
+        },
+        {
+          "heading": "Ownership and Use",
+          "kind": "clause",
+          "number": "3.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "As between the parties, Customer owns all Customer Data, and nothing in this Agreement transfers ownership of Customer Data to Kindred."
+            },
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Customer grants Kindred a non-exclusive, limited license to host, copy, transmit, and display Customer Data as necessary to provide the Services."
+            },
+            {
+              "tag": "164.504(e)(2)(i)#E1",
+              "text": "Kindred will use and disclose Customer Data only as necessary to provide the Services to Customer under this Agreement."
+            },
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred will not sell Customer Data, use Customer Data for advertising, or use Customer Data to train artificial intelligence models offered to other customers."
+            }
+          ]
+        },
+        {
+          "heading": "De-identified Data",
+          "kind": "clause",
+          "number": "3.2",
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred may create De-identified Data from Customer Data and may use De-identified Data to maintain, analyze, and improve the Platform."
+            },
+            {
+              "tag": null,
+              "text": "De-identified Data is not Customer Data, and Kindred owns all rights in De-identified Data."
+            },
+            {
+              "tag": null,
+              "text": "Kindred will not attempt to re-identify De-identified Data or allow any third party to do so."
+            }
+          ]
+        },
+        {
+          "heading": "Usage Data",
+          "kind": "clause",
+          "number": "3.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred may collect and use Usage Data to operate, secure, and improve the Platform and to calculate Fees."
+            }
+          ]
+        },
+        {
+          "heading": "Data Location",
+          "kind": "clause",
+          "number": "3.4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred will store and process Customer Data only in data centers located in the United States."
+            },
+            {
+              "tag": null,
+              "text": "Kindred will not permit Customer Data to be viewed or handled from outside the United States, including by Kindred's own personnel."
+            }
+          ]
+        },
+        {
+          "heading": "Export",
+          "kind": "clause",
+          "number": "3.5",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "During the Subscription Term, Customer may export Customer Data, including Session metadata, message histories, and completed intake forms, in standard formats through the administrator console."
+            }
+          ]
+        },
+        {
+          "heading": "Customer Responsibilities",
+          "kind": "article",
+          "number": "4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer is responsible for its use of the Platform and for the conduct of its Authorized Users."
+            }
+          ]
+        },
+        {
+          "heading": "Consents",
+          "kind": "clause",
+          "number": "4.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer will obtain any consents and give any notices that applicable law requires for Patients to receive care by telehealth, including consents for the treatment of minors."
+            }
+          ]
+        },
+        {
+          "heading": "Credentials",
+          "kind": "clause",
+          "number": "4.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer will require each Authorized User to keep login credentials confidential and to use multi-factor authentication, and will tell Kindred right away if it suspects that credentials have been compromised."
+            }
+          ]
+        },
+        {
+          "heading": "Acceptable Use",
+          "kind": "clause",
+          "number": "4.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer will not use the Platform to send unsolicited marketing, to record Sessions without the consent the law requires, or to store psychotherapy notes, which the Platform is not designed to hold."
+            }
+          ]
+        },
+        {
+          "heading": "Requests About PHI",
+          "kind": "clause",
+          "number": "4.4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer will not ask Kindred to use or disclose PHI in any manner that the Privacy Rule would not allow Customer to use or disclose it."
+            }
+          ]
+        },
+        {
+          "heading": "Fees and Payment",
+          "kind": "article",
+          "number": "5",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer will pay the fees stated in each Order Form (the \"Fees\")."
+            }
+          ]
+        },
+        {
+          "heading": "Seats",
+          "kind": "clause",
+          "number": "5.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Fees are billed annually in advance per licensed clinician seat, and Customer may add seats at any time at the then-current per-seat rate, prorated for the rest of the Subscription Term."
+            }
+          ]
+        },
+        {
+          "heading": "Invoices",
+          "kind": "clause",
+          "number": "5.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Invoices are due within thirty (30) days after the invoice date."
+            }
+          ]
+        },
+        {
+          "heading": "Taxes",
+          "kind": "clause",
+          "number": "5.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Fees exclude taxes, and Customer will pay any sales, use, or similar taxes, other than taxes based on Kindred's income."
+            }
+          ]
+        },
+        {
+          "heading": "Late Payment",
+          "kind": "clause",
+          "number": "5.4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "If an undisputed invoice is more than thirty (30) days past due, Kindred may suspend non-clinical features after giving Customer at least fifteen (15) days' notice, but Kindred will not suspend Customer's ability to hold scheduled Sessions or export Customer Data."
+            }
+          ]
+        },
+        {
+          "heading": "Renewal Pricing",
+          "kind": "clause",
+          "number": "5.5",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred may increase Fees for a renewal Subscription Term by no more than five percent (5%) by giving Customer at least sixty (60) days' notice before the renewal date."
+            }
+          ]
+        },
+        {
+          "heading": "Security",
+          "kind": "article",
+          "number": "6",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Section 6 applies to all Customer Data, including PHI."
+            }
+          ]
+        },
+        {
+          "heading": "Security Program",
+          "kind": "clause",
+          "number": "6.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer remains responsible for securing the devices and networks its Authorized Users rely on to reach the Platform."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(B)#E1",
+              "text": "Kindred will maintain appropriate administrative, physical, and technical safeguards to prevent any use or disclosure of Customer Data other than as provided for by this Agreement."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(B)#E2",
+              "text": "Kindred will comply with the Security Rule, 45 CFR Part 164, Subpart C, with respect to electronic PHI."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(B)#ctx",
+              "text": "Kindred encrypts Customer Data in transit using TLS 1.2 or higher and at rest using AES-256, requires multi-factor authentication for all personnel who reach production systems, and logs administrative activity involving Customer Data."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(B)#ctx",
+              "text": "Kindred will complete a security risk analysis at least annually and will engage an independent firm to carry out penetration testing of the Platform at least annually."
+            }
+          ]
+        },
+        {
+          "heading": "Personnel",
+          "kind": "clause",
+          "number": "6.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred is responsible for the acts and omissions of its employees and individual contractors under this Agreement as if they were Kindred's own."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(B)#ctx",
+              "text": "Kindred will screen personnel who handle Customer Data through background checks to the extent the law allows, and will train them on privacy and security at hire and every year after that."
+            }
+          ]
+        },
+        {
+          "heading": "Security Reviews",
+          "kind": "clause",
+          "number": "6.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer will treat Kindred's security documentation as Kindred's Confidential Information."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(B)#ctx",
+              "text": "Kindred will maintain a SOC 2 Type II attestation covering the Platform, will share its most recent attestation upon request, and will answer one security questionnaire from Customer each year at no charge."
+            }
+          ]
+        },
+        {
+          "heading": "Service Levels and Support",
+          "kind": "article",
+          "number": "7",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred will make the Platform available at least 99.9% of the time in each calendar month, as measured and credited under the Service Level Agreement in Exhibit A."
+            }
+          ]
+        },
+        {
+          "heading": "Support",
+          "kind": "clause",
+          "number": "7.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred provides support by email and phone from 6 AM to 8 PM Pacific Time on business days, and around the clock for issues that prevent Sessions from starting."
+            }
+          ]
+        },
+        {
+          "heading": "Credits",
+          "kind": "clause",
+          "number": "7.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Service credits under Exhibit A are Customer's sole monetary remedy for unavailability of the Platform, but they do not limit Customer's right to terminate an Order Form under Section 13.2."
+            }
+          ]
+        },
+        {
+          "heading": "Confidentiality",
+          "kind": "article",
+          "number": "8",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Confidential Information\" means non-public information that one party shares with the other and that is marked confidential or would reasonably be understood to be confidential, but PHI is governed by Exhibit B rather than this Section 8."
+            }
+          ]
+        },
+        {
+          "heading": "Protection",
+          "kind": "clause",
+          "number": "8.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Each party will protect the other party's Confidential Information with at least the care it gives its own similar information, and never less than reasonable care."
+            }
+          ]
+        },
+        {
+          "heading": "Permitted Sharing",
+          "kind": "clause",
+          "number": "8.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "A party may share Confidential Information with its employees, advisors, and contractors who need to know it and are bound by duties of confidentiality at least as protective as these."
+            }
+          ]
+        },
+        {
+          "heading": "Compelled Disclosure",
+          "kind": "clause",
+          "number": "8.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "A party may reveal Confidential Information when compelled by law, after giving the other party reasonable notice if the law allows."
+            }
+          ]
+        },
+        {
+          "heading": "Warranties",
+          "kind": "article",
+          "number": "9",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Each party represents that it has the authority to enter into this Agreement."
+            }
+          ]
+        },
+        {
+          "heading": "Platform Warranty",
+          "kind": "clause",
+          "number": "9.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred warrants that the Platform will operate materially in accordance with the Documentation during the Subscription Term."
+            },
+            {
+              "tag": null,
+              "text": "If the Platform does not conform to that warranty, Kindred will use reasonable efforts to correct the nonconformity, and if Kindred cannot do so within thirty (30) days, Customer may end the affected Order Form and receive a refund of prepaid Fees for the remainder of the Subscription Term."
+            }
+          ]
+        },
+        {
+          "heading": "Disclaimer",
+          "kind": "clause",
+          "number": "9.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "EXCEPT AS EXPRESSLY STATED IN THIS AGREEMENT, THE SERVICES ARE PROVIDED \"AS IS,\" AND KINDRED DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE."
+            },
+            {
+              "tag": null,
+              "text": "Kindred does not warrant that Sessions will be uninterrupted, because video quality depends on Patients' internet connections and devices."
+            }
+          ]
+        },
+        {
+          "heading": "Indemnification",
+          "kind": "article",
+          "number": "10",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Each party's defense obligations under this Section 10 are subject to the procedure in Section 10.3."
+            }
+          ]
+        },
+        {
+          "heading": "By Kindred",
+          "kind": "clause",
+          "number": "10.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred will defend Customer against any third-party claim alleging that the Platform infringes a United States patent, copyright, or trademark, and will pay any resulting judgment or any settlement that Kindred approves."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(C)#ctx",
+              "text": "Kindred will reimburse Customer for the reasonable, documented costs of notifying Patients, regulators, and the media, and of offering twelve (12) months of credit or identity monitoring, to the extent a Breach results from Kindred's failure to meet its commitments under this Agreement."
+            }
+          ]
+        },
+        {
+          "heading": "By Customer",
+          "kind": "clause",
+          "number": "10.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer will defend Kindred against any third-party claim arising from Customer's clinical services or from Customer Data that Customer had no right to submit, and will pay any resulting judgment or any settlement that Customer approves."
+            }
+          ]
+        },
+        {
+          "heading": "Procedure",
+          "kind": "clause",
+          "number": "10.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "The party seeking defense will give prompt notice of the claim, let the defending party control the defense, and give reasonable cooperation at the defending party's expense."
+            }
+          ]
+        },
+        {
+          "heading": "Limitation of Liability",
+          "kind": "article",
+          "number": "11",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Neither party is liable for indirect, consequential, special, or punitive damages, or for lost profits, even if advised that they were possible."
+            }
+          ]
+        },
+        {
+          "heading": "General Cap",
+          "kind": "clause",
+          "number": "11.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Each party's total liability arising out of this Agreement will not exceed the Fees Customer paid or owed in the twelve (12) months before the event giving rise to the claim."
+            }
+          ]
+        },
+        {
+          "heading": "Data Protection Cap",
+          "kind": "clause",
+          "number": "11.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "For claims arising from a breach of Section 3, Section 6, or Exhibit B, Kindred's total liability will not exceed three times the amount in Section 11.1."
+            }
+          ]
+        },
+        {
+          "heading": "Exclusions",
+          "kind": "clause",
+          "number": "11.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "The limits in this Section 11 do not apply to a party's defense obligations for third-party intellectual property claims, to gross negligence or willful misconduct, or to Customer's duty to pay Fees."
+            }
+          ]
+        },
+        {
+          "heading": "Insurance",
+          "kind": "article",
+          "number": "12",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "During the Subscription Term, Kindred will maintain commercial general liability insurance of at least $2,000,000 per occurrence, technology errors and omissions insurance of at least $5,000,000 per claim, and cyber liability insurance of at least $5,000,000 per claim that covers privacy incident response costs and, where insurable, regulatory fines."
+            },
+            {
+              "tag": null,
+              "text": "Kindred will provide a certificate of insurance upon request."
+            }
+          ]
+        },
+        {
+          "heading": "Term and Termination",
+          "kind": "article",
+          "number": "13",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "These Terms remain in effect for as long as any Order Form is in effect."
+            }
+          ]
+        },
+        {
+          "heading": "Renewal",
+          "kind": "clause",
+          "number": "13.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Each Subscription Term renews automatically for successive one-year periods unless either party gives notice of non-renewal at least sixty (60) days before the end of the current Subscription Term."
+            }
+          ]
+        },
+        {
+          "heading": "Termination Rights",
+          "kind": "clause",
+          "number": "13.2",
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(iii)#E1",
+              "text": "Either party may terminate this Agreement by written notice if the other party materially breaches it and does not cure the breach within thirty (30) days after receiving that notice."
+            },
+            {
+              "tag": null,
+              "text": "Customer may terminate an Order Form by notice if Kindred misses the monthly availability commitment in Exhibit A in three or more months within any rolling six-month period."
+            }
+          ]
+        },
+        {
+          "heading": "Effect of Termination",
+          "kind": "clause",
+          "number": "13.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Upon termination or expiration, Customer will pay any Fees accrued through the effective date, and Kindred will refund any Fees prepaid for the period after the effective date if Customer terminates under Section 13.2."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(J)#ctx",
+              "text": "For thirty (30) days after termination or expiration, Customer may export Customer Data through the administrator console."
+            }
+          ]
+        },
+        {
+          "heading": "Survival",
+          "kind": "clause",
+          "number": "13.4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Sections 3, 8, 10, 11, and 14, Exhibit B, and any other provision that by its nature should survive, will survive termination or expiration of this Agreement."
+            }
+          ]
+        },
+        {
+          "heading": "Governing Law and Disputes",
+          "kind": "article",
+          "number": "14",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Agreement is governed by the laws of the State of Delaware, without regard to its conflict-of-laws rules."
+            },
+            {
+              "tag": null,
+              "text": "The parties will try in good faith to resolve any dispute through discussions between senior executives for thirty (30) days before either party starts litigation."
+            },
+            {
+              "tag": null,
+              "text": "Each party consents to the exclusive jurisdiction of the state and federal courts in New Castle County, Delaware, except that either party may seek injunctive relief in any court of competent jurisdiction to protect its intellectual property or Confidential Information."
+            }
+          ]
+        },
+        {
+          "heading": "Notices",
+          "kind": "article",
+          "number": "15",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred will send notices to the email address of Customer's account administrator and, for legal notices, also by courier to the address in the Order Form."
+            },
+            {
+              "tag": null,
+              "text": "Customer will send notices to Kindred's General Counsel by courier at 500 Howard Street, 4th Floor, San Francisco, California 94105, with a copy through the legal notice form in the administrator console."
+            },
+            {
+              "tag": null,
+              "text": "Notices are effective when received, except that email notices sent outside business hours are effective on the next business day."
+            }
+          ]
+        },
+        {
+          "heading": "General",
+          "kind": "article",
+          "number": "16",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "The terms in this Section 16 apply to the Agreement as a whole."
+            }
+          ]
+        },
+        {
+          "heading": "Order of Precedence",
+          "kind": "clause",
+          "number": "16.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "If the documents that make up this Agreement conflict, Exhibit B controls with respect to PHI, then the Order Form, then these Terms, then Exhibit A."
+            }
+          ]
+        },
+        {
+          "heading": "Changes",
+          "kind": "clause",
+          "number": "16.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred may not change these Terms during a Subscription Term without Customer's written consent, except that Kindred may update Exhibit B to the extent changes in the HIPAA Rules require."
+            }
+          ]
+        },
+        {
+          "heading": "Assignment",
+          "kind": "clause",
+          "number": "16.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Neither party may assign this Agreement without the other party's consent, except to a successor in a merger or sale of substantially all of its assets that agrees in writing to be bound by this Agreement."
+            }
+          ]
+        },
+        {
+          "heading": "Force Majeure",
+          "kind": "clause",
+          "number": "16.4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Neither party is liable for delays caused by events beyond its reasonable control, but such an event does not excuse Kindred from its obligations to protect Customer Data under this Agreement."
+            }
+          ]
+        },
+        {
+          "heading": "Relationship",
+          "kind": "clause",
+          "number": "16.5",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "The parties are independent contractors, and Kindred is not Customer's agent for any purpose."
+            }
+          ]
+        },
+        {
+          "heading": "Publicity",
+          "kind": "clause",
+          "number": "16.6",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred may not name Customer as a customer in marketing materials without Customer's prior written consent."
+            }
+          ]
+        },
+        {
+          "heading": "Entire Agreement",
+          "kind": "clause",
+          "number": "16.7",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Agreement is the parties' entire agreement on its subject and supersedes any prior proposals or agreements about it."
+            }
+          ]
+        },
+        {
+          "heading": "Exhibit A: Service Level Agreement",
+          "kind": "article",
+          "number": "A",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "\"Availability\" means the percentage of minutes in a calendar month during which Authorized Users can log in and start Sessions, excluding scheduled maintenance announced at least seventy-two (72) hours in advance and outages caused by the networks of Customer or Patients."
+            },
+            {
+              "tag": null,
+              "text": "If Availability falls below 99.9% in a month, Customer will receive a credit of 5% of that month's Fees for each full 0.5% shortfall, up to 30% of that month's Fees."
+            },
+            {
+              "tag": null,
+              "text": "Customer must request a credit within thirty (30) days after the end of the month in question."
+            },
+            {
+              "tag": null,
+              "text": "Kindred will respond to Priority 1 support tickets, meaning issues that prevent Sessions from starting for more than one Authorized User, within thirty (30) minutes, around the clock."
+            }
+          ]
+        },
+        {
+          "heading": "Exhibit B: Data Processing and Business Associate Addendum",
+          "kind": "article",
+          "number": "B",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Data Processing and Business Associate Addendum (the \"Addendum\") forms part of the Agreement between Kindred and Customer and applies whenever Kindred creates, receives, maintains, or transmits PHI on Customer's behalf."
+            }
+          ]
+        },
+        {
+          "heading": "Definitions",
+          "kind": "article",
+          "number": "B.1",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Capitalized terms used in this Addendum have the meanings given in Section 1 of the Terms or, if not defined there, in the HIPAA Rules."
+            },
+            {
+              "tag": null,
+              "text": "In this Addendum, \"Unsecured PHI\" means PHI that is unsecured protected health information as defined in 45 CFR 164.402."
+            },
+            {
+              "tag": "164.410(b)#ctx",
+              "text": "A Breach is treated as discovered (\"Discovery\") on the first day it is known to Kindred, or by exercising reasonable diligence would have been known to Kindred."
+            }
+          ]
+        },
+        {
+          "heading": "Permitted Uses and Disclosures",
+          "kind": "article",
+          "number": "B.2",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "As between the parties, Customer owns all PHI that Kindred handles under the Agreement."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(A)#E1",
+              "text": "Kindred will not use or further disclose PHI except as expressly permitted by this Addendum or the Terms, as the Agreement requires, or as Required by Law."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#E2",
+              "text": "Kindred may not use or disclose PHI in any way that would violate the Privacy Rule if done by Customer, except for the management and administration uses and disclosures described in this Section B.2."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred may use or disclose PHI as Required by Law."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred may use PHI where needed for the proper administration and management of Kindred's business or to meet Kindred's legal duties."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred may disclose PHI for the proper administration and management of Kindred's business or to meet Kindred's legal duties if the law requires the disclosure, or if the recipient first gives Kindred reasonable assurances that it will keep the PHI confidential, will use or pass it on solely as the law requires or for the reason Kindred shared it, and will tell Kindred if the confidentiality of the PHI is ever compromised."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(i)#ctx",
+              "text": "Kindred will limit its uses and disclosures of, and requests for, PHI to the minimum necessary to accomplish the intended purpose."
+            }
+          ]
+        },
+        {
+          "heading": "Reporting",
+          "kind": "article",
+          "number": "B.3",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred will direct all communications under this Addendum to the privacy officer named in the Order Form or, if none is named, to Customer's account administrator."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(C)#E1",
+              "text": "Kindred will report to Customer each use or disclosure of PHI not permitted by the Agreement once Kindred becomes aware of it."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(C)#E2",
+              "text": "Kindred will report to Customer any Breach of Unsecured PHI, as required by 45 CFR 164.410."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.314(a)(2)(i)(C)#E1",
+              "text": "Kindred will report to Customer any Security Incident of which Kindred becomes aware."
+            },
+            {
+              "tag": "164.314(a)(2)(i)(C)#ctx",
+              "text": "Pings, port scans, denied log-on attempts, and similar unsuccessful attempts to penetrate the Platform need no individual notice, and this Addendum serves as Customer's notice that such attempts occur routinely."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.410(b)#E1",
+              "text": "Kindred will notify Customer of any Breach without unreasonable delay following Discovery."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.410(b)#E2",
+              "text": "Kindred's notice of a Breach will be delivered no later than ten (10) calendar days after Discovery."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.410(c)#E1",
+              "text": "Kindred's notice of a Breach will identify each individual whose PHI has been, or is reasonably believed by Kindred to have been, accessed, acquired, used, or disclosed during the Breach, to the extent Kindred can determine them."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.410(c)#E2",
+              "text": "Kindred will provide Customer with any other available information about a Breach that Customer is required to include in its notification to affected individuals under 45 CFR 164.404(c), as that information becomes available."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.410(c)#ctx",
+              "text": "Kindred will cooperate with Customer's investigation and risk assessment of a Breach, and Customer will decide whether and how to notify Patients, regulators, and the media."
+            }
+          ]
+        },
+        {
+          "heading": "Subcontractors",
+          "kind": "article",
+          "number": "B.4",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Kindred remains responsible to Customer for its Subcontractors' acts and omissions as if they were Kindred's own."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(D)#E1",
+              "text": "Kindred will ensure that each Subcontractor that creates, receives, maintains, or transmits PHI on Kindred's behalf agrees to be bound by the same restrictions and conditions on PHI that this Addendum places on Kindred."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(D)#E2",
+              "text": "Kindred will enter into a written business associate agreement that complies with 45 CFR 164.314(a)(2) with each Subcontractor before the Subcontractor receives any PHI."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(D)#ctx",
+              "text": "Kindred will give Customer at least thirty (30) days' notice before adding a Subcontractor that will store PHI, and Kindred's current list of Subcontractors is posted in the Kindred Trust Center."
+            }
+          ]
+        },
+        {
+          "heading": "Individual Rights",
+          "kind": "article",
+          "number": "B.5",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Customer is responsible for deciding whether to grant or deny any request an individual makes under the Privacy Rule."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(E)#E1",
+              "text": "Kindred will make PHI maintained in a Designated Record Set available to Customer so that Customer can respond to an individual's request for access."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(E)#E2",
+              "text": "Kindred will respond to each request from Customer for access to PHI within ten (10) business days, in the electronic format Customer reasonably specifies, so that Customer can meet its obligations under 45 CFR 164.524."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(E)#ctx",
+              "text": "If a Patient asks Kindred directly to see or obtain a copy of PHI, Kindred will forward the request to Customer no later than five (5) business days after receiving it and will not answer the Patient on Customer's behalf."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(F)#E1",
+              "text": "Kindred will make PHI maintained in a Designated Record Set available to Customer for amendment."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(F)#ctx",
+              "text": "If a Patient asks Kindred directly to correct PHI, Kindred will forward the request to Customer no later than five (5) business days after receiving it."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(F)#E2",
+              "text": "Kindred will incorporate any amendment to PHI that Customer directs or agrees to under 45 CFR 164.526 within ten (10) business days after Customer's direction."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(G)#E1",
+              "text": "Kindred will document its disclosures of PHI and give Customer the details Customer needs to prepare an accounting of disclosures for an individual."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(G)#E2",
+              "text": "Kindred will deliver the information needed for an accounting of disclosures within ten (10) business days after Customer's request, so that Customer can meet its obligations under 45 CFR 164.528."
+            }
+          ]
+        },
+        {
+          "heading": "Regulatory Matters",
+          "kind": "article",
+          "number": "B.6",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Nothing in this Addendum waives the attorney-client privilege or any other legal privilege of either party."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(H)#E1",
+              "text": "To the extent Kindred carries out any of Customer's obligations under the Privacy Rule, Kindred will comply with the requirements of the Privacy Rule that apply to Customer in the performance of that obligation."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(I)#E1",
+              "text": "Kindred will make its internal practices, books, and records concerning its handling of PHI available to the Secretary, so that the Secretary can determine whether the HIPAA Rules are being followed."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(I)#ctx",
+              "text": "Unless the law prohibits it, Kindred will tell Customer about any request it receives from the Secretary and give Customer a copy of anything Kindred produces in response."
+            }
+          ]
+        },
+        {
+          "heading": "Term and Termination of this Addendum",
+          "kind": "article",
+          "number": "B.7",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "This Addendum remains in effect for as long as the Agreement is in effect."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(J)#E1",
+              "text": "Upon termination or expiration of the Agreement, Kindred will return to Customer or destroy, at Customer's election, all PHI that Kindred still maintains in any form."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(J)#E2",
+              "text": "If returning or destroying any PHI is infeasible, Kindred will extend the protections of this Addendum to that PHI and limit further uses and disclosures of it to the purposes that make its return or destruction infeasible, for as long as Kindred retains it."
+            }
+          ]
+        },
+        {
+          "heading": null,
+          "kind": "clause",
+          "number": null,
+          "sentences": [
+            {
+              "tag": "164.504(e)(2)(ii)(J)#ctx",
+              "text": "PHI in Kindred's encrypted backups is overwritten within ninety (90) days after it is deleted from production systems."
+            },
+            {
+              "tag": "164.504(e)(2)(ii)(J)#ctx",
+              "text": "At Customer's request, Kindred will provide a certificate of destruction signed by one of its officers."
+            }
+          ]
+        },
+        {
+          "heading": "Miscellaneous",
+          "kind": "article",
+          "number": "B.8",
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Each citation in this Addendum to the HIPAA Rules refers to the provision as currently in effect or as later amended."
+            },
+            {
+              "tag": null,
+              "text": "Customer and Kindred will work together in good faith to amend this Addendum as needed to keep it consistent with the HIPAA Rules."
+            },
+            {
+              "tag": null,
+              "text": "If any term of this Addendum is unclear, the parties will read it in the way that best supports compliance with the HIPAA Rules."
+            },
+            {
+              "tag": null,
+              "text": "If Kindred receives records protected by 42 CFR Part 2, Kindred acknowledges that it is fully bound by Part 2 for those records and will resist in judicial proceedings any effort to obtain them except as Part 2 permits."
+            }
+          ]
+        },
+        {
+          "heading": "Order Form Acceptance",
+          "kind": "para",
+          "number": null,
+          "sentences": [
+            {
+              "tag": null,
+              "text": "Order Form KC-2026-0418 covers twenty-four clinician seats on the Kindred Connect Practice plan at $69 per seat per month, billed annually, for an initial Subscription Term of thirty-six months beginning March 1, 2026."
+            },
+            {
+              "tag": null,
+              "text": "Accepted for Lantern Behavioral Health, P.C., by Renata Alvarez, PsyD, Executive Director, on February 12, 2026."
+            },
+            {
+              "tag": null,
+              "text": "Accepted for Kindred Connect, Inc., by Priya Raman, Chief Revenue Officer, on February 12, 2026."
+            }
+          ]
+        }
+      ],
+      "title": "Kindred Connect Terms of Service for Healthcare Organizations",
+      "weakened": {
+        "164.314(a)(2)(i)(C)#E1": "Kindred will report to Customer any successful intrusion into the Platform that results in a confirmed Breach.",
+        "164.410(b)#E1": "Kindred will notify Customer of a Breach once Kindred has completed its investigation and determined the scope of the Breach.",
+        "164.410(b)#E2": "Kindred's notice of a Breach will be delivered no later than ninety (90) days after Discovery.",
+        "164.410(c)#E1": "Kindred's notice of a Breach will describe the nature of the Breach and the categories of PHI involved.",
+        "164.410(c)#E2": "Kindred will provide Customer with a summary of its findings about a Breach once its investigation is complete.",
+        "164.504(e)(2)(i)#E1": "Kindred may use and disclose Customer Data to provide, maintain, and improve the Services and for Kindred's other legitimate business purposes.",
+        "164.504(e)(2)(i)#E2": "Kindred will handle PHI in accordance with its Privacy Policy, as updated from time to time.",
+        "164.504(e)(2)(ii)(A)#E1": "Kindred will use reasonable efforts not to use or disclose PHI beyond what the Agreement contemplates.",
+        "164.504(e)(2)(ii)(B)#E1": "Kindred will maintain commercially reasonable security measures designed to protect Customer Data.",
+        "164.504(e)(2)(ii)(B)#E2": "Kindred will maintain an information security program aligned with the SOC 2 Trust Services Criteria.",
+        "164.504(e)(2)(ii)(C)#E1": "Kindred will report to Customer any use or disclosure of PHI that Kindred determines, in its reasonable judgment, is likely to cause material harm to Patients.",
+        "164.504(e)(2)(ii)(C)#E2": "Kindred will report to Customer any Breach that Kindred confirms after completing its internal investigation.",
+        "164.504(e)(2)(ii)(D)#E1": "Kindred will require its Subcontractors that store PHI to agree to confidentiality and security terms substantially similar to those in this Addendum.",
+        "164.504(e)(2)(ii)(D)#E2": "Kindred will obtain each Subcontractor's commitment through its standard vendor onboarding process, which may include accepting the Subcontractor's online terms.",
+        "164.504(e)(2)(ii)(E)#E1": "Customer may use the export tools described in Section 3.5 to retrieve PHI for an individual who requests it.",
+        "164.504(e)(2)(ii)(E)#E2": "Kindred will respond to Customer's requests for Patient records on a commercially reasonable timeline.",
+        "164.504(e)(2)(ii)(F)#E1": "Authorized Users may annotate Patient records in the Platform, but Kindred will not modify stored Session records or message histories.",
+        "164.504(e)(2)(ii)(F)#E2": "Kindred will consider any amendment Customer requests and may decline changes that are inconsistent with the Platform's data model.",
+        "164.504(e)(2)(ii)(G)#E1": "Kindred will maintain system activity logs for the Platform and share them with Customer upon request.",
+        "164.504(e)(2)(ii)(G)#E2": "Kindred will provide information for an accounting of disclosures on a commercially reasonable timeline after Customer asks.",
+        "164.504(e)(2)(ii)(H)#E1": "If Kindred performs any patient-facing function for Customer, Kindred will follow Customer's reasonable instructions for that function.",
+        "164.504(e)(2)(ii)(I)#E1": "Kindred will share its internal policies and compliance records about PHI with Customer, upon reasonable advance notice, once per year.",
+        "164.504(e)(2)(ii)(J)#E1": "Upon termination or expiration of the Agreement, Kindred will delete PHI from its active production systems in accordance with its standard data lifecycle procedures.",
+        "164.504(e)(2)(ii)(J)#E2": "Kindred may retain archival copies of PHI in its backup systems in accordance with its standard retention schedule.",
+        "164.504(e)(2)(iii)#E1": "Kindred may terminate this Agreement by written notice if Customer fails to pay undisputed Fees when due and does not cure the failure within thirty (30) days after receiving that notice."
+      }
+    }
+  },
+  "profile": "Lantern Behavioral Health, a fictional outpatient mental health and counseling group (covered entity), and Kindred Connect, Inc., a fictional telehealth video and messaging platform (business associate). Plain-language, patient-centered drafting; Kindred's paper is click-through-style terms of service with a data processing and BAA addendum.",
+  "prompt_version": "baa-seed-v1"
+}

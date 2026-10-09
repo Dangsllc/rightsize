@@ -1,0 +1,2238 @@
+{
+  "base": "stmarks",
+  "profile": "St. Mark's Community Hospital, a fictional 180-bed hospital (covered entity), and ClearScribe Transcription Inc., a fictional medical transcription and speech-recognition service with a distributed workforce of contract transcriptionists (business associate). Hospital legal department voice; ClearScribe's paper is a short services agreement with a long data-handling addendum.",
+  "derivation": "paraphrased",
+  "generator_llm": "claude-code-agent:claude-opus-5-5",
+  "prompt_version": "baa-seed-v1",
+  "elements_version": 1,
+  "parties": {
+    "covered_entity": "Saint Mark's Community Hospital",
+    "business_associate": "ClearScribe Transcription Inc.",
+    "relationship": "Saint Mark's Community Hospital, a 180-bed acute care hospital, engages ClearScribe to transcribe physician dictation and edit speech-recognition drafts through a distributed workforce of employee and independent contractor transcriptionists; ClearScribe creates, receives, maintains, and transmits PHI on the hospital's behalf."
+  },
+  "presentations": {
+    "template": {
+      "title": "Business Associate Agreement",
+      "blocks": [
+        {
+          "kind": "para",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "This Business Associate Agreement (this \"Agreement\") is entered into as of April 1, 2026 (the \"Effective Date\") by and between Saint Mark's Community Hospital, an Ohio nonprofit corporation (\"Hospital\"), and ClearScribe Transcription Inc., a Delaware corporation (\"Business Associate\").",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "Recitals.",
+          "sentences": [
+            {
+              "text": "Hospital operates a 180-bed acute care hospital in Lima, Ohio, and is a covered entity under the HIPAA Rules.",
+              "tag": null
+            },
+            {
+              "text": "Hospital and Business Associate are parties to a Transcription Services Agreement dated April 1, 2026 (the \"Services Agreement\"), under which Business Associate transcribes physician and allied health dictation and edits speech-recognition drafts for Hospital's medical staff.",
+              "tag": null
+            },
+            {
+              "text": "Business Associate does that work through a distributed workforce of employee and independent contractor transcriptionists who receive dictation remotely, and in doing so it creates, receives, maintains, and transmits protected health information on Hospital's behalf.",
+              "tag": null
+            },
+            {
+              "text": "This Agreement is intended to satisfy the business associate contract requirements of 45 CFR 164.314(a) and 164.504(e).",
+              "tag": null
+            },
+            {
+              "text": "In consideration of the mutual promises below and the continued performance of the Services Agreement, the parties agree as follows.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Definitions",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "General",
+          "sentences": [
+            {
+              "text": "Capitalized terms used in this Agreement but not defined in it, including Breach, Designated Record Set, Disclosure, Electronic Protected Health Information, Health Care Operations, Individual, Minimum Necessary, Notice of Privacy Practices, Required by Law, Secretary, Security Incident, Subcontractor, Unsecured Protected Health Information, and Use, have the meanings given to those terms in the HIPAA Rules.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Business Associate",
+          "sentences": [
+            {
+              "text": "\"Business Associate\" has the general meaning given to the term \"business associate\" at 45 CFR 160.103 and, when used for the party to this Agreement, refers to ClearScribe Transcription Inc.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "HIPAA Rules",
+          "sentences": [
+            {
+              "text": "\"HIPAA Rules\" means the Privacy, Security, Breach Notification, and Enforcement Rules at 45 CFR Parts 160 and 164, as amended by the Health Information Technology for Economic and Clinical Health Act.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Hospital",
+          "sentences": [
+            {
+              "text": "\"Hospital\" has the general meaning given to the term \"covered entity\" at 45 CFR 160.103 and, when used for the party to this Agreement, refers to Saint Mark's Community Hospital, together with its hospital-based outpatient departments and employed physician practices.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "PHI",
+          "sentences": [
+            {
+              "text": "\"PHI\" means Protected Health Information, as defined at 45 CFR 160.103, that Business Associate creates, receives, maintains, or transmits on behalf of Hospital, and includes Electronic Protected Health Information.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Privacy Rule",
+          "sentences": [
+            {
+              "text": "\"Privacy Rule\" means the Standards for Privacy of Individually Identifiable Health Information at 45 CFR Part 160 and Subparts A and E of Part 164.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Obligations of Business Associate",
+          "sentences": [
+            {
+              "text": "Business Associate shall meet each of the following obligations throughout the term of this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Limits on Use and Disclosure",
+          "sentences": [
+            {
+              "text": "Business Associate shall not use or further disclose any PHI except as expressly permitted or required by this Agreement or as Required by Law.",
+              "tag": "164.504(e)(2)(ii)(A)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Safeguards",
+          "sentences": [
+            {
+              "text": "Business Associate shall implement and maintain appropriate administrative, physical, and technical safeguards to prevent any use or disclosure of PHI that this Agreement does not provide for.",
+              "tag": "164.504(e)(2)(ii)(B)#E1"
+            },
+            {
+              "text": "Business Associate shall encrypt Electronic Protected Health Information at rest and in transit in a manner consistent with the guidance issued under the HITECH Act for rendering health information unusable, unreadable, or indecipherable to unauthorized persons.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            },
+            {
+              "text": "Business Associate shall require multi-factor authentication for every transcriptionist who works with PHI remotely, shall prevent dictation audio and transcripts from being saved to local drives or personal devices, and shall train each transcriptionist on HIPAA privacy and security before first assignment.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Electronic PHI",
+          "sentences": [
+            {
+              "text": "With respect to Electronic Protected Health Information, Business Associate shall comply with the applicable requirements of Subpart C of 45 CFR Part 164.",
+              "tag": "164.504(e)(2)(ii)(B)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Location of Work",
+          "sentences": [
+            {
+              "text": "Business Associate shall not store PHI outside the United States or permit any transcriptionist or Subcontractor to view PHI from a location outside the United States.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Improper Use or Disclosure",
+          "sentences": [
+            {
+              "text": "Business Associate shall report to Hospital in writing each use or disclosure of PHI not provided for by this Agreement of which Business Associate becomes aware.",
+              "tag": "164.504(e)(2)(ii)(C)#E1"
+            },
+            {
+              "text": "Business Associate shall mitigate, to the extent practicable, any harmful effect known to it of a use or disclosure of PHI by Business Associate or its Subcontractors in violation of this Agreement.",
+              "tag": "164.504(e)(2)(ii)(C)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Incident Reporting",
+          "sentences": [
+            {
+              "text": "Business Associate shall report to Hospital any Security Incident of which it becomes aware.",
+              "tag": "164.314(a)(2)(i)(C)#E1"
+            },
+            {
+              "text": "Hospital acknowledges that unsuccessful attempts to penetrate Business Associate's systems, such as pings, port scans, and denied log-in attempts, occur routinely, and that Business Associate need not report them individually so long as none results in unauthorized access to PHI.",
+              "tag": "164.314(a)(2)(i)(C)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Breaches",
+          "sentences": [
+            {
+              "text": "Business Associate shall report to Hospital each Breach of Unsecured Protected Health Information that Business Associate discovers, as 45 CFR 164.410 requires.",
+              "tag": "164.504(e)(2)(ii)(C)#E2"
+            },
+            {
+              "text": "Business Associate shall notify Hospital of each Breach without unreasonable delay after discovering it.",
+              "tag": "164.410(b)#E1"
+            },
+            {
+              "text": "In no event shall Business Associate give Hospital notice of a Breach later than five (5) business days after the Breach is discovered.",
+              "tag": "164.410(b)#E2"
+            },
+            {
+              "text": "For purposes of this Agreement, a Breach is treated as discovered on the first day it is known, or by exercising reasonable diligence would have been known, to any employee, officer, transcriptionist, or other agent of Business Associate.",
+              "tag": "164.410(b)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Content of Breach Notice",
+          "sentences": [
+            {
+              "text": "Business Associate's notice of a Breach shall identify, to the extent possible, each Individual whose Unsecured Protected Health Information has been, or is reasonably believed by Business Associate to have been, accessed, acquired, used, or disclosed during the Breach.",
+              "tag": "164.410(c)#E1"
+            },
+            {
+              "text": "Business Associate shall give Hospital any other available information that Hospital is required to include in its notification to Individuals under 45 CFR 164.404(c), at the time of its initial notice or as that information becomes available.",
+              "tag": "164.410(c)#E2"
+            },
+            {
+              "text": "Business Associate shall cooperate with Hospital's investigation of any Breach and shall not notify Individuals, the media, or any government agency of a Breach involving PHI unless Hospital directs it to do so.",
+              "tag": "164.410(c)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Subcontractors",
+          "sentences": [
+            {
+              "text": "In accordance with 45 CFR 164.502(e)(1)(ii) and 164.308(b)(2), Business Associate shall ensure that every Subcontractor, including every independent contractor transcriptionist, that creates, receives, maintains, or transmits PHI on behalf of Business Associate agrees to the same restrictions, conditions, and requirements that apply to Business Associate with respect to that PHI.",
+              "tag": "164.504(e)(2)(ii)(D)#E1"
+            },
+            {
+              "text": "Business Associate shall put each Subcontractor's commitments regarding PHI in a written business associate agreement signed before the Subcontractor first receives PHI.",
+              "tag": "164.504(e)(2)(ii)(D)#E2"
+            },
+            {
+              "text": "Business Associate shall give Hospital, on request, a current list of the Subcontractors that receive PHI.",
+              "tag": "164.504(e)(2)(ii)(D)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Access to PHI",
+          "sentences": [
+            {
+              "text": "Business Associate shall make PHI maintained in a Designated Record Set available to Hospital or, as Hospital directs, to the Individual or the Individual's designee, for inspection and copying.",
+              "tag": "164.504(e)(2)(ii)(E)#E1"
+            },
+            {
+              "text": "Business Associate shall deliver PHI responsive to an Individual's request for access within five (5) business days after Hospital asks for it, so that Hospital can meet its obligations under 45 CFR 164.524.",
+              "tag": "164.504(e)(2)(ii)(E)#E2"
+            },
+            {
+              "text": "If an Individual asks Business Associate directly to inspect, copy, or amend PHI, Business Associate shall forward the request to Hospital within five (5) business days and shall not act on it without Hospital's direction.",
+              "tag": "164.504(e)(2)(ii)(E)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Amendment of PHI",
+          "sentences": [
+            {
+              "text": "Business Associate shall make PHI maintained in a Designated Record Set available to Hospital for amendment.",
+              "tag": "164.504(e)(2)(ii)(F)#E1"
+            },
+            {
+              "text": "Business Associate shall incorporate into the Designated Record Set any amendment to PHI that Hospital directs or agrees to under 45 CFR 164.526.",
+              "tag": "164.504(e)(2)(ii)(F)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Disclosure Tracking",
+          "sentences": [
+            {
+              "text": "Business Associate shall document its disclosures of PHI and make available to Hospital the information required to provide an accounting of disclosures.",
+              "tag": "164.504(e)(2)(ii)(G)#E1"
+            },
+            {
+              "text": "Business Associate shall deliver to Hospital, within ten (10) days after Hospital's request, the information Hospital needs to respond to an Individual's request for an accounting of disclosures under 45 CFR 164.528.",
+              "tag": "164.504(e)(2)(ii)(G)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Hospital Functions",
+          "sentences": [
+            {
+              "text": "To the extent Business Associate carries out any of Hospital's obligations under the Privacy Rule, Business Associate shall comply with the requirements of the Privacy Rule that apply to Hospital in the performance of those obligations.",
+              "tag": "164.504(e)(2)(ii)(H)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Books and Records",
+          "sentences": [
+            {
+              "text": "Business Associate shall make its internal practices, books, and records relating to the use and disclosure of PHI available to the Secretary for purposes of determining Hospital's compliance with the HIPAA Rules.",
+              "tag": "164.504(e)(2)(ii)(I)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Permitted Uses and Disclosures by Business Associate",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Services",
+          "sentences": [
+            {
+              "text": "Business Associate may use and disclose PHI only as necessary to perform the transcription, speech-recognition editing, and related report delivery services described in the Services Agreement.",
+              "tag": "164.504(e)(2)(i)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Required by Law",
+          "sentences": [
+            {
+              "text": "Business Associate may use or disclose PHI as Required by Law.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Minimum Necessary",
+          "sentences": [
+            {
+              "text": "Business Associate shall limit its uses and disclosures of, and requests for, PHI to the minimum necessary to accomplish the intended purpose, consistent with Hospital's minimum necessary policies and procedures.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Privacy Rule Limits",
+          "sentences": [
+            {
+              "text": "Business Associate may not use or disclose PHI in any manner that would violate Subpart E of 45 CFR Part 164 if done by Hospital, except for the uses and disclosures for Business Associate's own management and administration that this Agreement expressly allows.",
+              "tag": "164.504(e)(2)(i)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Management and Administration",
+          "sentences": [
+            {
+              "text": "Business Associate may use PHI for its proper management and administration or to carry out its legal responsibilities.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "Business Associate may disclose PHI for its proper management and administration or to carry out its legal responsibilities if the disclosure is Required by Law or if Business Associate first obtains reasonable assurances from the recipient that the recipient will hold the PHI in confidence, will use or further disclose it for no purpose other than the purpose of the disclosure or as Required by Law, and will tell Business Associate of any instance of which it is aware in which the confidentiality of the PHI has been breached.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "De-identification",
+          "sentences": [
+            {
+              "text": "Business Associate shall not de-identify PHI, or use or disclose information de-identified from PHI, without Hospital's prior written consent.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Obligations of Hospital",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Notice of Privacy Practices",
+          "sentences": [
+            {
+              "text": "Hospital shall notify Business Associate of any limitation in Hospital's Notice of Privacy Practices under 45 CFR 164.520 to the extent the limitation may affect Business Associate's use or disclosure of PHI.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Changes in Permission",
+          "sentences": [
+            {
+              "text": "Hospital shall notify Business Associate of any change in, or revocation of, an Individual's permission to use or disclose PHI, to the extent the change may affect Business Associate's use or disclosure of PHI.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Restrictions",
+          "sentences": [
+            {
+              "text": "Hospital shall notify Business Associate of any restriction on the use or disclosure of PHI that Hospital has agreed to or must honor under 45 CFR 164.522, to the extent the restriction may affect Business Associate's use or disclosure of PHI.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Permissible Requests",
+          "sentences": [
+            {
+              "text": "Hospital shall not ask Business Associate to use or disclose PHI in any manner that the Privacy Rule would not allow Hospital to use or disclose it.",
+              "tag": null
+            },
+            {
+              "text": "Hospital shall send Business Associate only the PHI reasonably necessary for the dictation and transcription workflow.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Term and Termination",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Term",
+          "sentences": [
+            {
+              "text": "This Agreement takes effect on the Effective Date and remains in effect for as long as the Services Agreement remains in effect.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Termination by Hospital",
+          "sentences": [
+            {
+              "text": "Hospital may terminate this Agreement and the Services Agreement if Hospital determines that Business Associate has violated a material term of this Agreement and Business Associate has not cured the violation to Hospital's reasonable satisfaction within thirty (30) days after receiving notice of it from Hospital.",
+              "tag": "164.504(e)(2)(iii)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Return or Destruction of PHI",
+          "sentences": [
+            {
+              "text": "When this Agreement terminates or expires for any reason, Business Associate shall return to Hospital or, if Hospital agrees, destroy all PHI that Business Associate still maintains in any form.",
+              "tag": "164.504(e)(2)(ii)(J)#E1"
+            },
+            {
+              "text": "If returning or destroying any PHI is infeasible, Business Associate shall explain to Hospital why it is infeasible, extend the protections of this Agreement to that PHI, and limit further uses and disclosures of it to the purposes that make return or destruction infeasible for so long as Business Associate retains it.",
+              "tag": "164.504(e)(2)(ii)(J)#E2"
+            },
+            {
+              "text": "Business Associate shall retrieve, or confirm the destruction of, PHI held by its Subcontractors, including dictation audio and draft reports cached on transcriptionist workstations.",
+              "tag": "164.504(e)(2)(ii)(J)#ctx"
+            },
+            {
+              "text": "Within thirty (30) days after this Agreement ends, an officer of Business Associate shall certify to Hospital in writing the steps Business Associate has taken to dispose of PHI.",
+              "tag": "164.504(e)(2)(ii)(J)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Survival",
+          "sentences": [
+            {
+              "text": "The provisions of this Agreement that by their nature are meant to apply after termination, including the indemnification provisions, survive the termination or expiration of this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Miscellaneous",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Regulatory References",
+          "sentences": [
+            {
+              "text": "A reference in this Agreement to a section of the HIPAA Rules means that section as in effect or as amended at the relevant time.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Amendment",
+          "sentences": [
+            {
+              "text": "The parties shall work together in good faith to amend this Agreement as needed to keep it consistent with the HIPAA Rules and other applicable law, and no amendment is effective unless it is in writing and signed by both parties.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Interpretation",
+          "sentences": [
+            {
+              "text": "Any ambiguity in this Agreement shall be resolved in favor of a meaning that permits Hospital and Business Associate to comply with the HIPAA Rules.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Indemnification",
+          "sentences": [
+            {
+              "text": "Business Associate shall indemnify, defend, and hold harmless Hospital and its trustees, officers, employees, and medical staff from all claims, losses, civil monetary penalties, and expenses, including reasonable attorneys' fees, arising from any violation of this Agreement or the HIPAA Rules by Business Associate, its Subcontractors, or its transcriptionists.",
+              "tag": null
+            },
+            {
+              "text": "Business Associate shall reimburse Hospital for the reasonable costs Hospital incurs in investigating a Breach caused by Business Associate and in notifying affected Individuals, regulators, and the media, including the cost of credit monitoring offered to affected Individuals.",
+              "tag": "164.504(e)(2)(ii)(C)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Insurance",
+          "sentences": [
+            {
+              "text": "Business Associate shall maintain cyber liability and privacy liability insurance with limits of at least $5,000,000 per claim throughout the term of the Services Agreement and for two years afterward.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Relationship to Services Agreement",
+          "sentences": [
+            {
+              "text": "If this Agreement conflicts with the Services Agreement on any matter involving PHI, this Agreement controls, and no limitation of liability in the Services Agreement applies to Business Associate's obligations under this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Independent Contractor",
+          "sentences": [
+            {
+              "text": "Business Associate is an independent contractor, and nothing in this Agreement makes Business Associate an agent of Hospital.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "No Third-Party Beneficiaries",
+          "sentences": [
+            {
+              "text": "Nothing in this Agreement gives any right or remedy to any person other than Hospital, Business Associate, and their permitted successors and assigns.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Notices",
+          "sentences": [
+            {
+              "text": "Notices under this Agreement must be in writing and directed to Hospital's Privacy Officer at 4400 Hollister Road, Lima, Ohio 45801, and to Business Associate's General Counsel at 210 Commerce Street, Suite 400, Nashville, Tennessee 37201.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Governing Law",
+          "sentences": [
+            {
+              "text": "This Agreement is governed by the laws of the State of Ohio, except where federal law controls.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Counterparts",
+          "sentences": [
+            {
+              "text": "The parties may sign this Agreement in counterparts and by electronic signature, and each counterpart is an original.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "IN WITNESS WHEREOF, the parties have signed this Agreement as of the Effective Date.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "SAINT MARK'S COMMUNITY HOSPITAL",
+          "sentences": [
+            {
+              "text": "By: /s/ Daniel Okafor, President and Chief Executive Officer, March 18, 2026",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "CLEARSCRIBE TRANSCRIPTION INC.",
+          "sentences": [
+            {
+              "text": "By: /s/ Priya Raman, Chief Executive Officer, March 20, 2026",
+              "tag": null
+            }
+          ]
+        }
+      ],
+      "weakened": {
+        "164.504(e)(2)(i)#E1": "Business Associate may use and disclose PHI in connection with the Services Agreement and for its other lawful business purposes.",
+        "164.504(e)(2)(i)#E2": "Business Associate shall handle PHI in accordance with generally accepted practices in the medical transcription industry.",
+        "164.504(e)(2)(ii)(A)#E1": "Business Associate shall not sell PHI or use PHI for marketing purposes.",
+        "164.504(e)(2)(ii)(B)#E1": "Business Associate shall maintain commercially reasonable security measures for the systems it relies on to deliver transcription services.",
+        "164.504(e)(2)(ii)(B)#E2": "Business Associate shall protect Electronic Protected Health Information under a written information security program aligned with the NIST Cybersecurity Framework.",
+        "164.504(e)(2)(ii)(C)#E1": "Business Associate shall report to Hospital any use or disclosure of PHI that Business Associate determines is likely to result in significant harm to Hospital or its patients.",
+        "164.504(e)(2)(ii)(C)#E2": "Business Associate shall report to Hospital each Breach that Business Associate confirms, after completing its own risk assessment, has resulted in actual misuse of PHI.",
+        "164.314(a)(2)(i)(C)#E1": "Business Associate shall report to Hospital any successful intrusion into its information systems that results in the compromise of PHI.",
+        "164.410(b)#E1": "Business Associate shall notify Hospital of each Breach once Business Associate has completed its internal investigation of the Breach.",
+        "164.410(b)#E2": "In no event shall Business Associate give Hospital notice of a Breach later than ninety (90) calendar days after the Breach is discovered.",
+        "164.410(c)#E1": "Business Associate's notice of a Breach shall describe the nature of the Breach and the categories of PHI involved.",
+        "164.410(c)#E2": "Business Associate shall answer Hospital's reasonable questions about a Breach to the extent its investigation permits.",
+        "164.504(e)(2)(ii)(D)#E1": "Business Associate shall require its material Subcontractors to agree to restrictions on PHI substantially similar to those in this Agreement.",
+        "164.504(e)(2)(ii)(D)#E2": "Business Associate shall inform each Subcontractor of the restrictions that apply to PHI before the Subcontractor first receives PHI.",
+        "164.504(e)(2)(ii)(E)#E1": "Business Associate shall make transcribed reports available to Hospital upon request.",
+        "164.504(e)(2)(ii)(E)#E2": "Business Associate shall respond to requests for access that Hospital forwards to it within a commercially reasonable time.",
+        "164.504(e)(2)(ii)(F)#E1": "Business Associate shall correct transcription errors that Hospital brings to its attention.",
+        "164.504(e)(2)(ii)(F)#E2": "Business Associate shall attach to the affected report any statement of disagreement or amendment request that Hospital sends to it.",
+        "164.504(e)(2)(ii)(G)#E1": "Business Associate shall keep a log of the third parties to which it releases transcripts.",
+        "164.504(e)(2)(ii)(G)#E2": "Business Associate shall provide disclosure information for an accounting of disclosures when Hospital asks, in the format Business Associate's systems produce.",
+        "164.504(e)(2)(ii)(H)#E1": "To the extent Business Associate performs any function on Hospital's behalf, Business Associate shall follow Hospital's reasonable written instructions for that function.",
+        "164.504(e)(2)(ii)(I)#E1": "Business Associate shall make its internal practices, books, and records relating to PHI available to Hospital, on reasonable notice, for purposes of determining Business Associate's compliance with this Agreement.",
+        "164.504(e)(2)(ii)(J)#E1": "When this Agreement terminates or expires, Business Associate shall return to Hospital any PHI that Hospital specifically requests in writing within thirty (30) days.",
+        "164.504(e)(2)(ii)(J)#E2": "Business Associate may keep archival and backup copies of PHI after termination in accordance with its standard retention schedule.",
+        "164.504(e)(2)(iii)#E1": "Hospital may terminate this Agreement if a court or government agency finally determines that Business Associate has violated the HIPAA Rules."
+      }
+    },
+    "vendor_paper": {
+      "title": "ClearScribe Transcription Services Agreement",
+      "blocks": [
+        {
+          "kind": "para",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "This Transcription Services Agreement (the \"Agreement\") is made as of April 1, 2026 (the \"Effective Date\") between ClearScribe Transcription Inc., a Delaware corporation with offices at 210 Commerce Street, Suite 400, Nashville, Tennessee 37201 (\"ClearScribe\"), and Saint Mark's Community Hospital, an Ohio nonprofit corporation with offices at 4400 Hollister Road, Lima, Ohio 45801 (\"Customer\").",
+              "tag": null
+            },
+            {
+              "text": "ClearScribe provides medical transcription and speech-recognition editing services, and Customer wishes to obtain those services for its medical staff on the terms below.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "1",
+          "heading": "Definitions",
+          "sentences": [
+            {
+              "text": "In this Agreement, capitalized terms have the meanings given in this Section 1 or in the Section where they first appear in quotation marks.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.1",
+          "heading": "Addendum",
+          "sentences": [
+            {
+              "text": "\"Addendum\" means the Data Handling and Business Associate Addendum attached as Exhibit A.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.2",
+          "heading": "Breach",
+          "sentences": [
+            {
+              "text": "\"Breach\" has the meaning given in 45 CFR 164.402.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.3",
+          "heading": "ClearScribe Platform",
+          "sentences": [
+            {
+              "text": "\"ClearScribe Platform\" means ClearScribe's dictation intake service, speech-recognition engine, Workbench editing application, and HL7 delivery interface.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.4",
+          "heading": "Customer Data",
+          "sentences": [
+            {
+              "text": "\"Customer Data\" means all dictation audio, transcripts, documents, demographic data, and other data that Customer or its users submit to the ClearScribe Platform or that ClearScribe generates from them in delivering the Services.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.5",
+          "heading": "Customer PHI",
+          "sentences": [
+            {
+              "text": "\"Customer PHI\" means Customer Data that is protected health information, as defined in 45 CFR 160.103, that ClearScribe creates, receives, maintains, or transmits on behalf of Customer.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.6",
+          "heading": "De-identified Data",
+          "sentences": [
+            {
+              "text": "\"De-identified Data\" means data derived from Customer PHI that has been de-identified in accordance with 45 CFR 164.514(b) and is no longer protected health information.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.7",
+          "heading": "HIPAA Rules",
+          "sentences": [
+            {
+              "text": "\"HIPAA Rules\" means the Privacy, Security, Breach Notification, and Enforcement Rules at 45 CFR Parts 160 and 164.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.8",
+          "heading": "Line",
+          "sentences": [
+            {
+              "text": "\"Line\" means sixty-five (65) characters of finished transcript text, including spaces, formatting, and header fields.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.9",
+          "heading": "Order Form",
+          "sentences": [
+            {
+              "text": "\"Order Form\" means an ordering document signed by both parties that identifies the Services, the facilities and departments covered, and the applicable fees.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.10",
+          "heading": "Security Incident",
+          "sentences": [
+            {
+              "text": "\"Security Incident\" has the meaning given in 45 CFR 164.304 and includes any attempted or successful unauthorized access to Customer Data or interference with system operations of the ClearScribe Platform.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.11",
+          "heading": "Services",
+          "sentences": [
+            {
+              "text": "\"Services\" means the transcription, speech-recognition editing, and report delivery services described in an Order Form.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.12",
+          "heading": "Subcontractor",
+          "sentences": [
+            {
+              "text": "\"Subcontractor\" means any person, other than a ClearScribe employee, to whom ClearScribe delegates a function involving Customer PHI, including each independent contractor Transcriptionist and each hosting or speech-recognition provider.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.13",
+          "heading": "Transcriptionist",
+          "sentences": [
+            {
+              "text": "\"Transcriptionist\" means a medical language specialist, whether a ClearScribe employee or an independent contractor, who edits or transcribes dictation for ClearScribe.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.14",
+          "heading": "Turnaround Time",
+          "sentences": [
+            {
+              "text": "\"Turnaround Time\" means the time from ClearScribe's receipt of a complete dictation to delivery of the finished transcript to Customer's electronic health record.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "2",
+          "heading": "Services",
+          "sentences": [
+            {
+              "text": "ClearScribe will provide the Services described in each Order Form in accordance with this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.1",
+          "heading": "Order Forms",
+          "sentences": [
+            {
+              "text": "Each Order Form is governed by this Agreement and becomes part of it when signed by both parties.",
+              "tag": null
+            },
+            {
+              "text": "Customer may add facilities, departments, or work types by signing an additional Order Form.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.2",
+          "heading": "Personnel",
+          "sentences": [
+            {
+              "text": "ClearScribe will assign qualified Transcriptionists with experience in the medical specialties identified in the Order Form.",
+              "tag": null
+            },
+            {
+              "text": "ClearScribe is responsible for the acts and omissions of its Transcriptionists and Subcontractors in delivering the Services as if they were ClearScribe's own.",
+              "tag": "164.504(e)(2)(ii)(D)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.3",
+          "heading": "Customer Responsibilities",
+          "sentences": [
+            {
+              "text": "Customer will supply dictation through a supported dictation system, maintain the interface between its electronic health record and the ClearScribe Platform, and designate a project manager for the Services.",
+              "tag": null
+            },
+            {
+              "text": "ClearScribe is not responsible for delays or errors caused by poor audio quality, incomplete patient demographics, or interface downtime on Customer's side.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.4",
+          "heading": "Location of Services",
+          "sentences": [
+            {
+              "text": "ClearScribe will deliver the Services solely from within the United States.",
+              "tag": null
+            },
+            {
+              "text": "No Transcriptionist or Subcontractor may store, view, or work with Customer Data from a location outside the United States.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.5",
+          "heading": "Platform Changes",
+          "sentences": [
+            {
+              "text": "ClearScribe may update the ClearScribe Platform from time to time, provided that no update materially reduces the protection of Customer Data or the functionality Customer relies on.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "3",
+          "heading": "Service Levels",
+          "sentences": [
+            {
+              "text": "ClearScribe will meet the service levels in this Section 3 in each calendar month.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "3.1",
+          "heading": "Turnaround",
+          "sentences": [
+            {
+              "text": "ClearScribe will deliver STAT dictations within two (2) hours, history and physical examinations and operative reports within twelve (12) hours, and all other work types within twenty-four (24) hours of receipt.",
+              "tag": null
+            },
+            {
+              "text": "Turnaround Time is measured monthly, and ClearScribe meets the commitment if at least ninety-eight percent (98%) of dictations in each priority category are delivered on time.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "3.2",
+          "heading": "Accuracy",
+          "sentences": [
+            {
+              "text": "Finished transcripts will achieve an accuracy rate of at least ninety-eight percent (98%), measured by Customer's quality review of a random sample of at least fifty (50) reports per month using the AHDI quality assessment scoring method.",
+              "tag": null
+            },
+            {
+              "text": "Customer may return any transcript that does not meet the accuracy standard, and ClearScribe will correct it at no charge within four (4) hours.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "3.3",
+          "heading": "Service Credits",
+          "sentences": [
+            {
+              "text": "If ClearScribe misses the Turnaround Time or accuracy commitment in any month, Customer will receive a credit of five percent (5%) of that month's fees for each missed commitment, up to fifteen percent (15%) of that month's fees.",
+              "tag": null
+            },
+            {
+              "text": "If ClearScribe misses the same commitment in three (3) consecutive months, Customer may terminate the affected Order Form on written notice without paying any termination fee.",
+              "tag": null
+            },
+            {
+              "text": "Service credits and the termination right in this Section 3.3 are Customer's sole remedies for missed service levels.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "4",
+          "heading": "Fees and Payment",
+          "sentences": [
+            {
+              "text": "Customer will pay the fees stated in each Order Form.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "4.1",
+          "heading": "Rates",
+          "sentences": [
+            {
+              "text": "Transcription is billed per Line at the rates in the Order Form, and speech-recognition editing is billed per Line at the reduced editing rate stated there.",
+              "tag": null
+            },
+            {
+              "text": "Rates are fixed for the first contract year and may increase by no more than three percent (3%) on each anniversary of the Effective Date.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "4.2",
+          "heading": "Invoices",
+          "sentences": [
+            {
+              "text": "ClearScribe will invoice Customer monthly in arrears, and each invoice will include a line-count report by department and work type.",
+              "tag": null
+            },
+            {
+              "text": "Customer will pay undisputed amounts within forty-five (45) days after receipt of a correct invoice.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "4.3",
+          "heading": "Disputes",
+          "sentences": [
+            {
+              "text": "Customer may withhold any amount it disputes in good faith if it describes the dispute to ClearScribe in writing before the due date.",
+              "tag": null
+            },
+            {
+              "text": "The parties will work diligently to resolve any billing dispute within thirty (30) days.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "4.4",
+          "heading": "Taxes",
+          "sentences": [
+            {
+              "text": "Customer is exempt from sales tax as a nonprofit hospital and will furnish ClearScribe a copy of its exemption certificate.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "5",
+          "heading": "Customer Data",
+          "sentences": [
+            {
+              "text": "As between the parties, Customer owns all right, title, and interest in Customer Data.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "5.1",
+          "heading": "Use of Customer Data",
+          "sentences": [
+            {
+              "text": "ClearScribe acquires no rights in Customer Data other than those this Agreement expressly grants.",
+              "tag": null
+            },
+            {
+              "text": "Customer grants ClearScribe a non-exclusive, non-transferable license to host, copy, and process Customer Data solely as necessary to provide the Services.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "ClearScribe will use and disclose Customer PHI only as necessary to provide the Services or as the Addendum otherwise permits.",
+              "tag": "164.504(e)(2)(i)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "5.2",
+          "heading": "De-identified Data",
+          "sentences": [
+            {
+              "text": "ClearScribe may de-identify Customer PHI in accordance with 45 CFR 164.514(b) and may apply the resulting De-identified Data to train and improve its speech-recognition models.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "De-identified Data is not Customer Data, and ClearScribe owns De-identified Data and any speech-recognition models, language models, and other improvements developed from it.",
+              "tag": null
+            },
+            {
+              "text": "ClearScribe will not attempt to reverse the de-identification of De-identified Data or release De-identified Data in a form that could reasonably be linked to Customer.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "5.3",
+          "heading": "Data Handling",
+          "sentences": [
+            {
+              "text": "ClearScribe will handle Customer PHI in accordance with the Addendum, which forms part of this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "5.4",
+          "heading": "Order of Precedence",
+          "sentences": [
+            {
+              "text": "If the body of this Agreement conflicts with the Addendum, the Addendum controls with respect to Customer PHI, and in all other respects the body of this Agreement controls over the Addendum and any Order Form.",
+              "tag": null
+            },
+            {
+              "text": "No term in an Order Form, purchase order, or ClearScribe online policy modifies the Addendum unless it expressly refers to the Addendum and is signed by Customer.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "6",
+          "heading": "Confidentiality",
+          "sentences": [
+            {
+              "text": "Each party may receive the other party's non-public business, technical, and financial information (\"Confidential Information\") under this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "6.1",
+          "heading": "Protection",
+          "sentences": [
+            {
+              "text": "The receiving party will use Confidential Information only to exercise its rights and fulfill its obligations under this Agreement and will protect it with at least reasonable care.",
+              "tag": null
+            },
+            {
+              "text": "The receiving party may share Confidential Information with its employees, contractors, and advisors who need to know it and are bound by confidentiality duties at least as protective as this Section 6.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "6.2",
+          "heading": "Exclusions",
+          "sentences": [
+            {
+              "text": "Confidential Information does not include information that is or becomes public through no fault of the receiving party, that the receiving party already knew, or that it develops independently.",
+              "tag": null
+            },
+            {
+              "text": "A party may disclose Confidential Information to the extent the law requires, after giving the other party reasonable advance notice where lawful.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "6.3",
+          "heading": "Customer PHI",
+          "sentences": [
+            {
+              "text": "Customer PHI is governed by the Addendum rather than by this Section 6.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "7",
+          "heading": "Warranties",
+          "sentences": [
+            {
+              "text": "Each party represents that it has the corporate authority to enter into this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "7.1",
+          "heading": "Service Warranty",
+          "sentences": [
+            {
+              "text": "ClearScribe warrants that the Services will be delivered in a professional and workmanlike manner consistent with AHDI best practices for medical transcription.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "7.2",
+          "heading": "Remedy",
+          "sentences": [
+            {
+              "text": "If the Services do not conform to the warranty in Section 7.1, ClearScribe will redo the nonconforming work at no charge.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "7.3",
+          "heading": "Disclaimer",
+          "sentences": [
+            {
+              "text": "EXCEPT AS EXPRESSLY STATED IN THIS AGREEMENT, CLEARSCRIBE DISCLAIMS ALL OTHER WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.",
+              "tag": null
+            },
+            {
+              "text": "Customer remains responsible for physician review and authentication of each finished transcript before it becomes part of the medical record.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "8",
+          "heading": "Compliance",
+          "sentences": [
+            {
+              "text": "Each party will comply with all federal and state laws that apply to it in connection with this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "8.1",
+          "heading": "Exclusion Screening",
+          "sentences": [
+            {
+              "text": "ClearScribe represents that neither it nor any Transcriptionist assigned to Customer is excluded from participation in any federal health care program.",
+              "tag": null
+            },
+            {
+              "text": "ClearScribe will screen its Transcriptionists against the OIG List of Excluded Individuals and Entities monthly and will tell Customer within five (5) business days if any Transcriptionist assigned to Customer is excluded.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "8.2",
+          "heading": "Regulatory Inquiries",
+          "sentences": [
+            {
+              "text": "Each party will reasonably cooperate with the other in responding to inquiries from Medicare contractors and state survey agencies concerning the Services.",
+              "tag": null
+            },
+            {
+              "text": "ClearScribe will make its internal practices, books, and records relating to the use and disclosure of Customer PHI available to the Secretary of Health and Human Services for purposes of determining Customer's compliance with the HIPAA Rules.",
+              "tag": "164.504(e)(2)(ii)(I)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "8.3",
+          "heading": "Accreditation Support",
+          "sentences": [
+            {
+              "text": "ClearScribe will give reasonable support, at no additional charge, for Customer's Joint Commission surveys as they relate to the Services.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "9",
+          "heading": "Indemnification",
+          "sentences": [
+            {
+              "text": "Each party's indemnification obligations under this Section 9 are subject to the procedures in Section 9.3.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "9.1",
+          "heading": "By ClearScribe",
+          "sentences": [
+            {
+              "text": "ClearScribe will defend Customer and its trustees, officers, employees, and medical staff against any third-party claim, and will pay the resulting damages, penalties, and costs, to the extent the claim arises from ClearScribe's breach of the Addendum, the gross negligence or willful misconduct of ClearScribe or its Transcriptionists, or an allegation that the ClearScribe Platform infringes a third party's intellectual property rights.",
+              "tag": null
+            },
+            {
+              "text": "ClearScribe will reimburse Customer for the reasonable costs of investigating a Breach caused by ClearScribe or its Subcontractors and of notifying affected individuals and regulators, including twelve (12) months of credit monitoring for each affected individual.",
+              "tag": "164.504(e)(2)(ii)(C)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "9.2",
+          "heading": "By Customer",
+          "sentences": [
+            {
+              "text": "Customer will defend ClearScribe against any third-party claim, and will pay the resulting damages and costs, to the extent the claim arises from content Customer submits in violation of law or from Customer's breach of Section 2.3.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "9.3",
+          "heading": "Procedure",
+          "sentences": [
+            {
+              "text": "The indemnified party will give the indemnifying party prompt notice of any claim, give it sole control of the defense and settlement, and cooperate reasonably at the indemnifying party's expense.",
+              "tag": null
+            },
+            {
+              "text": "No settlement that imposes any obligation or admission on the indemnified party is effective without its consent.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "10",
+          "heading": "Limitation of Liability",
+          "sentences": [
+            {
+              "text": "The limits in this Section 10 apply to all claims arising out of this Agreement, whether in contract, tort, or otherwise.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "10.1",
+          "heading": "Exclusion of Damages",
+          "sentences": [
+            {
+              "text": "NEITHER PARTY WILL BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR FOR LOST PROFITS OR REVENUE, EVEN IF ADVISED OF THEIR POSSIBILITY.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "10.2",
+          "heading": "Cap",
+          "sentences": [
+            {
+              "text": "EACH PARTY'S TOTAL LIABILITY UNDER THIS AGREEMENT WILL NOT EXCEED THE FEES PAID AND PAYABLE TO CLEARSCRIBE IN THE TWELVE (12) MONTHS BEFORE THE EVENT GIVING RISE TO THE CLAIM.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "10.3",
+          "heading": "Exceptions",
+          "sentences": [
+            {
+              "text": "The exclusion in Section 10.1 and the cap in Section 10.2 do not apply to a party's indemnification obligations under Section 9, to Customer's payment obligations, or to a party's gross negligence or willful misconduct.",
+              "tag": null
+            },
+            {
+              "text": "For other claims arising from ClearScribe's breach of the Addendum, ClearScribe's total liability will not exceed the greater of $3,000,000 or three (3) times the fees paid in the twelve (12) months before the claim.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "11",
+          "heading": "Term and Termination",
+          "sentences": [
+            {
+              "text": "This Agreement begins on the Effective Date and continues for an initial term of three (3) years, after which it renews automatically for successive one-year renewal terms unless either party gives notice of non-renewal at least ninety (90) days before the current term ends.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "11.1",
+          "heading": "Termination for Convenience",
+          "sentences": [
+            {
+              "text": "After the first contract year, Customer may terminate this Agreement or any Order Form for convenience on one hundred twenty (120) days' written notice.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "11.2",
+          "heading": "Termination for Cause",
+          "sentences": [
+            {
+              "text": "Either party may terminate this Agreement if the other party materially breaches it, including by violating a material term of the Addendum, and does not cure the breach within thirty (30) days after receiving written notice describing it.",
+              "tag": "164.504(e)(2)(iii)#E1"
+            },
+            {
+              "text": "Either party may terminate this Agreement immediately on written notice if the other party becomes insolvent, makes a general assignment for the benefit of creditors, or becomes the subject of a bankruptcy petition that is not dismissed within sixty (60) days.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "11.3",
+          "heading": "Effect of Termination",
+          "sentences": [
+            {
+              "text": "On termination, Customer will pay for Services delivered through the effective date of termination, and ClearScribe will refund any prepaid fees for Services not yet delivered.",
+              "tag": null
+            },
+            {
+              "text": "Section A8 of the Addendum governs Customer PHI when this Agreement ends.",
+              "tag": "164.504(e)(2)(ii)(J)#ctx"
+            },
+            {
+              "text": "Sections 1, 4, 5, 6, 9, 10, 11.3, and 13 of this Agreement and Section A8 of the Addendum survive termination.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "11.4",
+          "heading": "Transition Assistance",
+          "sentences": [
+            {
+              "text": "At Customer's request, ClearScribe will continue to provide the Services for up to ninety (90) days after termination, at the rates then in effect, to allow Customer to move its work to another provider.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "12",
+          "heading": "Insurance",
+          "sentences": [
+            {
+              "text": "ClearScribe will maintain the insurance described in this Section 12 with carriers rated at least A- by AM Best during the term and for two (2) years afterward.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "12.1",
+          "heading": "Coverage",
+          "sentences": [
+            {
+              "text": "ClearScribe will carry commercial general liability insurance of $1,000,000 per occurrence and $2,000,000 aggregate, professional errors and omissions insurance of $5,000,000 per claim, and cyber and privacy liability insurance of $5,000,000 per claim.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "12.2",
+          "heading": "Certificates",
+          "sentences": [
+            {
+              "text": "ClearScribe will furnish certificates of insurance on request and will give Customer thirty (30) days' notice before any required coverage is cancelled.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "13",
+          "heading": "General",
+          "sentences": [
+            {
+              "text": "The following general terms apply to this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.1",
+          "heading": "Governing Law",
+          "sentences": [
+            {
+              "text": "This Agreement is governed by the laws of the State of Tennessee, without regard to its conflict-of-laws rules.",
+              "tag": null
+            },
+            {
+              "text": "Each party consents to the exclusive jurisdiction of the state and federal courts located in Davidson County, Tennessee.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.2",
+          "heading": "Notices",
+          "sentences": [
+            {
+              "text": "Notices must be in writing and delivered by hand, by nationally recognized overnight courier, or by email with confirmation of receipt, to the addresses in the preamble, with a copy of any notice to ClearScribe sent to legal@clearscribe.com.",
+              "tag": null
+            },
+            {
+              "text": "Operational communications under the Addendum may also be given by telephone and email to the contacts named in the Order Form.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.3",
+          "heading": "Assignment",
+          "sentences": [
+            {
+              "text": "Neither party may assign this Agreement without the other party's prior written consent, except to a successor to substantially all of its business or assets that assumes this Agreement in writing.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.4",
+          "heading": "Independent Contractors",
+          "sentences": [
+            {
+              "text": "The parties are independent contractors, and ClearScribe is not Customer's agent for any purpose, including under the HIPAA Rules.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.5",
+          "heading": "Force Majeure",
+          "sentences": [
+            {
+              "text": "Neither party is liable for a delay caused by events beyond its reasonable control, but a force majeure event does not excuse ClearScribe's obligations under its business continuity plan or the Addendum.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.6",
+          "heading": "Entire Agreement",
+          "sentences": [
+            {
+              "text": "This Agreement, including the Addendum and each Order Form, is the parties' entire agreement on its subject and supersedes all prior proposals and understandings.",
+              "tag": null
+            },
+            {
+              "text": "Any amendment to this Agreement must be in writing and signed by both parties.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.7",
+          "heading": "Counterparts",
+          "sentences": [
+            {
+              "text": "The parties may sign this Agreement electronically and in counterparts.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "The parties have signed this Agreement as of the Effective Date.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "CLEARSCRIBE TRANSCRIPTION INC.",
+          "sentences": [
+            {
+              "text": "By: /s/ Priya Raman, Chief Executive Officer",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "SAINT MARK'S COMMUNITY HOSPITAL",
+          "sentences": [
+            {
+              "text": "By: /s/ Daniel Okafor, President and Chief Executive Officer",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "Exhibit A",
+          "heading": "Data Handling and Business Associate Addendum",
+          "sentences": [
+            {
+              "text": "This Data Handling and Business Associate Addendum supplements the Agreement and applies whenever ClearScribe creates, receives, maintains, or transmits Customer PHI.",
+              "tag": null
+            },
+            {
+              "text": "The parties intend this Addendum to meet the business associate contract requirements of 45 CFR 164.314(a) and 164.504(e).",
+              "tag": null
+            },
+            {
+              "text": "Section 5.4 of the Agreement governs any conflict between this Addendum and the rest of the Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "A1",
+          "heading": "Definitions",
+          "sentences": [
+            {
+              "text": "Capitalized terms used in this Addendum have the meanings given in Section 1 of the Agreement or, if not defined there, in the HIPAA Rules.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "\"Designated Record Set\", \"Individual\", \"Required by Law\", and \"Secretary\" have the meanings given in 45 CFR 160.103 and 164.501, and \"Unsecured PHI\" means unsecured protected health information as defined in 45 CFR 164.402.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "\"Privacy Rule\" refers to 45 CFR Part 160 and Subparts A and E of Part 164, and \"Security Rule\" refers to 45 CFR Part 160 and Subparts A and C of Part 164.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "\"Electronic Customer PHI\" means Customer PHI that is electronic protected health information.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "A Breach is discovered on the first day it is known to ClearScribe, or by exercising reasonable diligence would have been known to any employee, officer, Transcriptionist, or other agent of ClearScribe.",
+              "tag": "164.410(b)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "A2",
+          "heading": "Customer PHI",
+          "sentences": [
+            {
+              "text": "ClearScribe receives Customer PHI in the form of dictation audio, draft and finished transcripts, and the patient demographic and encounter data that accompanies each dictation.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will not use or further disclose Customer PHI except as permitted or required by the Agreement or as Required by Law.",
+              "tag": "164.504(e)(2)(ii)(A)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will not use or disclose Customer PHI in any manner that would violate Subpart E of 45 CFR Part 164 if done by Customer, except for the management and administration uses and disclosures that this Section A2 allows.",
+              "tag": "164.504(e)(2)(i)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe may use or disclose Customer PHI as Required by Law.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will limit its uses and disclosures of, and requests for, Customer PHI to the minimum necessary for the intended purpose.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe may use Customer PHI for its proper management and administration and to carry out its legal responsibilities.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "ClearScribe may disclose Customer PHI for its proper management and administration if the disclosure is Required by Law or if ClearScribe obtains reasonable assurances from the recipient that it will keep the information confidential, use or further disclose it for no purpose other than the purpose of the disclosure or as Required by Law, and tell ClearScribe of any instance it knows of in which the confidentiality of the information has been breached.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "A3",
+          "heading": "ClearScribe Platform",
+          "sentences": [
+            {
+              "text": "The ClearScribe Platform consists of the dictation intake service, the speech-recognition engine, the Workbench editing application used by Transcriptionists, and the HL7 delivery interface.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will implement and maintain reasonable and appropriate administrative, physical, and technical safeguards designed to prevent any use or disclosure of Customer PHI other than as provided for by this Addendum.",
+              "tag": "164.504(e)(2)(ii)(B)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will comply with the Security Rule with respect to Electronic Customer PHI.",
+              "tag": "164.504(e)(2)(ii)(B)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will encrypt Customer Data in transit using TLS 1.2 or higher and at rest using AES-256 encryption, and will manage encryption keys in a dedicated key management service.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            },
+            {
+              "text": "Transcriptionists reach the ClearScribe Platform through ClearScribe's virtual desktop environment with multi-factor authentication, and the Workbench application blocks local download, printing, and screen capture of Customer Data.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will complete a criminal background check on each Transcriptionist before assignment and will require each Transcriptionist to complete HIPAA privacy and security training before first assignment and annually afterward.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will maintain a SOC 2 Type II report covering the ClearScribe Platform and will furnish the most recent report to Customer on request, together with its answers to Customer's reasonable security questionnaire once per contract year.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            },
+            {
+              "text": "ClearScribe will delete dictation audio from the ClearScribe Platform thirty (30) days after the finished transcript is delivered.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "A4",
+          "heading": "Privacy and Security Office",
+          "sentences": [
+            {
+              "text": "ClearScribe's Privacy and Security Office can be reached at 1-888-555-0147 and privacy@clearscribe.com, and Customer's contact for privacy matters is its Privacy Officer.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will report to Customer any use or disclosure of Customer PHI not provided for by this Addendum of which ClearScribe becomes aware.",
+              "tag": "164.504(e)(2)(ii)(C)#E1"
+            },
+            {
+              "text": "ClearScribe will mitigate, to the extent practicable, any harmful effect known to ClearScribe of a use or disclosure of Customer PHI in violation of this Addendum.",
+              "tag": "164.504(e)(2)(ii)(C)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will report to Customer any Security Incident, as defined in Section 1.10 of the Agreement, of which ClearScribe becomes aware.",
+              "tag": "164.314(a)(2)(i)(C)#E1"
+            },
+            {
+              "text": "Customer acknowledges that unsuccessful attempts to penetrate the ClearScribe Platform, such as pings, port scans, and blocked log-in attempts, occur routinely and agrees that ClearScribe need not report each such attempt individually so long as none results in unauthorized access to Customer Data.",
+              "tag": "164.314(a)(2)(i)(C)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will report to Customer any Breach of Unsecured PHI involving Customer PHI.",
+              "tag": "164.504(e)(2)(ii)(C)#E2"
+            },
+            {
+              "text": "ClearScribe will notify Customer of a Breach without unreasonable delay after discovery.",
+              "tag": "164.410(b)#E1"
+            },
+            {
+              "text": "ClearScribe will deliver its notice of a Breach no later than thirty (30) calendar days after discovery.",
+              "tag": "164.410(b)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Each notice of a Breach will identify, to the extent possible, each individual whose Unsecured PHI has been, or is reasonably believed by ClearScribe to have been, accessed, acquired, used, or disclosed in the Breach.",
+              "tag": "164.410(c)#E1"
+            },
+            {
+              "text": "ClearScribe will give Customer any other available information that Customer is required to include in its notification to affected individuals under 45 CFR 164.404(c), as soon as that information becomes available.",
+              "tag": "164.410(c)#E2"
+            },
+            {
+              "text": "ClearScribe will cooperate with Customer's investigation of a Breach and will not notify individuals, regulators, or the media of a Breach involving Customer PHI without Customer's prior written approval unless the law requires otherwise.",
+              "tag": "164.410(c)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "A5",
+          "heading": "Service Delivery Personnel and Providers",
+          "sentences": [
+            {
+              "text": "ClearScribe performs the Services through its employees, through independent contractor Transcriptionists, and with the support of the hosting and speech-recognition providers listed in the Order Form.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will ensure that each Subcontractor, including each Transcriptionist who is not a ClearScribe employee, that creates, receives, maintains, or transmits Customer PHI on ClearScribe's behalf agrees to the same restrictions, conditions, and requirements that apply to ClearScribe under this Addendum.",
+              "tag": "164.504(e)(2)(ii)(D)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will document each Subcontractor's commitments regarding Customer PHI in a written business associate agreement signed before the Subcontractor first receives Customer PHI.",
+              "tag": "164.504(e)(2)(ii)(D)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will keep a current list of its Subcontractors, other than individual Transcriptionists, in the ClearScribe Trust Center and will give Customer thirty (30) days' notice before adding a hosting or speech-recognition provider.",
+              "tag": "164.504(e)(2)(ii)(D)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "A6",
+          "heading": "Transcript Delivery and Records",
+          "sentences": [
+            {
+              "text": "Finished transcripts are delivered to Customer's electronic health record through the HL7 interface described in the Order Form.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will make Customer PHI in a Designated Record Set available to Customer or, at Customer's direction, to the Individual or the Individual's designee for inspection and copying.",
+              "tag": "164.504(e)(2)(ii)(E)#E1"
+            },
+            {
+              "text": "ClearScribe will deliver Customer PHI responsive to an Individual's request for access within ten (10) business days after Customer asks for it, so that Customer can meet its obligations under 45 CFR 164.524.",
+              "tag": "164.504(e)(2)(ii)(E)#E2"
+            },
+            {
+              "text": "If an Individual asks ClearScribe directly to inspect, copy, or amend Customer PHI, ClearScribe will forward the request to Customer within five (5) business days and will not respond to the Individual on Customer's behalf.",
+              "tag": "164.504(e)(2)(ii)(E)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will make Customer PHI in a Designated Record Set available to Customer for amendment.",
+              "tag": "164.504(e)(2)(ii)(F)#E1"
+            },
+            {
+              "text": "ClearScribe will incorporate any amendment to Customer PHI that Customer directs or agrees to under 45 CFR 164.526.",
+              "tag": "164.504(e)(2)(ii)(F)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will log its disclosures of Customer PHI and make available to Customer the information required to provide an accounting of disclosures.",
+              "tag": "164.504(e)(2)(ii)(G)#E1"
+            },
+            {
+              "text": "ClearScribe will deliver to Customer, within fifteen (15) business days after Customer's request, the information Customer needs to respond to an Individual's request for an accounting of disclosures under 45 CFR 164.528.",
+              "tag": "164.504(e)(2)(ii)(G)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "To the extent ClearScribe carries out any of Customer's obligations under Subpart E of 45 CFR Part 164, ClearScribe will comply with the requirements of Subpart E that apply to Customer in the performance of those obligations.",
+              "tag": "164.504(e)(2)(ii)(H)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "A7",
+          "heading": "Customer Obligations",
+          "sentences": [
+            {
+              "text": "Customer is responsible for the content of the dictation it submits and for the accuracy of the patient demographic data it sends to ClearScribe.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Customer will notify ClearScribe of any limitation in Customer's notice of privacy practices, any change in or revocation of an Individual's permission, and any restriction Customer has agreed to under 45 CFR 164.522, in each case to the extent it may affect ClearScribe's use or disclosure of Customer PHI.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Customer will not ask ClearScribe to use or disclose Customer PHI in any manner that the Privacy Rule would not allow Customer to use or disclose it.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "A8",
+          "heading": "Term and Close-Out",
+          "sentences": [
+            {
+              "text": "This Addendum takes effect on the Effective Date.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Upon expiration or termination of the Agreement, ClearScribe will, at Customer's election, return or destroy all Customer PHI that ClearScribe and its Subcontractors still maintain in any form, including dictation audio, draft transcripts, and backup copies.",
+              "tag": "164.504(e)(2)(ii)(J)#E1"
+            },
+            {
+              "text": "If return or destruction of any Customer PHI is infeasible, ClearScribe will extend the protections of this Addendum to that Customer PHI and limit further uses and disclosures of it to the purposes that make return or destruction infeasible, for as long as ClearScribe retains it.",
+              "tag": "164.504(e)(2)(ii)(J)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "ClearScribe will require each Transcriptionist to purge any locally cached Customer Data and will confirm that each Subcontractor has done the same.",
+              "tag": "164.504(e)(2)(ii)(J)#ctx"
+            },
+            {
+              "text": "Within thirty (30) days after the Agreement ends, an officer of ClearScribe will certify to Customer in writing the steps ClearScribe has taken to dispose of Customer PHI.",
+              "tag": "164.504(e)(2)(ii)(J)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "A9",
+          "heading": "Miscellaneous",
+          "sentences": [
+            {
+              "text": "A reference in this Addendum to a section of the HIPAA Rules means that section as in effect or as amended.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "The parties will amend this Addendum as necessary to keep it consistent with changes in the HIPAA Rules, and any ambiguity in this Addendum will be resolved in favor of a meaning that permits compliance with the HIPAA Rules.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Nothing in this Addendum confers rights or remedies on any person other than Customer and ClearScribe.",
+              "tag": null
+            }
+          ]
+        }
+      ],
+      "weakened": {
+        "164.504(e)(2)(i)#E1": "ClearScribe may use and disclose Customer PHI to provide, support, and improve the Services and ClearScribe's other products.",
+        "164.504(e)(2)(i)#E2": "ClearScribe will handle Customer PHI in accordance with its published privacy policy, as updated from time to time.",
+        "164.504(e)(2)(ii)(A)#E1": "ClearScribe will not sell Customer PHI or use it to market third-party products.",
+        "164.504(e)(2)(ii)(B)#E1": "ClearScribe will maintain industry-standard security measures for the ClearScribe Platform.",
+        "164.504(e)(2)(ii)(B)#E2": "ClearScribe will protect Electronic Customer PHI under its SOC 2 Type II control environment.",
+        "164.504(e)(2)(ii)(C)#E1": "ClearScribe will report to Customer any use or disclosure of Customer PHI that ClearScribe determines is a reportable event under its incident response policy.",
+        "164.504(e)(2)(ii)(C)#E2": "ClearScribe will report to Customer any Breach that ClearScribe's privacy office confirms, after completing its risk assessment, poses a significant risk of financial or reputational harm.",
+        "164.314(a)(2)(i)(C)#E1": "ClearScribe will report to Customer any successful intrusion into the ClearScribe Platform that compromises Customer PHI.",
+        "164.410(b)#E1": "ClearScribe will notify Customer of a Breach after ClearScribe has completed its investigation and root-cause analysis.",
+        "164.410(b)#E2": "ClearScribe will deliver its notice of a Breach within the time required by applicable state breach notification laws.",
+        "164.410(c)#E1": "Each notice of a Breach will describe what happened and the types of Customer PHI involved.",
+        "164.410(c)#E2": "ClearScribe will give Customer a summary of the Breach suitable for Customer's internal records.",
+        "164.504(e)(2)(ii)(D)#E1": "ClearScribe will require its material Subcontractors to agree to data protection terms substantially similar to those in this Addendum.",
+        "164.504(e)(2)(ii)(D)#E2": "ClearScribe will inform each Subcontractor of its confidentiality obligations during onboarding.",
+        "164.504(e)(2)(ii)(E)#E1": "ClearScribe will make copies of transcripts available to Customer on request.",
+        "164.504(e)(2)(ii)(E)#E2": "ClearScribe will respond to Customer's requests for access to transcripts within a commercially reasonable time.",
+        "164.504(e)(2)(ii)(F)#E1": "ClearScribe will correct transcription errors that Customer flags during its review period.",
+        "164.504(e)(2)(ii)(F)#E2": "ClearScribe will append each amendment request it receives from Customer to the affected transcript as an addendum note.",
+        "164.504(e)(2)(ii)(G)#E1": "ClearScribe will keep a log of third-party requests for transcripts.",
+        "164.504(e)(2)(ii)(G)#E2": "ClearScribe will provide the information needed for an accounting of disclosures on Customer's request, in ClearScribe's standard report format.",
+        "164.504(e)(2)(ii)(H)#E1": "To the extent ClearScribe carries out any function for Customer, ClearScribe will follow Customer's reasonable written instructions for that function.",
+        "164.504(e)(2)(ii)(I)#E1": "ClearScribe will make its internal practices, books, and records relating to Customer PHI available to Customer for review once per contract year on thirty (30) days' notice.",
+        "164.504(e)(2)(ii)(J)#E1": "Upon expiration or termination of the Agreement, ClearScribe will delete Customer PHI from its production systems in accordance with its data retention policy.",
+        "164.504(e)(2)(ii)(J)#E2": "ClearScribe may retain copies of Customer PHI in encrypted backup media until those media are overwritten in the ordinary course under ClearScribe's standard retention schedule.",
+        "164.504(e)(2)(iii)#E1": "Either party may terminate this Agreement if the other party fails to pay any undisputed amount when due and does not cure the failure within thirty (30) days after receiving written notice of it."
+      }
+    }
+  }
+}

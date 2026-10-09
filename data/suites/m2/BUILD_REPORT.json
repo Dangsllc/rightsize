@@ -1,0 +1,1456 @@
+{
+  "control_classification": {
+    "agreements": [
+      {
+        "agreement": "harbor-00b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "harbor-00",
+        "presentation": "template",
+        "split": "public",
+        "words": 1728
+      },
+      {
+        "agreement": "harbor-00a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "harbor-00",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4555
+      },
+      {
+        "agreement": "harbor-01b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "harbor-01",
+        "presentation": "template",
+        "split": "dev",
+        "words": 1603
+      },
+      {
+        "agreement": "harbor-01a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "harbor-01",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 4341
+      },
+      {
+        "agreement": "harbor-02b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "harbor-02",
+        "presentation": "template",
+        "split": "public",
+        "words": 1678
+      },
+      {
+        "agreement": "harbor-02a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "harbor-02",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4413
+      },
+      {
+        "agreement": "harbor-03a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "harbor-03",
+        "presentation": "template",
+        "split": "public",
+        "words": 1676
+      },
+      {
+        "agreement": "harbor-03b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "harbor-03",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4410
+      },
+      {
+        "agreement": "harbor-04b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "harbor-04",
+        "presentation": "template",
+        "split": "public",
+        "words": 1811
+      },
+      {
+        "agreement": "harbor-04a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "harbor-04",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4513
+      },
+      {
+        "agreement": "harbor-05a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "harbor-05",
+        "presentation": "template",
+        "split": "public",
+        "words": 1714
+      },
+      {
+        "agreement": "harbor-05b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "harbor-05",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4421
+      },
+      {
+        "agreement": "harbor-06b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "harbor-06",
+        "presentation": "template",
+        "split": "dev",
+        "words": 1769
+      },
+      {
+        "agreement": "harbor-06a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "harbor-06",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 4417
+      },
+      {
+        "agreement": "harbor-07b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "harbor-07",
+        "presentation": "template",
+        "split": "public",
+        "words": 1433
+      },
+      {
+        "agreement": "harbor-07a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "harbor-07",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4309
+      },
+      {
+        "agreement": "cascade-00b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "cascade-00",
+        "presentation": "template",
+        "split": "public",
+        "words": 2286
+      },
+      {
+        "agreement": "cascade-00a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "cascade-00",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3746
+      },
+      {
+        "agreement": "cascade-01a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "cascade-01",
+        "presentation": "template",
+        "split": "dev",
+        "words": 2246
+      },
+      {
+        "agreement": "cascade-01b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "cascade-01",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 3706
+      },
+      {
+        "agreement": "cascade-02a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "cascade-02",
+        "presentation": "template",
+        "split": "public",
+        "words": 2224
+      },
+      {
+        "agreement": "cascade-02b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "cascade-02",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3835
+      },
+      {
+        "agreement": "cascade-03a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "covered",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "cascade-03",
+        "presentation": "template",
+        "split": "public",
+        "words": 2332
+      },
+      {
+        "agreement": "cascade-03b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "covered",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "cascade-03",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3935
+      },
+      {
+        "agreement": "cascade-04b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "cascade-04",
+        "presentation": "template",
+        "split": "public",
+        "words": 2119
+      },
+      {
+        "agreement": "cascade-04a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "cascade-04",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3754
+      },
+      {
+        "agreement": "cascade-05b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "cascade-05",
+        "presentation": "template",
+        "split": "public",
+        "words": 2241
+      },
+      {
+        "agreement": "cascade-05a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "cascade-05",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3828
+      },
+      {
+        "agreement": "cascade-06b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "cascade-06",
+        "presentation": "template",
+        "split": "public",
+        "words": 1978
+      },
+      {
+        "agreement": "cascade-06a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "cascade-06",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3591
+      },
+      {
+        "agreement": "cascade-07b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "cascade-07",
+        "presentation": "template",
+        "split": "dev",
+        "words": 2045
+      },
+      {
+        "agreement": "cascade-07a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "cascade-07",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 3632
+      },
+      {
+        "agreement": "stmarks-00a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-00",
+        "presentation": "template",
+        "split": "public",
+        "words": 2057
+      },
+      {
+        "agreement": "stmarks-00b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-00",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3984
+      },
+      {
+        "agreement": "stmarks-01a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-01",
+        "presentation": "template",
+        "split": "public",
+        "words": 1833
+      },
+      {
+        "agreement": "stmarks-01b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-01",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3828
+      },
+      {
+        "agreement": "stmarks-02b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-02",
+        "presentation": "template",
+        "split": "public",
+        "words": 1946
+      },
+      {
+        "agreement": "stmarks-02a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-02",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3919
+      },
+      {
+        "agreement": "stmarks-03b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-03",
+        "presentation": "template",
+        "split": "public",
+        "words": 1915
+      },
+      {
+        "agreement": "stmarks-03a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-03",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3906
+      },
+      {
+        "agreement": "stmarks-04a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-04",
+        "presentation": "template",
+        "split": "dev",
+        "words": 2152
+      },
+      {
+        "agreement": "stmarks-04b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-04",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 4044
+      },
+      {
+        "agreement": "stmarks-05a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-05",
+        "presentation": "template",
+        "split": "public",
+        "words": 2022
+      },
+      {
+        "agreement": "stmarks-05b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-05",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3938
+      },
+      {
+        "agreement": "stmarks-06a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-06",
+        "presentation": "template",
+        "split": "public",
+        "words": 2012
+      },
+      {
+        "agreement": "stmarks-06b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-06",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3930
+      },
+      {
+        "agreement": "stmarks-07b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-07",
+        "presentation": "template",
+        "split": "dev",
+        "words": 1865
+      },
+      {
+        "agreement": "stmarks-07a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "stmarks-07",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 3865
+      },
+      {
+        "agreement": "lantern-00a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "lantern-00",
+        "presentation": "template",
+        "split": "dev",
+        "words": 1778
+      },
+      {
+        "agreement": "lantern-00b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "lantern-00",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 3818
+      },
+      {
+        "agreement": "lantern-01b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "lantern-01",
+        "presentation": "template",
+        "split": "public",
+        "words": 1701
+      },
+      {
+        "agreement": "lantern-01a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "lantern-01",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3748
+      },
+      {
+        "agreement": "lantern-02b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "lantern-02",
+        "presentation": "template",
+        "split": "dev",
+        "words": 1559
+      },
+      {
+        "agreement": "lantern-02a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "lantern-02",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 3705
+      },
+      {
+        "agreement": "lantern-03a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "covered",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "lantern-03",
+        "presentation": "template",
+        "split": "public",
+        "words": 1692
+      },
+      {
+        "agreement": "lantern-03b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "covered",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "lantern-03",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3812
+      },
+      {
+        "agreement": "lantern-04a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "lantern-04",
+        "presentation": "template",
+        "split": "public",
+        "words": 1573
+      },
+      {
+        "agreement": "lantern-04b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "lantern-04",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3684
+      },
+      {
+        "agreement": "lantern-05b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "lantern-05",
+        "presentation": "template",
+        "split": "public",
+        "words": 1856
+      },
+      {
+        "agreement": "lantern-05a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "lantern-05",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3958
+      },
+      {
+        "agreement": "lantern-06a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "lantern-06",
+        "presentation": "template",
+        "split": "public",
+        "words": 1700
+      },
+      {
+        "agreement": "lantern-06b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "lantern-06",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3778
+      },
+      {
+        "agreement": "lantern-07a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "lantern-07",
+        "presentation": "template",
+        "split": "public",
+        "words": 1725
+      },
+      {
+        "agreement": "lantern-07b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "lantern-07",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 3787
+      },
+      {
+        "agreement": "meridian-00a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "meridian-00",
+        "presentation": "template",
+        "split": "public",
+        "words": 2013
+      },
+      {
+        "agreement": "meridian-00b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "partial",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "gap",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "meridian-00",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4390
+      },
+      {
+        "agreement": "meridian-01a",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "meridian-01",
+        "presentation": "template",
+        "split": "public",
+        "words": 1793
+      },
+      {
+        "agreement": "meridian-01b",
+        "groups": {
+          "baa.individual_rights": "covered",
+          "baa.oversight": "partial",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "gap",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "meridian-01",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4172
+      },
+      {
+        "agreement": "meridian-02a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "meridian-02",
+        "presentation": "template",
+        "split": "public",
+        "words": 1910
+      },
+      {
+        "agreement": "meridian-02b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "meridian-02",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4304
+      },
+      {
+        "agreement": "meridian-03a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "meridian-03",
+        "presentation": "template",
+        "split": "public",
+        "words": 1914
+      },
+      {
+        "agreement": "meridian-03b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "gap",
+          "baa.safeguards": "partial",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "covered"
+        },
+        "leaked_units": [],
+        "pair": "meridian-03",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4299
+      },
+      {
+        "agreement": "meridian-04b",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "meridian-04",
+        "presentation": "template",
+        "split": "dev",
+        "words": 2069
+      },
+      {
+        "agreement": "meridian-04a",
+        "groups": {
+          "baa.individual_rights": "partial",
+          "baa.oversight": "gap",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "covered",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "meridian-04",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 4395
+      },
+      {
+        "agreement": "meridian-05b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "meridian-05",
+        "presentation": "template",
+        "split": "public",
+        "words": 1990
+      },
+      {
+        "agreement": "meridian-05a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "covered",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "meridian-05",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4314
+      },
+      {
+        "agreement": "meridian-06a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "meridian-06",
+        "presentation": "template",
+        "split": "dev",
+        "words": 1870
+      },
+      {
+        "agreement": "meridian-06b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "gap",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "partial"
+        },
+        "leaked_units": [],
+        "pair": "meridian-06",
+        "presentation": "vendor_paper",
+        "split": "dev",
+        "words": 4202
+      },
+      {
+        "agreement": "meridian-07b",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "meridian-07",
+        "presentation": "template",
+        "split": "public",
+        "words": 1827
+      },
+      {
+        "agreement": "meridian-07a",
+        "groups": {
+          "baa.individual_rights": "gap",
+          "baa.oversight": "covered",
+          "baa.reporting": "covered",
+          "baa.safeguards": "covered",
+          "baa.subcontractors": "partial",
+          "baa.termination": "partial",
+          "baa.uses": "gap"
+        },
+        "leaked_units": [],
+        "pair": "meridian-07",
+        "presentation": "vendor_paper",
+        "split": "public",
+        "words": 4256
+      }
+    ],
+    "label_mix_public": {
+      "group": {
+        "covered": 226,
+        "gap": 164,
+        "partial": 170
+      },
+      "spec": {
+        "covered": 618,
+        "gap": 396,
+        "partial": 186
+      }
+    },
+    "leaks": [],
+    "missing_bases": []
+  },
+  "retrieval": {
+    "items": 98,
+    "missing": [
+      {
+        "reason": "all candidates rejected",
+        "style": "paraphrase",
+        "target": "164.314(a)(2)(i)(C)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.314(a)(2)(i)(C)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "paraphrase",
+        "target": "164.314(a)(2)(iii)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "clause",
+        "target": "164.410(c)(1)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.410(c)(2)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "paraphrase",
+        "target": "164.504(e)(2)(i)(A)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.504(e)(2)(i)(A)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "clause",
+        "target": "164.504(e)(2)(i)(A)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.504(e)(2)(ii)(F)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "paraphrase",
+        "target": "164.504(e)(2)(ii)(I)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.504(e)(2)(ii)(I)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "clause",
+        "target": "164.504(e)(2)(ii)(I)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "paraphrase",
+        "target": "164.504(e)(3)(iii)"
+      },
+      {
+        "reason": "all candidates rejected",
+        "style": "scenario",
+        "target": "164.504(e)(3)(iii)"
+      }
+    ],
+    "rejected_candidates": 184
+  }
+}

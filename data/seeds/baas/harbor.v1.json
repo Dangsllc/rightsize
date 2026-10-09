@@ -1,0 +1,2093 @@
+{
+  "base": "harbor",
+  "profile": "Harbor Family Health, a fictional two-office primary care clinic (covered entity), and Nimbus Chart Systems, Inc., the fictional cloud EHR and patient portal vendor that hosts its records (business associate). Nimbus's paper is a SaaS subscription agreement with a BAA exhibit; plain, standard-form drafting.",
+  "derivation": "hhs_verbatim",
+  "generator_llm": "claude-code-agent:claude-opus-5-5",
+  "prompt_version": "baa-seed-v1",
+  "elements_version": 1,
+  "parties": {
+    "covered_entity": "Harbor Family Health, PLLC",
+    "business_associate": "Nimbus Chart Systems, Inc.",
+    "relationship": "Nimbus hosts Harbor's cloud electronic health record, practice management, and patient portal under a SaaS subscription agreement."
+  },
+  "presentations": {
+    "template": {
+      "title": "Business Associate Agreement",
+      "blocks": [
+        {
+          "kind": "para",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "This Business Associate Agreement (this \"Agreement\") is entered into as of January 1, 2027 (the \"Effective Date\") by and between Harbor Family Health, PLLC, a Washington professional limited liability company (\"Covered Entity\"), and Nimbus Chart Systems, Inc., a Delaware corporation (\"Business Associate\").",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "Recitals",
+          "sentences": [
+            {
+              "text": "WHEREAS, Covered Entity operates a primary care practice with clinic locations in Bremerton and Silverdale, Washington, and is a covered entity under the HIPAA Rules;",
+              "tag": null
+            },
+            {
+              "text": "WHEREAS, Covered Entity and Business Associate are parties to the Nimbus Chart Systems Master Subscription Agreement dated December 1, 2026 (the \"Services Agreement\"), under which Business Associate hosts Covered Entity's electronic health record, practice management, and patient portal applications;",
+              "tag": null
+            },
+            {
+              "text": "WHEREAS, in providing the services under the Services Agreement, Business Associate creates, receives, maintains, and transmits protected health information on behalf of Covered Entity; and",
+              "tag": null
+            },
+            {
+              "text": "WHEREAS, the parties intend this Agreement to satisfy the business associate contract requirements of 45 CFR 164.314(a), 164.502(e), and 164.504(e).",
+              "tag": null
+            },
+            {
+              "text": "NOW, THEREFORE, in consideration of the mutual promises below and other good and valuable consideration, the receipt and sufficiency of which are acknowledged, the parties agree as follows.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Definitions",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Catch-all definition",
+          "sentences": [
+            {
+              "text": "The following terms used in this Agreement shall have the same meaning as those terms in the HIPAA Rules: Breach, Data Aggregation, Designated Record Set, Disclosure, Health Care Operations, Individual, Minimum Necessary, Notice of Privacy Practices, Protected Health Information, Required By Law, Secretary, Security Incident, Subcontractor, Unsecured Protected Health Information, and Use.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Business Associate",
+          "sentences": [
+            {
+              "text": "\"Business Associate\" shall generally have the same meaning as the term \"business associate\" at 45 CFR 160.103, and in reference to the party to this Agreement, shall mean Nimbus Chart Systems, Inc.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Covered Entity",
+          "sentences": [
+            {
+              "text": "\"Covered Entity\" shall generally have the same meaning as the term \"covered entity\" at 45 CFR 160.103, and in reference to the party to this Agreement, shall mean Harbor Family Health, PLLC.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "HIPAA Rules",
+          "sentences": [
+            {
+              "text": "\"HIPAA Rules\" shall mean the Privacy, Security, Breach Notification, and Enforcement Rules at 45 CFR Part 160 and Part 164.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Services Agreement",
+          "sentences": [
+            {
+              "text": "\"Services Agreement\" shall mean the Master Subscription Agreement identified in the Recitals, together with each order form issued under it, as amended from time to time.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Obligations and Activities of Business Associate",
+          "sentences": [
+            {
+              "text": "Business Associate agrees to the obligations set forth in this Section with respect to protected health information.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate shall not use or disclose protected health information other than as permitted or required by this Agreement or as required by law.",
+              "tag": "164.504(e)(2)(ii)(A)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate shall use appropriate safeguards to prevent use or disclosure of protected health information other than as provided for by this Agreement.",
+              "tag": "164.504(e)(2)(ii)(B)#E1"
+            },
+            {
+              "text": "Business Associate shall comply with Subpart C of 45 CFR Part 164 with respect to electronic protected health information.",
+              "tag": "164.504(e)(2)(ii)(B)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate shall report to Covered Entity any use or disclosure of protected health information not provided for by this Agreement of which it becomes aware.",
+              "tag": "164.504(e)(2)(ii)(C)#E1"
+            },
+            {
+              "text": "Business Associate shall report to Covered Entity any breach of unsecured protected health information of which it becomes aware, as required at 45 CFR 164.410.",
+              "tag": "164.504(e)(2)(ii)(C)#E2"
+            },
+            {
+              "text": "Business Associate shall report to Covered Entity any security incident of which it becomes aware.",
+              "tag": "164.314(a)(2)(i)(C)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate shall notify Covered Entity of a Breach without unreasonable delay after discovery.",
+              "tag": "164.410(b)#E1"
+            },
+            {
+              "text": "Business Associate shall deliver its notice of a Breach to Covered Entity no later than ten (10) business days after discovery.",
+              "tag": "164.410(b)#E2"
+            },
+            {
+              "text": "Business Associate's notice of a Breach shall include, to the extent possible, the identification of each individual whose unsecured protected health information has been, or is reasonably believed by Business Associate to have been, accessed, acquired, used, or disclosed during the Breach.",
+              "tag": "164.410(c)#E1"
+            },
+            {
+              "text": "Business Associate shall provide Covered Entity with any other available information that Covered Entity is required to include in notification to the individual under 45 CFR 164.404(c), at the time of its notice or promptly thereafter as the information becomes available.",
+              "tag": "164.410(c)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "In accordance with 45 CFR 164.502(e)(1)(ii) and 164.308(b)(2), if applicable, Business Associate shall ensure that any subcontractors that create, receive, maintain, or transmit protected health information on behalf of Business Associate agree to the same restrictions, conditions, and requirements that apply to Business Associate with respect to such information.",
+              "tag": "164.504(e)(2)(ii)(D)#E1"
+            },
+            {
+              "text": "Business Associate shall enter into a written business associate agreement with each subcontractor that creates, receives, maintains, or transmits protected health information on behalf of Business Associate before that subcontractor receives any protected health information.",
+              "tag": "164.504(e)(2)(ii)(D)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate shall make available protected health information in a designated record set to Covered Entity as necessary for Covered Entity to respond to an individual's request for access.",
+              "tag": "164.504(e)(2)(ii)(E)#E1"
+            },
+            {
+              "text": "Business Associate shall respond to each request from Covered Entity for access to protected health information within ten (10) business days, as necessary to satisfy Covered Entity's obligations under 45 CFR 164.524.",
+              "tag": "164.504(e)(2)(ii)(E)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate shall make protected health information in a designated record set available to Covered Entity for amendment.",
+              "tag": "164.504(e)(2)(ii)(F)#E1"
+            },
+            {
+              "text": "Business Associate shall incorporate any amendment(s) to protected health information in a designated record set as directed or agreed to by Covered Entity pursuant to 45 CFR 164.526.",
+              "tag": "164.504(e)(2)(ii)(F)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate shall maintain and make available the information required to provide an accounting of disclosures to Covered Entity.",
+              "tag": "164.504(e)(2)(ii)(G)#E1"
+            },
+            {
+              "text": "Business Associate shall provide Covered Entity with the information required for an accounting of disclosures within ten (10) business days after Covered Entity's request, as necessary to satisfy Covered Entity's obligations under 45 CFR 164.528.",
+              "tag": "164.504(e)(2)(ii)(G)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "To the extent Business Associate is to carry out one or more of Covered Entity's obligations under Subpart E of 45 CFR Part 164, Business Associate shall comply with the requirements of Subpart E that apply to Covered Entity in the performance of such obligations.",
+              "tag": "164.504(e)(2)(ii)(H)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate shall make its internal practices, books, and records available to the Secretary for purposes of determining compliance with the HIPAA Rules.",
+              "tag": "164.504(e)(2)(ii)(I)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Permitted Uses and Disclosures by Business Associate",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate may only use or disclose protected health information as necessary to perform the services set forth in the Services Agreement.",
+              "tag": "164.504(e)(2)(i)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate may use or disclose protected health information as required by law.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate agrees to make uses and disclosures and requests for protected health information consistent with Covered Entity's minimum necessary policies and procedures.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate may not use or disclose protected health information in a manner that would violate Subpart E of 45 CFR Part 164 if done by Covered Entity, except for the specific uses and disclosures set forth in this Section.",
+              "tag": "164.504(e)(2)(i)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate may use protected health information for the proper management and administration of Business Associate or to carry out the legal responsibilities of Business Associate.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate may disclose protected health information for the proper management and administration of Business Associate or to carry out the legal responsibilities of Business Associate, provided the disclosures are required by law, or Business Associate obtains reasonable assurances from the person to whom the information is disclosed that the information will remain confidential and be used or further disclosed only as required by law or for the purposes for which it was disclosed to the person, and the person notifies Business Associate of any instances of which it is aware in which the confidentiality of the information has been breached.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate may provide data aggregation services relating to the health care operations of Covered Entity.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Business Associate may de-identify protected health information in accordance with 45 CFR 164.514(a)-(c) only as necessary to perform the services set forth in the Services Agreement, and the resulting de-identified information is not subject to this Agreement.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Provisions for Covered Entity to Inform Business Associate of Privacy Practices and Restrictions",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Covered Entity shall notify Business Associate of any limitation(s) in the notice of privacy practices of Covered Entity under 45 CFR 164.520, to the extent that such limitation may affect Business Associate's use or disclosure of protected health information.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Covered Entity shall notify Business Associate of any changes in, or revocation of, the permission by an individual to use or disclose his or her protected health information, to the extent that such changes may affect Business Associate's use or disclosure of protected health information.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "Covered Entity shall notify Business Associate of any restriction on the use or disclosure of protected health information that Covered Entity has agreed to or is required to abide by under 45 CFR 164.522, to the extent that such restriction may affect Business Associate's use or disclosure of protected health information.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Permissible Requests by Covered Entity",
+          "sentences": [
+            {
+              "text": "Covered Entity shall not request Business Associate to use or disclose protected health information in any manner that would not be permissible under Subpart E of 45 CFR Part 164 if done by Covered Entity.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Term and Termination",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Term",
+          "sentences": [
+            {
+              "text": "The term of this Agreement shall be effective as of the Effective Date and shall continue until the Services Agreement expires or is terminated.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Termination for Cause",
+          "sentences": [
+            {
+              "text": "Business Associate authorizes termination of this Agreement by Covered Entity if Covered Entity determines that Business Associate has violated a material term of this Agreement and Business Associate has not cured the breach or ended the violation within the time specified by Covered Entity.",
+              "tag": "164.504(e)(2)(iii)#E1"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Obligations of Business Associate Upon Termination",
+          "sentences": [
+            {
+              "text": "Upon termination of this Agreement for any reason, Business Associate shall return to Covered Entity or, if agreed to by Covered Entity, destroy all protected health information received from Covered Entity, or created, maintained, or received by Business Associate on behalf of Covered Entity, that Business Associate still maintains in any form.",
+              "tag": "164.504(e)(2)(ii)(J)#E1"
+            },
+            {
+              "text": "Business Associate shall retain no copies of the protected health information.",
+              "tag": "164.504(e)(2)(ii)(J)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Survival",
+          "sentences": [
+            {
+              "text": "The obligations of Business Associate under this Section shall survive the termination of this Agreement.",
+              "tag": "164.504(e)(2)(ii)(J)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Miscellaneous",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Regulatory References",
+          "sentences": [
+            {
+              "text": "A reference in this Agreement to a section in the HIPAA Rules means the section as in effect or as amended.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Amendment",
+          "sentences": [
+            {
+              "text": "The parties agree to take such action as is necessary to amend this Agreement from time to time as is necessary for compliance with the requirements of the HIPAA Rules and any other applicable law.",
+              "tag": null
+            },
+            {
+              "text": "Any other amendment to this Agreement shall be effective only when made in writing and signed by both parties.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Interpretation",
+          "sentences": [
+            {
+              "text": "Any ambiguity in this Agreement shall be interpreted to permit compliance with the HIPAA Rules.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Relationship to Services Agreement",
+          "sentences": [
+            {
+              "text": "This Agreement is incorporated into the Services Agreement.",
+              "tag": null
+            },
+            {
+              "text": "If there is a conflict between this Agreement and the Services Agreement with respect to protected health information, this Agreement shall control.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "No Third-Party Beneficiaries",
+          "sentences": [
+            {
+              "text": "Nothing in this Agreement shall confer upon any person other than the parties and their respective successors or assigns any rights, remedies, obligations, or liabilities whatsoever.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Notices",
+          "sentences": [
+            {
+              "text": "Any notice required under this Agreement shall be given in writing and delivered by hand, by nationally recognized overnight courier, or by email with confirmation of receipt, to the addresses set forth beneath the parties' signatures.",
+              "tag": null
+            },
+            {
+              "text": "A party may change its notice address by giving notice to the other party in the same manner.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Governing Law",
+          "sentences": [
+            {
+              "text": "This Agreement shall be governed by the laws of the State of Washington, without regard to its conflict of laws principles, to the extent those laws are not preempted by the HIPAA Rules or other federal law.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Counterparts",
+          "sentences": [
+            {
+              "text": "This Agreement may be executed in counterparts, each of which is an original and all of which together constitute one instrument, and signatures delivered by electronic means are effective as originals.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "Signatures",
+          "sentences": [
+            {
+              "text": "IN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "COVERED ENTITY",
+          "sentences": [
+            {
+              "text": "HARBOR FAMILY HEALTH, PLLC",
+              "tag": null
+            },
+            {
+              "text": "By: Elena Marquez, MD",
+              "tag": null
+            },
+            {
+              "text": "Title: Managing Member and Medical Director",
+              "tag": null
+            },
+            {
+              "text": "Address: 4120 Wheaton Way, Suite 200, Bremerton, Washington 98310",
+              "tag": null
+            },
+            {
+              "text": "Date: December 15, 2026",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "BUSINESS ASSOCIATE",
+          "sentences": [
+            {
+              "text": "NIMBUS CHART SYSTEMS, INC.",
+              "tag": null
+            },
+            {
+              "text": "By: Daniel Okonkwo",
+              "tag": null
+            },
+            {
+              "text": "Title: Chief Operating Officer",
+              "tag": null
+            },
+            {
+              "text": "Address: 1550 NW Everett Street, Portland, Oregon 97209",
+              "tag": null
+            },
+            {
+              "text": "Date: December 15, 2026",
+              "tag": null
+            }
+          ]
+        }
+      ],
+      "weakened": {
+        "164.504(e)(2)(i)#E1": "Business Associate may use or disclose protected health information in connection with the services set forth in the Services Agreement and for Business Associate's other lawful business purposes.",
+        "164.504(e)(2)(i)#E2": "Business Associate shall handle protected health information in accordance with Business Associate's privacy policies as in effect from time to time.",
+        "164.504(e)(2)(ii)(A)#E1": "Business Associate shall not use or disclose protected health information in violation of applicable law.",
+        "164.504(e)(2)(ii)(B)#E1": "Business Associate shall maintain commercially reasonable security measures designed to protect the confidentiality of protected health information.",
+        "164.504(e)(2)(ii)(B)#E2": "Business Associate shall protect electronic protected health information in a manner consistent with generally accepted industry practices for cloud-hosted software.",
+        "164.504(e)(2)(ii)(C)#E1": "Business Associate shall report to Covered Entity any use or disclosure of protected health information that Business Associate determines, in its reasonable discretion, to be material.",
+        "164.504(e)(2)(ii)(C)#E2": "Business Associate shall report to Covered Entity any breach of protected health information that Business Associate concludes, following a risk assessment conducted in its discretion, presents a significant risk of financial or reputational harm to the affected individuals.",
+        "164.314(a)(2)(i)(C)#E1": "Business Associate shall report to Covered Entity any attack on its information systems that results in the confirmed compromise of protected health information.",
+        "164.410(b)#E1": "Business Associate shall notify Covered Entity of a Breach after Business Associate has completed its internal investigation of the Breach.",
+        "164.410(b)#E2": "Business Associate shall deliver its notice of a Breach to Covered Entity no later than ninety (90) calendar days after discovery.",
+        "164.410(c)#E1": "Business Associate's notice of a Breach shall include a general description of what happened and the categories of information involved, to the extent known.",
+        "164.410(c)#E2": "Business Associate shall provide Covered Entity with a summary of the steps Business Associate has taken to contain the Breach and prevent its recurrence.",
+        "164.504(e)(2)(ii)(D)#E1": "Business Associate shall ensure that its material subcontractors that maintain protected health information agree to restrictions and conditions substantially similar to those that apply to Business Associate with respect to such information.",
+        "164.504(e)(2)(ii)(D)#E2": "Business Associate shall require each subcontractor that creates, receives, maintains, or transmits protected health information on behalf of Business Associate to acknowledge Business Associate's privacy and security policies before that subcontractor receives any protected health information.",
+        "164.504(e)(2)(ii)(E)#E1": "Business Associate shall forward to Covered Entity any request for access that Business Associate receives directly from an individual.",
+        "164.504(e)(2)(ii)(E)#E2": "Business Associate shall respond to each request from Covered Entity for access to protected health information within a reasonable time after receipt.",
+        "164.504(e)(2)(ii)(F)#E1": "Business Associate shall consider requests from Covered Entity to correct information maintained in the hosted record in accordance with its standard change-control procedures.",
+        "164.504(e)(2)(ii)(F)#E2": "Business Associate shall implement amendments to protected health information requested by Covered Entity to the extent technically feasible within its standard software functionality.",
+        "164.504(e)(2)(ii)(G)#E1": "Business Associate shall maintain system activity logs for the hosted applications in accordance with its standard logging practices.",
+        "164.504(e)(2)(ii)(G)#E2": "Business Associate shall provide Covered Entity with the information required for an accounting of disclosures as its resources reasonably permit.",
+        "164.504(e)(2)(ii)(H)#E1": "To the extent Business Associate is to carry out one or more of Covered Entity's obligations under Subpart E of 45 CFR Part 164, Business Associate shall do so in accordance with its standard operating procedures.",
+        "164.504(e)(2)(ii)(I)#E1": "Business Associate shall make its internal practices, books, and records relating to protected health information available to Covered Entity, upon reasonable advance written notice, for purposes of determining Business Associate's compliance with this Agreement.",
+        "164.504(e)(2)(ii)(J)#E1": "Upon termination of this Agreement for any reason, Business Associate shall, upon Covered Entity's written request received within thirty (30) days after termination, provide Covered Entity with an export of the protected health information contained in Covered Entity's active production database.",
+        "164.504(e)(2)(ii)(J)#E2": "Business Associate may keep copies of the protected health information in its backup and archival systems in accordance with its standard retention schedule.",
+        "164.504(e)(2)(iii)#E1": "Business Associate authorizes termination of this Agreement by Covered Entity if a court of competent jurisdiction finally determines that Business Associate has violated this Agreement and Business Associate has not ended the violation within ninety (90) days after that determination."
+      }
+    },
+    "vendor_paper": {
+      "title": "Nimbus Chart Systems Master Subscription Agreement",
+      "blocks": [
+        {
+          "kind": "para",
+          "number": null,
+          "heading": null,
+          "sentences": [
+            {
+              "text": "This Master Subscription Agreement (the \"Agreement\") is entered into as of December 1, 2026 (the \"Effective Date\") between Nimbus Chart Systems, Inc., a Delaware corporation with its principal office at 1550 NW Everett Street, Portland, Oregon 97209 (\"Nimbus\"), and Harbor Family Health, PLLC, a Washington professional limited liability company with its principal office at 4120 Wheaton Way, Suite 200, Bremerton, Washington 98310 (\"Customer\").",
+              "tag": null
+            },
+            {
+              "text": "This Agreement governs Customer's subscription to the Nimbus cloud electronic health record, practice management, and patient portal services identified in one or more Order Forms.",
+              "tag": null
+            },
+            {
+              "text": "By signing this Agreement or an Order Form that references it, each party agrees to the terms below.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Definitions",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "1.1",
+          "heading": "Affiliate",
+          "sentences": [
+            {
+              "text": "\"Affiliate\" means any entity that directly or indirectly controls, is controlled by, or is under common control with a party, where \"control\" means ownership of more than fifty percent of the voting interests of the entity.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.2",
+          "heading": "Authorized User",
+          "sentences": [
+            {
+              "text": "\"Authorized User\" means an employee, clinician, or contractor of Customer whom Customer has permitted to use the Services under Customer's account.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.3",
+          "heading": "Breach",
+          "sentences": [
+            {
+              "text": "\"Breach\" has the meaning given at 45 CFR 164.402.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.4",
+          "heading": "Customer Data",
+          "sentences": [
+            {
+              "text": "\"Customer Data\" means all data and content, including PHI, that Customer or its Authorized Users submit to the Services or that the Services generate from that data on Customer's behalf.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.5",
+          "heading": "De-identified Data",
+          "sentences": [
+            {
+              "text": "\"De-identified Data\" means data derived from PHI that has been de-identified in accordance with 45 CFR 164.514(b).",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.6",
+          "heading": "Documentation",
+          "sentences": [
+            {
+              "text": "\"Documentation\" means Nimbus's then-current user guides, implementation materials, and technical specifications for the Services.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.7",
+          "heading": "Fees",
+          "sentences": [
+            {
+              "text": "\"Fees\" means the subscription, implementation, and professional services fees stated in an Order Form.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.8",
+          "heading": "HIPAA Rules",
+          "sentences": [
+            {
+              "text": "\"HIPAA Rules\" means the Privacy, Security, Breach Notification, and Enforcement Rules at 45 CFR Part 160 and Part 164.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.9",
+          "heading": "Order Form",
+          "sentences": [
+            {
+              "text": "\"Order Form\" means an ordering document signed by both parties that identifies the Services, the number of licensed providers, the Subscription Term, and the Fees.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.10",
+          "heading": "PHI",
+          "sentences": [
+            {
+              "text": "\"PHI\" means protected health information, as defined at 45 CFR 160.103, that Nimbus creates, receives, maintains, or transmits on behalf of Customer.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.11",
+          "heading": "Security Incident",
+          "sentences": [
+            {
+              "text": "\"Security Incident\" has the meaning given at 45 CFR 164.304 and includes any attempted or successful unauthorized access, use, disclosure, modification, or destruction of Customer Data, or interference with system operations in an information system that contains Customer Data.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.12",
+          "heading": "Services",
+          "sentences": [
+            {
+              "text": "\"Services\" means Nimbus's hosted electronic health record, practice management, and patient portal applications, together with the related implementation, support, and hosting services described in an Order Form.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.13",
+          "heading": "Subcontractor",
+          "sentences": [
+            {
+              "text": "\"Subcontractor\" means any person, other than a member of Nimbus's workforce, to whom Nimbus delegates a function, activity, or service that involves the creation, receipt, maintenance, or transmission of PHI.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "1.14",
+          "heading": "Subscription Term",
+          "sentences": [
+            {
+              "text": "\"Subscription Term\" means the initial subscription term stated in an Order Form and each renewal term under Section 13.1.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Services",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "2.1",
+          "heading": "Provision of Services",
+          "sentences": [
+            {
+              "text": "Subject to this Agreement and payment of the Fees, Nimbus will make the Services available to Customer and its Authorized Users during the Subscription Term in accordance with the Documentation and the applicable Order Form.",
+              "tag": null
+            },
+            {
+              "text": "Customer may permit clinicians of its Affiliates to use the Services under Customer's account, and Customer is responsible for their compliance with this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.2",
+          "heading": "Restrictions",
+          "sentences": [
+            {
+              "text": "Customer will not, and will not permit any third party to, sublicense, resell, or distribute the Services, reverse engineer or decompile any software included in the Services, or access the Services to build a competing product.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.3",
+          "heading": "Implementation",
+          "sentences": [
+            {
+              "text": "Nimbus will perform the implementation services described in the applicable Order Form, including conversion of Customer's legacy chart data into the Services, in accordance with a mutually agreed project plan.",
+              "tag": null
+            },
+            {
+              "text": "Customer will make its personnel, legacy systems, and data reasonably available as needed for implementation.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.4",
+          "heading": "Support",
+          "sentences": [
+            {
+              "text": "Nimbus will provide telephone and online support for the Services during its standard support hours of 6 am to 6 pm Pacific Time on business days, and emergency support for Severity 1 issues at all times.",
+              "tag": null
+            },
+            {
+              "text": "Nimbus will respond to Severity 1 issues within one hour and to Severity 2 issues within four business hours.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.5",
+          "heading": "Subcontractors",
+          "sentences": [
+            {
+              "text": "Nimbus may engage Subcontractors, including its cloud infrastructure provider, to assist in providing the Services.",
+              "tag": null
+            },
+            {
+              "text": "Nimbus remains responsible for the performance of its Subcontractors under this Agreement as if it had performed the work itself.",
+              "tag": "164.504(e)(2)(ii)(D)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "2.6",
+          "heading": "Changes to the Services",
+          "sentences": [
+            {
+              "text": "Nimbus may update the Services from time to time, provided that no update will materially reduce the core clinical documentation, scheduling, billing, or patient portal functionality of the Services during the Subscription Term.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Customer Responsibilities",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "3.1",
+          "heading": "Customer Data",
+          "sentences": [
+            {
+              "text": "Customer is responsible for the accuracy, quality, and legality of Customer Data and for obtaining any consents and authorizations required for Nimbus to process Customer Data under this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "3.2",
+          "heading": "Accounts and Credentials",
+          "sentences": [
+            {
+              "text": "Customer will ensure that each Authorized User keeps his or her credentials confidential, and Customer will deactivate the credentials of any Authorized User whose employment or engagement ends.",
+              "tag": null
+            },
+            {
+              "text": "Customer will promptly notify Nimbus if it suspects that any credentials have been compromised.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "3.3",
+          "heading": "Clinical Responsibility",
+          "sentences": [
+            {
+              "text": "Customer and its clinicians are solely responsible for all clinical decisions, and the Services, including any clinical decision support content, do not replace the professional judgment of a licensed provider.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "3.4",
+          "heading": "Customer Systems",
+          "sentences": [
+            {
+              "text": "Customer is responsible for obtaining and maintaining the devices, internet connectivity, and third-party software needed to use the Services, as described in the Documentation.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Fees and Payment",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "4.1",
+          "heading": "Fees",
+          "sentences": [
+            {
+              "text": "Customer will pay the Fees set forth in each Order Form.",
+              "tag": null
+            },
+            {
+              "text": "Subscription Fees are based on the number of licensed providers stated in the Order Form, and Customer may add providers at any time at the then-current per-provider rate, prorated for the remainder of the Subscription Term.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "4.2",
+          "heading": "Invoicing and Payment",
+          "sentences": [
+            {
+              "text": "Nimbus will invoice subscription Fees annually in advance and implementation Fees on the milestones stated in the Order Form.",
+              "tag": null
+            },
+            {
+              "text": "Customer will pay each invoice within thirty (30) days after the invoice date.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "4.3",
+          "heading": "Disputed Amounts",
+          "sentences": [
+            {
+              "text": "Customer may withhold any amount it disputes in good faith by notifying Nimbus of the dispute before the payment due date, and the parties will work together in good faith to resolve it.",
+              "tag": null
+            },
+            {
+              "text": "Undisputed amounts not paid when due accrue interest at the lesser of one percent per month or the maximum rate permitted by law.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "4.4",
+          "heading": "Suspension",
+          "sentences": [
+            {
+              "text": "If any undisputed amount remains unpaid more than thirty (30) days after its due date, Nimbus may suspend the Services on fifteen (15) days' written notice, provided that Nimbus will continue to provide Customer with read-only access to Customer Data during any suspension.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "4.5",
+          "heading": "Taxes",
+          "sentences": [
+            {
+              "text": "Fees exclude sales, use, and similar taxes, and Customer will pay any such taxes other than taxes based on Nimbus's net income.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "4.6",
+          "heading": "Renewal Pricing",
+          "sentences": [
+            {
+              "text": "Nimbus may increase the subscription Fees for any renewal term by giving Customer written notice at least ninety (90) days before the renewal date, provided that no increase will exceed five percent of the Fees for the preceding year.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Service Levels",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "5.1",
+          "heading": "Availability",
+          "sentences": [
+            {
+              "text": "Nimbus will make the production environment of the Services available at least 99.9% of the time in each calendar month, excluding scheduled maintenance and the exclusions listed in the Documentation.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "5.2",
+          "heading": "Scheduled Maintenance",
+          "sentences": [
+            {
+              "text": "Nimbus will perform scheduled maintenance between 10 pm and 4 am Pacific Time and will give Customer at least five (5) days' notice of any maintenance window expected to exceed two hours.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "5.3",
+          "heading": "Service Credits",
+          "sentences": [
+            {
+              "text": "If Nimbus fails to meet the availability commitment in Section 5.1 in any month, Customer will receive a service credit against the next invoice equal to five percent of the monthly subscription Fees for each full percentage point below the commitment, up to fifty percent of those Fees.",
+              "tag": null
+            },
+            {
+              "text": "If availability falls below 99.0% in any three months during a rolling twelve-month period, Customer may terminate the affected Order Form on written notice and receive a refund of prepaid Fees for the remainder of the Subscription Term.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "5.4",
+          "heading": "Backup and Recovery",
+          "sentences": [
+            {
+              "text": "Nimbus will back up Customer Data at least daily to geographically separate data centers within the United States and will maintain a disaster recovery plan designed to restore the Services with a recovery point objective of four hours and a recovery time objective of twelve hours.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Customer Data",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "6.1",
+          "heading": "Ownership and License",
+          "sentences": [
+            {
+              "text": "As between the parties, Customer owns all Customer Data, and Nimbus acquires no rights in Customer Data other than those expressly granted in this Agreement.",
+              "tag": null
+            },
+            {
+              "text": "Customer grants Nimbus a limited, non-exclusive license to host, copy, process, transmit, and display Customer Data as necessary to provide the Services, subject to this Agreement and Exhibit A.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "6.2",
+          "heading": "Data Location",
+          "sentences": [
+            {
+              "text": "Nimbus will store and process Customer Data only in data centers located in the United States.",
+              "tag": null
+            },
+            {
+              "text": "Nimbus will not permit any person located outside the United States to access Customer Data without Customer's prior written consent.",
+              "tag": null
+            },
+            {
+              "text": "This restriction applies to Nimbus's own personnel and to the personnel of every Subcontractor.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "6.3",
+          "heading": "De-identified Data",
+          "sentences": [
+            {
+              "text": "Nimbus may de-identify PHI in accordance with 45 CFR 164.514(b) and may use De-identified Data to operate, support, and improve the Services and to prepare aggregated benchmarking reports for its customers.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "Nimbus will not attempt to re-identify De-identified Data, and will not sell De-identified Data or license it to any third party.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "6.4",
+          "heading": "Usage Data",
+          "sentences": [
+            {
+              "text": "Nimbus may collect technical and statistical information about the performance and operation of the Services, which does not include PHI, and may use that information to maintain and improve the Services.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "7",
+          "heading": "Security",
+          "sentences": [
+            {
+              "text": "Each party is responsible for the security of the systems it controls, and Customer is responsible for the devices, networks, and credentials that its Authorized Users rely on to reach the Services.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Safeguards",
+          "sentences": [
+            {
+              "text": "Nimbus will implement and maintain appropriate administrative, physical, and technical safeguards designed to prevent any use or disclosure of Customer Data not permitted by this Agreement.",
+              "tag": "164.504(e)(2)(ii)(B)#E1"
+            },
+            {
+              "text": "Nimbus's security program is described in the Security Addendum published at trust.nimbuschart.com, and Nimbus will not materially diminish the protections described in that addendum during the Subscription Term.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Security Rule",
+          "sentences": [
+            {
+              "text": "Nimbus will comply with Subpart C of 45 CFR Part 164 with respect to electronic PHI.",
+              "tag": "164.504(e)(2)(ii)(B)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Encryption",
+          "sentences": [
+            {
+              "text": "Nimbus will encrypt Customer Data in transit over public networks using TLS 1.2 or higher and at rest using AES-256 or an equivalent standard.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Personnel and Access Controls",
+          "sentences": [
+            {
+              "text": "Nimbus will limit access to Customer Data to personnel who need that access to provide the Services, will require multi-factor authentication for all administrative access, and will complete a background check and annual HIPAA privacy and security training for each such person before granting access.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": null,
+          "heading": "Security Assessments",
+          "sentences": [
+            {
+              "text": "Nimbus will engage an independent auditor to perform an annual SOC 2 Type II examination of the Services and an independent firm to perform an annual penetration test.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            },
+            {
+              "text": "Upon Customer's written request, not more than once in any twelve-month period, Nimbus will provide Customer with its most recent SOC 2 Type II report and a summary of its most recent penetration test results, subject to Section 8.",
+              "tag": "164.504(e)(2)(ii)(B)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Confidentiality",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "8.1",
+          "heading": "Definition",
+          "sentences": [
+            {
+              "text": "\"Confidential Information\" means any non-public information that one party (the \"Discloser\") discloses to the other party (the \"Recipient\") and that is marked confidential or would reasonably be understood to be confidential, including the terms of this Agreement, Nimbus's pricing and security reports, and Customer Data.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "8.2",
+          "heading": "Protection",
+          "sentences": [
+            {
+              "text": "The Recipient will protect the Discloser's Confidential Information with at least the same degree of care it uses to protect its own information of a similar nature, and not less than reasonable care.",
+              "tag": null
+            },
+            {
+              "text": "The Recipient will limit access to the Discloser's Confidential Information to its employees, contractors, and advisors who need to know it for purposes of this Agreement and who are bound by confidentiality obligations no less protective than this Section 8.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "8.3",
+          "heading": "Exclusions",
+          "sentences": [
+            {
+              "text": "Confidential Information does not include information that is or becomes public through no fault of the Recipient, was known to the Recipient before receipt, is independently developed, or is rightfully received from a third party without a duty of confidentiality.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "8.4",
+          "heading": "Compelled Disclosure",
+          "sentences": [
+            {
+              "text": "The Recipient may disclose Confidential Information to the extent required by law or court order if it gives the Discloser reasonable advance notice, where legally permitted, and cooperates with any effort to obtain protective treatment.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "8.5",
+          "heading": "PHI",
+          "sentences": [
+            {
+              "text": "To the extent Confidential Information includes PHI, Exhibit A governs and prevails over this Section 8.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Warranties",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "9.1",
+          "heading": "Mutual Warranties",
+          "sentences": [
+            {
+              "text": "Each party represents and warrants that it has the authority to enter into this Agreement and that its execution and performance of this Agreement will not violate any other agreement by which it is bound.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "9.2",
+          "heading": "Performance Warranty",
+          "sentences": [
+            {
+              "text": "Nimbus warrants that the Services will perform materially in accordance with the Documentation and that the implementation and support services will be performed in a professional and workmanlike manner.",
+              "tag": null
+            },
+            {
+              "text": "If the Services do not conform to this warranty, Nimbus will correct the nonconformity at no charge, and if Nimbus cannot do so within forty-five (45) days after Customer reports it, Customer may terminate the affected Order Form and receive a refund of prepaid Fees for the remainder of the Subscription Term.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "9.3",
+          "heading": "Certified Health IT",
+          "sentences": [
+            {
+              "text": "Nimbus warrants that the electronic health record component of the Services is certified under the ONC Health IT Certification Program and will remain certified, during the Subscription Term, to the criteria Customer relies on for participation in the Medicare Promoting Interoperability and MIPS programs.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "9.4",
+          "heading": "Compliance with Laws",
+          "sentences": [
+            {
+              "text": "Each party will comply with all laws applicable to it in connection with this Agreement, including the information blocking provisions of 45 CFR Part 171.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "9.5",
+          "heading": "Disclaimer",
+          "sentences": [
+            {
+              "text": "EXCEPT AS EXPRESSLY PROVIDED IN THIS AGREEMENT, NIMBUS MAKES NO OTHER WARRANTIES, EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT, AND NIMBUS DOES NOT WARRANT THAT THE SERVICES WILL BE UNINTERRUPTED OR ERROR-FREE.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Indemnification",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "10.1",
+          "heading": "By Nimbus",
+          "sentences": [
+            {
+              "text": "Nimbus will defend Customer and its Affiliates against any third-party claim alleging that the Services infringe a United States patent, copyright, or trademark or misappropriate a trade secret, and will pay any damages and costs finally awarded or agreed in settlement.",
+              "tag": null
+            },
+            {
+              "text": "Nimbus will also defend and indemnify Customer against any third-party claim or regulatory proceeding arising from a Breach caused by Nimbus or its Subcontractors, and will reimburse Customer's reasonable costs of notifying affected individuals and providing them with twelve months of credit monitoring.",
+              "tag": "164.504(e)(2)(ii)(C)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "10.2",
+          "heading": "By Customer",
+          "sentences": [
+            {
+              "text": "Customer will defend Nimbus against any third-party claim arising from Customer Data that Customer submits in violation of law or from Customer's clinical decisions, and will pay any damages and costs finally awarded or agreed in settlement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "10.3",
+          "heading": "Procedure",
+          "sentences": [
+            {
+              "text": "The indemnified party will promptly notify the indemnifying party of the claim, give the indemnifying party sole control of the defense and settlement, and provide reasonable cooperation at the indemnifying party's expense.",
+              "tag": null
+            },
+            {
+              "text": "The indemnifying party may not settle any claim in a manner that imposes an obligation or admission on the indemnified party without its consent.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Limitation of Liability",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "11.1",
+          "heading": "Exclusion of Damages",
+          "sentences": [
+            {
+              "text": "EXCEPT FOR EXCLUDED CLAIMS, NEITHER PARTY WILL BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR FOR LOST PROFITS OR REVENUES, EVEN IF ADVISED OF THEIR POSSIBILITY.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "11.2",
+          "heading": "Cap",
+          "sentences": [
+            {
+              "text": "EXCEPT FOR EXCLUDED CLAIMS, EACH PARTY'S TOTAL LIABILITY ARISING OUT OF THIS AGREEMENT WILL NOT EXCEED THE FEES PAID AND PAYABLE BY CUSTOMER IN THE TWELVE MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "11.3",
+          "heading": "Excluded Claims and Data Protection Cap",
+          "sentences": [
+            {
+              "text": "\"Excluded Claims\" means a party's indemnification obligations under Section 10, Customer's payment obligations, and a party's gross negligence or willful misconduct.",
+              "tag": null
+            },
+            {
+              "text": "Nimbus's total liability for claims arising from a Breach or from its failure to comply with Exhibit A will not exceed three times the Fees paid and payable by Customer in the twelve months preceding the event giving rise to the claim.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Insurance",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "12.1",
+          "heading": "Required Coverage",
+          "sentences": [
+            {
+              "text": "During the Subscription Term and for two years after, Nimbus will maintain commercial general liability insurance with limits of at least $1,000,000 per occurrence and $2,000,000 in the aggregate, technology errors and omissions insurance with limits of at least $5,000,000 per claim, and cyber liability insurance, including coverage for breach response costs and, where insurable, regulatory fines and penalties, with limits of at least $5,000,000 per claim.",
+              "tag": null
+            },
+            {
+              "text": "Nimbus will provide a certificate of insurance to Customer upon request.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "Term and Termination",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "13.1",
+          "heading": "Term and Renewal",
+          "sentences": [
+            {
+              "text": "This Agreement begins on the Effective Date and continues until every Subscription Term has ended.",
+              "tag": null
+            },
+            {
+              "text": "Unless an Order Form states otherwise, each Subscription Term begins on the date stated in the Order Form, has an initial length of thirty-six months, and renews automatically for successive twelve-month terms unless either party gives notice of non-renewal at least ninety (90) days before the end of the then-current term.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.2",
+          "heading": "Termination",
+          "sentences": [
+            {
+              "text": "Either party may terminate this Agreement upon written notice if the other party materially breaches this Agreement, including Exhibit A, and fails to cure the breach within thirty (30) days after receiving written notice of it.",
+              "tag": "164.504(e)(2)(iii)#E1"
+            },
+            {
+              "text": "Neither party may terminate this Agreement for convenience during the initial Subscription Term.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.3",
+          "heading": "Effect of Termination",
+          "sentences": [
+            {
+              "text": "Upon expiration or termination of this Agreement, Customer's right to use the Services ends, except as provided in Section 13.4, and Customer will pay all undisputed Fees accrued through the effective date of termination.",
+              "tag": null
+            },
+            {
+              "text": "If Customer terminates an Order Form under Section 5.3 or Section 9.2, Nimbus will refund any prepaid Fees for the period after the effective date of termination.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.4",
+          "heading": "Data Export and Transition",
+          "sentences": [
+            {
+              "text": "For ninety (90) days after expiration or termination, Nimbus will continue to provide Customer with read-only access to the Services.",
+              "tag": null
+            },
+            {
+              "text": "During that period, Nimbus will deliver an export of Customer Data, at Customer's election, in Consolidated Clinical Document Architecture format, delimited text files, and PDF chart images.",
+              "tag": "164.504(e)(2)(ii)(J)#ctx"
+            },
+            {
+              "text": "Nimbus will provide reasonable transition assistance to Customer's successor vendor at Nimbus's then-current professional services rates.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "13.5",
+          "heading": "Survival",
+          "sentences": [
+            {
+              "text": "Sections 6, 8, 10, 11, 13.3, 13.4, and 14 and any accrued payment obligations survive expiration or termination of this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": null,
+          "heading": "General",
+          "sentences": []
+        },
+        {
+          "kind": "clause",
+          "number": "14.1",
+          "heading": "Order of Precedence",
+          "sentences": [
+            {
+              "text": "If there is a conflict among the documents that make up this Agreement, the following order of precedence applies: first, Exhibit A, with respect to PHI; second, the body of this Agreement; third, the applicable Order Form; and fourth, the Documentation.",
+              "tag": null
+            },
+            {
+              "text": "An Order Form may vary the body of this Agreement only if it expressly identifies the provision it varies.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "14.2",
+          "heading": "Governing Law and Venue",
+          "sentences": [
+            {
+              "text": "This Agreement is governed by the laws of the State of Oregon, without regard to its conflict of laws rules.",
+              "tag": null
+            },
+            {
+              "text": "The state and federal courts located in Multnomah County, Oregon have exclusive jurisdiction over any dispute arising out of this Agreement, and each party consents to that jurisdiction.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "14.3",
+          "heading": "Notices",
+          "sentences": [
+            {
+              "text": "Notices under this Agreement must be in writing and delivered by hand, by nationally recognized overnight courier, or by email with confirmation of receipt to the addresses in the applicable Order Form.",
+              "tag": null
+            },
+            {
+              "text": "Notices to Nimbus must be sent to the attention of its General Counsel, with a copy to legal@nimbuschart.com.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "14.4",
+          "heading": "Assignment",
+          "sentences": [
+            {
+              "text": "Neither party may assign this Agreement without the other party's prior written consent, except that either party may assign it without consent to a successor in a merger, acquisition, or sale of substantially all of its assets, provided that the successor agrees in writing to be bound by this Agreement.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "14.5",
+          "heading": "Force Majeure",
+          "sentences": [
+            {
+              "text": "Neither party is liable for any delay or failure to perform, other than payment obligations, caused by events beyond its reasonable control, provided that this Section does not excuse Nimbus from executing its disaster recovery plan or maintaining its security program.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "14.6",
+          "heading": "Independent Contractors",
+          "sentences": [
+            {
+              "text": "The parties are independent contractors, and nothing in this Agreement creates a partnership, joint venture, agency, or employment relationship between them.",
+              "tag": null
+            },
+            {
+              "text": "Nimbus is not acting as Customer's agent for purposes of the HIPAA Rules.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "14.7",
+          "heading": "Entire Agreement; Amendment",
+          "sentences": [
+            {
+              "text": "This Agreement, including Exhibit A and each Order Form, is the entire agreement between the parties regarding its subject matter and supersedes all prior proposals and agreements regarding that subject matter.",
+              "tag": null
+            },
+            {
+              "text": "This Agreement may be amended only by a written instrument signed by both parties, and no terms in any purchase order or click-through license apply.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "14.8",
+          "heading": "Counterparts",
+          "sentences": [
+            {
+              "text": "This Agreement may be executed in counterparts and by electronic signature, each of which is deemed an original.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "Signatures",
+          "sentences": [
+            {
+              "text": "The parties have executed this Agreement as of the Effective Date.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "NIMBUS",
+          "sentences": [
+            {
+              "text": "NIMBUS CHART SYSTEMS, INC.",
+              "tag": null
+            },
+            {
+              "text": "By: Daniel Okonkwo",
+              "tag": null
+            },
+            {
+              "text": "Title: Chief Operating Officer",
+              "tag": null
+            },
+            {
+              "text": "Date: December 1, 2026",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "para",
+          "number": null,
+          "heading": "CUSTOMER",
+          "sentences": [
+            {
+              "text": "HARBOR FAMILY HEALTH, PLLC",
+              "tag": null
+            },
+            {
+              "text": "By: Elena Marquez, MD",
+              "tag": null
+            },
+            {
+              "text": "Title: Managing Member and Medical Director",
+              "tag": null
+            },
+            {
+              "text": "Date: December 1, 2026",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "article",
+          "number": "Exhibit A",
+          "heading": "Business Associate Agreement",
+          "sentences": [
+            {
+              "text": "This Business Associate Agreement (this \"BAA\") is incorporated into and forms part of the Master Subscription Agreement between Nimbus and Customer (the \"Agreement\").",
+              "tag": null
+            },
+            {
+              "text": "This BAA applies whenever Nimbus creates, receives, maintains, or transmits PHI on behalf of Customer in connection with the Services.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.1",
+          "heading": "Definitions",
+          "sentences": [
+            {
+              "text": "Capitalized terms used but not defined in this BAA have the meanings given in Section 1 of the Agreement or, if not defined there, in the HIPAA Rules.",
+              "tag": null
+            },
+            {
+              "text": "\"Designated Record Set\" has the meaning given at 45 CFR 164.501.",
+              "tag": null
+            },
+            {
+              "text": "\"Required by Law\" has the meaning given at 45 CFR 164.103.",
+              "tag": null
+            },
+            {
+              "text": "\"Secretary\" means the Secretary of the United States Department of Health and Human Services or the Secretary's designee.",
+              "tag": null
+            },
+            {
+              "text": "\"Unsecured PHI\" means PHI that is unsecured protected health information as defined at 45 CFR 164.402.",
+              "tag": null
+            },
+            {
+              "text": "\"Unsuccessful Security Incident\" means a Security Incident that does not result in unauthorized access to, or acquisition, use, disclosure, modification, or destruction of, PHI, such as pings and other broadcast attacks on Nimbus's firewall, port scans, and unsuccessful log-on attempts.",
+              "tag": "164.314(a)(2)(i)(C)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.2",
+          "heading": "Permitted Uses and Disclosures",
+          "sentences": [
+            {
+              "text": "Nimbus may use and disclose PHI only as necessary to perform the Services for Customer under the Agreement and the applicable Order Forms.",
+              "tag": "164.504(e)(2)(i)#E1"
+            },
+            {
+              "text": "Nimbus will not use or further disclose PHI other than as permitted or required by this BAA or as Required by Law.",
+              "tag": "164.504(e)(2)(ii)(A)#E1"
+            },
+            {
+              "text": "Nimbus will not use or disclose PHI in any manner that would violate Subpart E of 45 CFR Part 164 if done by Customer, except for the uses and disclosures for management, administration, and data aggregation described in this Section A.2.",
+              "tag": "164.504(e)(2)(i)#E2"
+            },
+            {
+              "text": "Nimbus may use or disclose PHI as Required by Law.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "Nimbus may use PHI for its proper management and administration or to carry out its legal responsibilities.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "Nimbus may disclose PHI for its proper management and administration or to carry out its legal responsibilities, provided that the disclosure is Required by Law or Nimbus obtains reasonable assurances from the recipient that the PHI will be held confidentially and used or further disclosed only as Required by Law or for the purpose for which it was disclosed, and that the recipient will notify Nimbus of any instance of which it is aware in which the confidentiality of the PHI has been breached.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "Nimbus may provide data aggregation services relating to Customer's health care operations.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "Nimbus may de-identify PHI as described in Section 6.3 of the Agreement.",
+              "tag": "164.504(e)(2)(i)#ctx"
+            },
+            {
+              "text": "Nimbus will limit its uses and disclosures of, and requests for, PHI to the minimum necessary to accomplish the intended purpose, consistent with Customer's minimum necessary policies and procedures.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.3",
+          "heading": "Reporting",
+          "sentences": [
+            {
+              "text": "Nimbus will report to Customer any use or disclosure of PHI not provided for by this BAA of which Nimbus becomes aware.",
+              "tag": "164.504(e)(2)(ii)(C)#E1"
+            },
+            {
+              "text": "Nimbus will report to Customer any Breach of Unsecured PHI of which Nimbus becomes aware, as required by 45 CFR 164.410.",
+              "tag": "164.504(e)(2)(ii)(C)#E2"
+            },
+            {
+              "text": "Nimbus will report to Customer any Security Incident of which Nimbus becomes aware, other than an Unsuccessful Security Incident.",
+              "tag": "164.314(a)(2)(i)(C)#E1"
+            },
+            {
+              "text": "Customer acknowledges that systems connected to the internet are routinely subject to Unsuccessful Security Incidents.",
+              "tag": "164.314(a)(2)(i)(C)#ctx"
+            },
+            {
+              "text": "Customer will keep the name, telephone number, and email address of its privacy contact current in the Order Form.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.4",
+          "heading": "Breach Notification",
+          "sentences": [
+            {
+              "text": "A Breach is treated as discovered by Nimbus on the first day on which it is known to Nimbus or, by exercising reasonable diligence, would have been known to any employee, officer, or agent of Nimbus.",
+              "tag": "164.410(b)#ctx"
+            },
+            {
+              "text": "Nimbus will notify Customer of any Breach without unreasonable delay after discovery.",
+              "tag": "164.410(b)#E1"
+            },
+            {
+              "text": "Nimbus will deliver its notice of a Breach to Customer in no event later than thirty (30) calendar days after discovery.",
+              "tag": "164.410(b)#E2"
+            },
+            {
+              "text": "Each notice of a Breach under this Section A.4 will include, to the extent possible, the identification of each individual whose Unsecured PHI has been, or is reasonably believed by Nimbus to have been, accessed, acquired, used, or disclosed during the Breach.",
+              "tag": "164.410(c)#E1"
+            },
+            {
+              "text": "Nimbus will provide Customer with any other available information that Customer is required to include in its notification to individuals under 45 CFR 164.404(c), supplementing its notice as that information becomes available.",
+              "tag": "164.410(c)#E2"
+            },
+            {
+              "text": "Nimbus will cooperate with Customer's investigation of any Breach and will not notify individuals, regulators, or the media of a Breach involving Customer's PHI without Customer's prior approval, unless Required by Law.",
+              "tag": "164.410(c)#ctx"
+            },
+            {
+              "text": "Customer remains responsible for any notification to individuals, the Secretary, and the media that 45 CFR 164.404 through 164.408 require of a covered entity.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.5",
+          "heading": "Subcontractors",
+          "sentences": [
+            {
+              "text": "In accordance with 45 CFR 164.502(e)(1)(ii) and 164.308(b)(2), Nimbus will ensure that any Subcontractor agrees to the same restrictions, conditions, and requirements that apply to Nimbus under this BAA with respect to PHI.",
+              "tag": "164.504(e)(2)(ii)(D)#E1"
+            },
+            {
+              "text": "Nimbus will enter into a written business associate agreement with each Subcontractor before permitting that Subcontractor to create, receive, maintain, or transmit PHI.",
+              "tag": "164.504(e)(2)(ii)(D)#E2"
+            },
+            {
+              "text": "Nimbus maintains a current list of the Subcontractors that host or process PHI at trust.nimbuschart.com/subprocessors and will post any addition to that list at least thirty (30) days before the new Subcontractor begins processing PHI.",
+              "tag": "164.504(e)(2)(ii)(D)#ctx"
+            },
+            {
+              "text": "Customer acknowledges that Nimbus hosts the Services with a third-party cloud infrastructure provider located in the United States.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.6",
+          "heading": "Individual Rights",
+          "sentences": [
+            {
+              "text": "Customer remains responsible for responding to individuals who seek to exercise their rights under the HIPAA Rules.",
+              "tag": null
+            },
+            {
+              "text": "Nimbus will forward to Customer, within five (5) business days of receipt, any request to exercise those rights that Nimbus receives directly from an individual.",
+              "tag": "164.504(e)(2)(ii)(E)#ctx"
+            },
+            {
+              "text": "Nimbus will make PHI in a Designated Record Set available to Customer, through the reporting and export functions of the Services or by other reasonable means, so that Customer can respond to an individual's request for access.",
+              "tag": "164.504(e)(2)(ii)(E)#E1"
+            },
+            {
+              "text": "If Customer cannot retrieve the requested PHI through the Services, Nimbus will make that PHI available to Customer within ten (10) business days after Customer's request, as necessary to satisfy Customer's obligations under 45 CFR 164.524.",
+              "tag": "164.504(e)(2)(ii)(E)#E2"
+            },
+            {
+              "text": "Nimbus will make PHI in a Designated Record Set available to Customer for amendment, including through the chart-correction tools of the Services.",
+              "tag": "164.504(e)(2)(ii)(F)#E1"
+            },
+            {
+              "text": "Nimbus will incorporate any amendments to PHI that Customer directs or agrees to under 45 CFR 164.526.",
+              "tag": "164.504(e)(2)(ii)(F)#E2"
+            },
+            {
+              "text": "Nimbus will document its disclosures of PHI and make available to Customer the information required to provide an accounting of disclosures.",
+              "tag": "164.504(e)(2)(ii)(G)#E1"
+            },
+            {
+              "text": "Nimbus will provide Customer with the information needed for an accounting of disclosures within ten (10) business days after Customer's request, as necessary to satisfy Customer's obligations under 45 CFR 164.528.",
+              "tag": "164.504(e)(2)(ii)(G)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.7",
+          "heading": "Privacy Rule Obligations; Books and Records",
+          "sentences": [
+            {
+              "text": "Customer remains responsible for its own compliance with the HIPAA Rules.",
+              "tag": null
+            },
+            {
+              "text": "To the extent Nimbus carries out any of Customer's obligations under Subpart E of 45 CFR Part 164, Nimbus will comply with the requirements of Subpart E that apply to Customer in the performance of those obligations.",
+              "tag": "164.504(e)(2)(ii)(H)#E1"
+            },
+            {
+              "text": "Nimbus will make its internal practices, books, and records relating to the use and disclosure of PHI available to the Secretary for purposes of determining Customer's compliance with the HIPAA Rules.",
+              "tag": "164.504(e)(2)(ii)(I)#E1"
+            },
+            {
+              "text": "Nimbus will promptly notify Customer of any request it receives from the Secretary that relates to PHI, unless prohibited by law.",
+              "tag": "164.504(e)(2)(ii)(I)#ctx"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.8",
+          "heading": "Customer Obligations",
+          "sentences": [
+            {
+              "text": "Customer will notify Nimbus of any limitation in Customer's notice of privacy practices under 45 CFR 164.520, any change in or revocation of an individual's permission to use or disclose PHI, and any restriction on the use or disclosure of PHI that Customer has agreed to or is required to abide by under 45 CFR 164.522, in each case to the extent it may affect Nimbus's use or disclosure of PHI.",
+              "tag": null
+            },
+            {
+              "text": "Customer will not request that Nimbus use or disclose PHI in any manner that would not be permissible under Subpart E of 45 CFR Part 164 if done by Customer.",
+              "tag": null
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.9",
+          "heading": "Term; Return or Destruction of PHI",
+          "sentences": [
+            {
+              "text": "This BAA takes effect on the Effective Date and remains in effect until the Agreement terminates or expires.",
+              "tag": null
+            },
+            {
+              "text": "Upon termination or expiration of the Agreement, Nimbus will return to Customer or, at Customer's election, destroy all PHI that Nimbus still maintains in any form.",
+              "tag": "164.504(e)(2)(ii)(J)#E1"
+            },
+            {
+              "text": "If return or destruction of any PHI is infeasible, including PHI held in encrypted backup media until that media is overwritten in Nimbus's ordinary backup rotation, Nimbus will extend the protections of this BAA to that PHI and limit further uses and disclosures to those purposes that make return or destruction infeasible, for as long as Nimbus maintains it.",
+              "tag": "164.504(e)(2)(ii)(J)#E2"
+            }
+          ]
+        },
+        {
+          "kind": "clause",
+          "number": "A.10",
+          "heading": "Miscellaneous",
+          "sentences": [
+            {
+              "text": "A reference in this BAA to a section of the HIPAA Rules means the section as in effect or as amended.",
+              "tag": null
+            },
+            {
+              "text": "The parties will negotiate in good faith to amend this BAA as necessary to comply with changes in the HIPAA Rules.",
+              "tag": null
+            },
+            {
+              "text": "Any ambiguity in this BAA will be interpreted to permit compliance with the HIPAA Rules.",
+              "tag": null
+            },
+            {
+              "text": "Nothing in this BAA confers any rights or remedies on any person other than Nimbus and Customer.",
+              "tag": null
+            }
+          ]
+        }
+      ],
+      "weakened": {
+        "164.504(e)(2)(i)#E1": "Nimbus may use and disclose PHI to perform the Services, to develop and improve its products and services, and for its other lawful business purposes.",
+        "164.504(e)(2)(i)#E2": "Nimbus will handle PHI in accordance with the Nimbus Privacy Policy posted at nimbuschart.com, as updated from time to time.",
+        "164.504(e)(2)(ii)(A)#E1": "Nimbus will not sell PHI or disclose it to third parties for their own marketing purposes.",
+        "164.504(e)(2)(ii)(B)#E1": "Nimbus will maintain an information security program that is commercially reasonable in light of the nature of the Services and the size of Nimbus's customer base.",
+        "164.504(e)(2)(ii)(B)#E2": "Nimbus will protect electronic PHI using the security controls described in its most recent SOC 2 Type II report.",
+        "164.504(e)(2)(ii)(C)#E1": "Nimbus will report to Customer any use or disclosure of PHI that Nimbus determines constitutes a Breach.",
+        "164.504(e)(2)(ii)(C)#E2": "Nimbus will report to Customer any Breach of Customer Data that Nimbus determines requires notice to affected individuals under applicable state data breach notification laws.",
+        "164.314(a)(2)(i)(C)#E1": "Nimbus will report to Customer any successful intrusion into its systems that Nimbus confirms resulted in a Breach.",
+        "164.410(b)#E1": "Nimbus will notify Customer of a Breach once Nimbus has completed its forensic investigation and confirmed the nature and scope of the Breach.",
+        "164.410(b)#E2": "Nimbus will deliver its notice of a Breach to Customer within the time required by applicable state breach notification law.",
+        "164.410(c)#E1": "Each notice of a Breach under this Section A.4 will include a description of the Breach and the categories of PHI involved, to the extent known.",
+        "164.410(c)#E2": "Nimbus will provide Customer with a summary of the remediation steps Nimbus has taken in response to the Breach.",
+        "164.504(e)(2)(ii)(D)#E1": "Nimbus will require its material Subcontractors that host PHI to agree to confidentiality and security obligations consistent with industry standards.",
+        "164.504(e)(2)(ii)(D)#E2": "Nimbus will require each Subcontractor to pass Nimbus's vendor security review before permitting that Subcontractor to create, receive, maintain, or transmit PHI.",
+        "164.504(e)(2)(ii)(E)#E1": "Customer may retrieve PHI using the reporting and export functions of the Services, and Nimbus will provide reasonable technical support for those functions at its then-current professional services rates.",
+        "164.504(e)(2)(ii)(E)#E2": "If Customer cannot retrieve the requested PHI through the Services, Nimbus will make that PHI available to Customer within a commercially reasonable time after Customer's request.",
+        "164.504(e)(2)(ii)(F)#E1": "Customer may correct information in its records using the chart-correction tools of the Services.",
+        "164.504(e)(2)(ii)(F)#E2": "Nimbus will reflect amendments directed by Customer in the Services to the extent its standard functionality permits.",
+        "164.504(e)(2)(ii)(G)#E1": "Nimbus will maintain audit logs of user activity within the Services and make them available to Customer through the administrative console.",
+        "164.504(e)(2)(ii)(G)#E2": "Nimbus will provide Customer with the information needed for an accounting of disclosures as its resources reasonably permit.",
+        "164.504(e)(2)(ii)(H)#E1": "To the extent Nimbus carries out any of Customer's obligations under Subpart E of 45 CFR Part 164, Nimbus will perform those tasks in accordance with the Documentation.",
+        "164.504(e)(2)(ii)(I)#E1": "Nimbus will make its internal practices, books, and records relating to the use and disclosure of PHI available to Customer, upon thirty (30) days' prior written notice and not more than once per year, for purposes of determining Nimbus's compliance with this BAA.",
+        "164.504(e)(2)(ii)(J)#E1": "Upon termination or expiration of the Agreement, Nimbus will make Customer Data available for export for ninety (90) days and will then delete Customer Data from its production systems.",
+        "164.504(e)(2)(ii)(J)#E2": "Nimbus may retain copies of PHI in its backup and archival systems in accordance with its standard data retention schedule.",
+        "164.504(e)(2)(iii)#E1": "Nimbus may terminate this Agreement upon written notice if Customer fails to pay any undisputed Fees within thirty (30) days after receiving notice of non-payment."
+      }
+    }
+  }
+}

@@ -42,7 +42,16 @@ Third-party systems never receive the held-out split (`trusted: true` is require
 
 See [`data/DATASHEET.md`](data/DATASHEET.md) for how items are built and their known limits.
 
-A curated, hand-verified "golden questions" suite is planned as a later addition alongside m1.
+## Suite m2 (business associate agreements)
+| Task | What it measures | Headline metric |
+|---|---|---|
+| `retrieval` | Find the provision a BAA implements or depends on, including from a contract clause | nDCG@10 |
+| `control_classification` | Read a whole BAA and rate 15 contract requirements covered / partial / gap, in two presentations of the same content (a standalone BAA, and vendor paper with the terms in an exhibit) | group macro-F1 |
+
+`uv run rightsize run --system ... --suite m2`. Each labelled agreement exists in both presentations, so the
+`presentation` stratum shows how much a model loses to drafting style alone. See the m2 section of the datasheet.
+
+A curated, hand-verified "golden questions" suite is planned as a later addition alongside m1 and m2.
 
 ## Layout
 `packages/rightsize-core` (domain-agnostic harness) · `packages/rightsize-pack-compliance` (task pack) ·
