@@ -66,7 +66,7 @@ retrieval:
     "164.308(b)(1)": "Business associates handling ePHI under satisfactory assurances"
     "164.308(b)(2)": "Subcontractors of business associates handling ePHI"
     "164.308(b)(3)": "Written contract documenting a business associate's security assurances"
-    "164.314(a)(1)": "Required terms of business associate contracts for ePHI"
+    "164.314(a)(1)": "Security Rule standard for business associate contracts"
     "164.314(a)(2)(i)(A)": "Business associate compliance with the Security Rule"
     "164.314(a)(2)(i)(B)": "Subcontractor compliance with the Security Rule"
     "164.314(a)(2)(i)(C)": "Business associate reporting of security incidents"
@@ -120,7 +120,15 @@ retrieval:
     - ["164.504(e)(2)(ii)(I)", "164.502(a)(4)(i)"]
     - ["164.410(c)(1)", "164.410(c)(2)"]
     - ["164.504(e)(3)(i)(A)", "164.314(a)(2)(ii)"]
+  # Lineups for writers and verifiers never pair a paragraph with its own subparagraph.
+  distinct_neighbors: true
+  # Verifier lineups show enough text to reach nested sub-terms, and offer "none of these" so a
+  # question whose real answer lies outside the lineup is rejected rather than forced.
+  lineup_chars: 1500
+  mc_none_option: true
   overlap_filter:
+    # Blanks, references to "this provision", and regulatory cross-reference wording.
+    reject_patterns: ['_{3,}', '\bthis (provision|rule|section|regulation|paragraph)\b', '\bparagraph \(', '§', '\bCFR\b', '\[[^\]]*\]']
     max_jaccard: 0.25
     max_shared_ngram: 4
     # BAA questions cannot avoid naming the parties and the contract.

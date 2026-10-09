@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from pathlib import Path
 
 from rightsize_pack_compliance import citations
@@ -64,9 +65,14 @@ def _prompt(t: Target, style: str, n: int, allow: set[str], avoid: list[Target] 
     )
 
 
-def neighbors(t: Target, targets: dict[str, Target], corpus: Corpus, negs: dict[str, set[str]], n: int = 4) -> list[Target]:
+def neighbors(t: Target, targets: dict[str, Target], corpus: Corpus, negs: dict[str, set[str]], n: int = 4,
+              distinct: bool = False) -> list[Target]:
     """Confusable provisions for a target: curated hard negatives first, then siblings and
-    cousins in the same section, chosen deterministically."""
+    cousins in the same section, chosen deterministically.
+
+    `distinct` (suite option `distinct_neighbors`) keeps the lineup fair: no option may contain
+    another (a paragraph next to its own subparagraph reads as two copies of one answer), and an
+    option whose eCFR heading is only an enumerator ("1", "(ii)") is titled by its section."""
     out: list[str] = sorted(negs.get(t.code, set()))
     section = corpus.rows[t.code]["section"]
     same = sorted(
@@ -76,14 +82,22 @@ def neighbors(t: Target, targets: dict[str, Target], corpus: Corpus, negs: dict[
          and not citations.parse(t.code).is_ancestor_of(citations.parse(c))),
         key=lambda c: stable_hash("nb", t.code, c),
     )
+    def nested(a: str, b: str) -> bool:
+        pa, pb = citations.parse(a), citations.parse(b)
+        return bool(pa and pb and (pa.is_ancestor_of(pb) or pb.is_ancestor_of(pa)))
+
     for c in same:
         if len(out) >= n:
             break
-        if c not in out:
-            out.append(c)
+        if c in out or (distinct and any(nested(c, o) for o in out)):
+            continue
+        out.append(c)
     res = []
     for c in out[:n]:
-        res.append(targets.get(c) or Target(c, corpus.display_title(c), corpus.subtree_text(c), corpus.rows[c]["subpart"] or ""))
+        title = corpus.display_title(c)
+        if distinct and not re.search(r"[A-Za-z]{3}", title):
+            title = corpus.rows[c]["section_title"]
+        res.append(targets.get(c) or Target(c, title, corpus.subtree_text(c), corpus.rows[c]["subpart"] or ""))
     return res
 
 
@@ -110,7 +124,7 @@ def generate(corpus: Corpus, suite_cfg: dict, llm: SeedLLM, store: SeedStore, n:
     negs = _negs(rcfg)
     targets = [t for t in all_targets if stable_hash("writer", t.code) % share[1] == share[0]]
     for i, t in enumerate(targets):
-        avoid = neighbors(t, by_code, corpus, negs)
+        avoid = neighbors(t, by_code, corpus, negs, distinct=rcfg.get("distinct_neighbors", False))
         for style in styles:
             if (t.code, style) in existing and (t.code, style) not in retry:
                 continue
@@ -147,6 +161,34 @@ CLAUSE_SYSTEM = (
 )
 
 VERIFY_SYSTEM = "You are an expert in the HIPAA Privacy, Security, and Breach Notification Rules."
+NONE_OF_THESE = "None of these provisions specifically answers it"
+LETTERS = "ABCDEF"
+
+
+def mc_item(t: Target, ci: int, options: list[Target], cand: str, style: str, rcfg: dict) -> tuple[str, list[int]]:
+    """The multiple-choice prompt for one candidate, and the option order behind its letters.
+
+    Suite options: `lineup_chars` (default 500) is how much of each provision's text is shown;
+    `mc_none_option` adds a final "none of these" choice, so a question whose real answer lies
+    outside the lineup (e.g. a covered entity's own duty) is rejected instead of forced onto the
+    nearest option."""
+    chars = rcfg.get("lineup_chars", 500)
+    order = sorted(range(len(options)), key=lambda i: stable_hash("mc", t.code, ci, i))
+    lines = [f"{LETTERS[j]}. {options[i].title}: {options[i].rule_text[:chars]}" for j, i in enumerate(order)]
+    if rcfg.get("mc_none_option"):
+        lines.append(f"{LETTERS[len(order)]}. {NONE_OF_THESE}")
+    ask = (f"Contract clause: {cand}\n\nWhich provision does this clause put into contract terms?"
+           if style == "clause" else
+           f"Question: {cand}\n\nWhich provision most specifically answers this question?")
+    return ask + "\n\n" + "\n".join(lines) + '\n\nReply with only a JSON object like {"answer": "A"}.', order
+
+
+def mc_pick(letter: str, order: list[int], options: list[Target]) -> str | None:
+    """The citation a letter stands for; None for "none of these" or an invalid letter."""
+    letter = (letter or "").strip().upper()[:1]
+    if not letter or letter not in LETTERS[: len(order)]:
+        return None
+    return options[order[LETTERS.index(letter)]].code
 
 
 def verify(corpus: Corpus, suite_cfg: dict, llm: SeedLLM, store: SeedStore) -> Path:
@@ -157,7 +199,6 @@ def verify(corpus: Corpus, suite_cfg: dict, llm: SeedLLM, store: SeedStore) -> P
     rows = store.load()
     targets = {t.code: t for t in select_targets(corpus, rcfg)}
     negs = _negs(rcfg)
-    letters = "ABCDE"
     for key in sorted(rows):
         row = rows[key]
         t = targets.get(row["control_code"])
@@ -168,28 +209,19 @@ def verify(corpus: Corpus, suite_cfg: dict, llm: SeedLLM, store: SeedStore) -> P
         verdicts = row.setdefault("verdicts", {})
         if llm.label in verdicts and len(verdicts[llm.label]) == len(row["candidates"]):
             continue
-        options = [t] + neighbors(t, targets, corpus, negs)
+        options = [t] + neighbors(t, targets, corpus, negs, distinct=rcfg.get("distinct_neighbors", False))
         res = list(verdicts.get(llm.label, []))
         for ci, cand in enumerate(row["candidates"]):
             if ci < len(res):
                 continue
-            order = sorted(range(len(options)), key=lambda i: stable_hash("mc", t.code, ci, i))
-            lines = [f"{letters[j]}. {options[i].title}: {options[i].rule_text[:500]}" for j, i in enumerate(order)]
-            ask = (f"Contract clause: {cand}\n\nWhich provision does this clause put into contract terms?"
-                   if row["style"] == "clause" else
-                   f"Question: {cand}\n\nWhich provision most specifically answers this question?")
-            user = (
-                ask + "\n\n"
-                + "\n".join(lines)
-                + '\n\nReply with only a JSON object like {"answer": "A"}.'
-            )
+            user, order = mc_item(t, ci, options, cand, row["style"], rcfg)
             pick = None
             for _ in range(2):
                 try:
                     ans = parse_json_block(llm.complete(VERIFY_SYSTEM, user, max_tokens=200, json_mode=True))
                     letter = str(ans.get("answer", "")).strip().upper()[:1] if isinstance(ans, dict) else ""
-                    if letter in letters[: len(options)]:
-                        pick = options[order[letters.index(letter)]].code
+                    if letter and letter in LETTERS[: len(options) + bool(rcfg.get("mc_none_option"))]:
+                        pick = mc_pick(letter, order, options)
                         break
                 except Exception as e:  # noqa: BLE001
                     log.warning("verify %s #%d failed: %s", t.code, ci, e)

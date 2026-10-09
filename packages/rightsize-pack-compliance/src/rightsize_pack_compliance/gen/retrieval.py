@@ -10,6 +10,7 @@ Three styles, in rising difficulty:
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass
 
 from rightsize_core.schema import Provenance, SourceRef, Task
@@ -72,9 +73,13 @@ def pick_seed(t: Target, style: str, seeds: dict, ocfg: dict, require_verified: 
     if not entry:
         return None, {"reason": "no seed"}
     allow = set(ocfg.get("allow_words", []))
+    malformed = [re.compile(x, re.IGNORECASE) for x in ocfg.get("reject_patterns", [])]
     rejected = []
     verdicts = entry.get("verdicts", {})
     for ci, cand in enumerate(entry["candidates"]):
+        if bad := next((p.pattern for p in malformed if p.search(cand)), None):
+            rejected.append({"candidate": cand, "reason": f"malformed: {bad}"})
+            continue
         votes = {v: res[ci] for v, res in verdicts.items() if ci < len(res)}
         if any(ok is False for ok in votes.values()):
             rejected.append({"candidate": cand, "reason": f"verifier disagreed: {sorted(v for v, ok in votes.items() if not ok)}"})

@@ -57,7 +57,13 @@ class SeedLLM:
             body["response_format"] = {"type": "json_object"}
         r = httpx.post(f"{self.base_url.rstrip('/')}/chat/completions", json=body, headers=headers, timeout=600)
         r.raise_for_status()
-        return r.json()["choices"][0]["message"]["content"]
+        data = r.json()
+        # Ollama's OpenAI endpoint silently cuts prompts to its default context (4096 tokens on
+        # 0.13). No tokenizer averages 6+ characters per token, so fewer tokens means truncation.
+        seen = (data.get("usage") or {}).get("prompt_tokens")
+        if seen and seen < (len(system) + len(user)) // 6:
+            raise RuntimeError(f"server read {seen} prompt tokens of a longer prompt: context truncated")
+        return data["choices"][0]["message"]["content"]
 
 
 def items_of(value) -> list:

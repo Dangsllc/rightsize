@@ -14,6 +14,7 @@ the overlap filter (the build keeps the first verified, overlap-clean candidate)
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from rightsize_pack_compliance.gen import overlap
@@ -27,11 +28,11 @@ from rightsize_pack_compliance.gen.seed_queries import (
     SeedStore,
     _negs,
     _prompt,
+    mc_item,
+    mc_pick,
     neighbors,
 )
 from rightsize_pack_compliance.gen.text import stable_hash
-
-LETTERS = "ABCDE"
 
 
 def _jsonl(path: Path) -> list[dict]:
@@ -49,7 +50,7 @@ def export_write(corpus: Corpus, cfg: dict, store: SeedStore, share: tuple[int, 
     for t in targets:
         if stable_hash("writer", t.code) % share[1] != share[0]:
             continue
-        avoid = neighbors(t, by_code, corpus, negs)
+        avoid = neighbors(t, by_code, corpus, negs, distinct=rcfg.get("distinct_neighbors", False))
         for style in (s for s in rcfg["styles"] if s != "exact_term"):
             if (t.code, style) in existing:
                 continue
@@ -72,11 +73,6 @@ def import_write(store: SeedStore, label: str, answers: Path) -> int:
     return n
 
 
-def _lineup(t, ci, options):
-    order = sorted(range(len(options)), key=lambda i: stable_hash("mc", t.code, ci, i))
-    return order, [f"{LETTERS[j]}. {options[i].title}: {options[i].rule_text[:500]}" for j, i in enumerate(order)]
-
-
 def export_verify(corpus: Corpus, cfg: dict, store: SeedStore, label: str, out: Path, per_slot: int = 3) -> int:
     rcfg = cfg["retrieval"]
     ocfg = rcfg.get("overlap_filter", {})
@@ -90,20 +86,18 @@ def export_verify(corpus: Corpus, cfg: dict, store: SeedStore, label: str, out: 
             continue
         if label in row.get("verdicts", {}):
             continue
-        options = [t] + neighbors(t, targets, corpus, negs)
+        options = [t] + neighbors(t, targets, corpus, negs, distinct=rcfg.get("distinct_neighbors", False))
         asked = 0
         for ci, cand in enumerate(row["candidates"]):
             if asked >= per_slot:
                 break
+            if any(re.search(x, cand, re.IGNORECASE) for x in ocfg.get("reject_patterns", [])):
+                continue
             if not overlap.check(cand, t.title, t.rule_text, allow, ocfg.get("max_jaccard", 0.25),
                                  ocfg.get("max_shared_ngram", 4)).ok:
                 continue
-            _, lines = _lineup(t, ci, options)
-            ask = (f"Contract clause: {cand}\n\nWhich provision does this clause put into contract terms?"
-                   if row["style"] == "clause" else
-                   f"Question: {cand}\n\nWhich provision most specifically answers this question?")
-            items.append({"code": t.code, "style": row["style"], "ci": ci, "system": VERIFY_SYSTEM,
-                          "prompt": ask + "\n\n" + "\n".join(lines) + '\n\nReply with only a JSON object like {"answer": "A"}.'})
+            prompt, _ = mc_item(t, ci, options, cand, row["style"], rcfg)
+            items.append({"code": t.code, "style": row["style"], "ci": ci, "system": VERIFY_SYSTEM, "prompt": prompt})
             asked += 1
     out.write_text("".join(json.dumps(r) + "\n" for r in items))
     return len(items)
@@ -118,10 +112,9 @@ def import_verify(corpus: Corpus, cfg: dict, store: SeedStore, label: str, answe
     for a in _jsonl(answers):
         row = rows[(a["code"], a["style"])]
         t = targets[a["code"]]
-        options = [t] + neighbors(t, targets, corpus, negs)
-        order, _ = _lineup(t, a["ci"], options)
-        letter = str(a.get("answer", "")).strip().upper()[:1]
-        pick = options[order[LETTERS.index(letter)]].code if letter and letter in LETTERS[: len(options)] else None
+        options = [t] + neighbors(t, targets, corpus, negs, distinct=rcfg.get("distinct_neighbors", False))
+        _, order = mc_item(t, a["ci"], options, row["candidates"][a["ci"]], row["style"], rcfg)
+        pick = mc_pick(str(a.get("answer", "")), order, options)
         res = row.setdefault("verdicts", {}).setdefault(label, [])
         res.extend([None] * (len(row["candidates"]) - len(res)))
         res[a["ci"]] = pick == t.code
