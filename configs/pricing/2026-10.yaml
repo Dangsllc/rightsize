@@ -1,8 +1,8 @@
 # USD per million tokens. Anthropic first-party API list prices (cached 2026-09-25; Haiku 5.5 and
-# the local entries added 2026-10-09). Thinking tokens bill as output. Local models are free at the
+# the local entries added 2026-10-09; Gemini added 2026-10-10). Thinking tokens bill as output. Local models are free at the
 # margin; set `hourly` to amortize. Every rung of a ladder needs an entry: one unpriced rung turns
 # off cost ordering in `rightsize calibrate`.
-as_of: "2026-10-09"
+as_of: "2026-10-10"
 models:
   claude-haiku-4-5:   {input: 1.00, output: 5.00, cache_read: 0.10}
   # Rate for prompts of 100K tokens or fewer (every m1/m2 task); longer prompts bill $0.50 / $2.50.
@@ -14,4 +14,10 @@ models:
   qwen3.5-9b:          {input: 0.0, output: 0.0}
   "qwen2.5:latest":    {input: 0.0, output: 0.0}
   "deepseek-r1:32b":   {input: 0.0, output: 0.0}
+  # Gemini API paid-tier list prices (ai.google.dev/gemini-api/docs/pricing, read 2026-10-10), prompts
+  # of 200K tokens or fewer. The free tier bills nothing; these show what the same run would cost.
+  # gemini-3.8-flash rises to $1.50 / $7.50 on 2027-01-01.
+  gemini-3.1-flash-lite:  {input: 0.25, output: 1.50}
+  gemini-3.8-flash:       {input: 0.75, output: 3.75}
+  gemini-3.1-pro-preview: {input: 2.00, output: 12.00}
   bm25:                {input: 0.0, output: 0.0}

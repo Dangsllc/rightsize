@@ -1,13 +1,16 @@
-# Local models against hosted ones, cheapest first, for `rightsize sweep --system ref:llm`.
-# Each rung routes its own provider through params, so one sweep mixes LM Studio, Ollama, and the
-# Anthropic API. Local servers answer one request at a time: those rungs run at concurrency 1.
+# Local models against Google's hosted Gemini models, cheapest first, for
+# `rightsize sweep --system ref:llm`. Each rung routes its own provider through params, so one
+# sweep mixes LM Studio, Ollama, and the Gemini API (through its OpenAI-compatible endpoint).
 #
-# Before a sweep, load each LM Studio model with a context that fits the longest prompt:
-#   lms load qwen2.5-7b-instruct --context-length 32768
-# and put LM_API_TOKEN (LM Studio) and ANTHROPIC_API_KEY in .env.
+# Setup:
+#   lms load qwen2.5-7b-instruct --context-length 32768   (likewise qwen/qwen3.5-9b)
+#   .env: LM_API_TOKEN (LM Studio) and GEMINI_API_KEY (Google AI Studio)
 #
-# Every rung runs the same prompt (neutral; leave RIGHTSIZE_SKILLS_DIR unset) and mode=spec.
-# Opus writes the m2 agreements, so no Opus rung appears here.
+# Every rung runs the same neutral prompt (leave RIGHTSIZE_SKILLS_DIR unset) and mode=spec.
+# m2's agreements are Claude-written, so this ladder has no Claude rungs.
+#
+# no_heldout: the Gemini API's free tier uses prompts to improve Google's products, so Gemini rungs
+# refuse the held-out split. Remove the flag only for a key on the paid tier.
 rungs:
   - name: qwen2.5-7b@lmstudio
     model: qwen2.5-7b-instruct
@@ -23,9 +26,25 @@ rungs:
     model: "deepseek-r1:32b"
     concurrency: 1
     params: {provider: ollama, num_ctx: 32768, temperature: 0, mode: spec}
-  # Haiku 4.5 takes temperature and no effort; Haiku 5.5 and Sonnet 5.5 take effort and no temperature.
-  - {name: haiku-4.5,         model: claude-haiku-4-5,  params: {provider: anthropic, temperature: 0, mode: spec}}
-  - {name: haiku-5.5@low,     model: claude-haiku-5-5,  params: {provider: anthropic, effort: low, mode: spec}}
-  - {name: haiku-5.5@medium,  model: claude-haiku-5-5,  params: {provider: anthropic, effort: medium, mode: spec}}
-  - {name: sonnet-5.5@low,    model: claude-sonnet-5-5, params: {provider: anthropic, effort: low, mode: spec}}
-  - {name: sonnet-5.5@medium, model: claude-sonnet-5-5, params: {provider: anthropic, effort: medium, mode: spec}}
+  - name: gemini-3.1-flash-lite
+    model: gemini-3.1-flash-lite
+    concurrency: 2
+    params: &gemini {provider: openai, base_url: "https://generativelanguage.googleapis.com/v1beta/openai",
+                     api_key_env: GEMINI_API_KEY, temperature: 0, max_tokens: 32000, mode: spec, no_heldout: true}
+  - name: gemini-3.8-flash@low
+    model: gemini-3.8-flash
+    concurrency: 2
+    params: {<<: *gemini, reasoning_effort: low}
+  - name: gemini-3.8-flash@high
+    model: gemini-3.8-flash
+    concurrency: 2
+    params: {<<: *gemini, reasoning_effort: high}
+  # Pro has no free tier: these rungs need a key on the paid tier (e.g. Developer Program credits).
+  - name: gemini-3.1-pro@low
+    model: gemini-3.1-pro-preview
+    concurrency: 2
+    params: {<<: *gemini, reasoning_effort: low}
+  - name: gemini-3.1-pro@high
+    model: gemini-3.1-pro-preview
+    concurrency: 2
+    params: {<<: *gemini, reasoning_effort: high}

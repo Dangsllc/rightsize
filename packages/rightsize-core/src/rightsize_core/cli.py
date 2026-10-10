@@ -284,7 +284,10 @@ def run(
 
     root = _root()
     sysobj = load_system(system, root, suite)
-    sysobj.configure(model, _params(param))
+    params = _params(param)
+    if split == "heldout" and params.get("no_heldout"):
+        raise typer.BadParameter("params mark this configuration no_heldout (e.g. a provider that trains on prompts)")
+    sysobj.configure(model, params)
     tasks = load_tasks(root, suite, split, task_types)
     if limit:
         tasks = tasks[:limit]
@@ -408,6 +411,9 @@ def sweep(
     if rungs:
         wanted = set(rungs.split(","))
         ladder_rungs = [r for r in ladder_rungs if r.name in wanted]
+    blocked = [r.name for r in ladder_rungs if r.params.get("no_heldout")]
+    if split == "heldout" and blocked:
+        raise typer.BadParameter(f"rungs {blocked} are marked no_heldout (e.g. a provider that trains on prompts)")
     tasks = sample_tasks(load_tasks(root, suite, split, task_types), sample)
     pricing = Pricing(root / pricing_file)
     typer.echo(f"{len(ladder_rungs)} rungs x {len(tasks)} tasks x {repeats} repeats = "

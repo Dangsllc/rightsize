@@ -189,6 +189,8 @@ class LLMSystem(ReferenceSystem):
             "temperature": float(params.get("temperature", 0.0)),
             "max_tokens": int(params.get("max_tokens", 8000)),
         }
+        if params.get("reasoning_effort"):  # thinking control on OpenAI-compatible APIs (e.g. Gemini)
+            body["reasoning_effort"] = params["reasoning_effort"]
         async with httpx.AsyncClient(timeout=1800) as c:
             r = await c.post(f"{base_url.rstrip('/')}/chat/completions", json=body, headers=headers)
             r.raise_for_status()
@@ -201,9 +203,12 @@ class LLMSystem(ReferenceSystem):
         # Reasoning models on OpenAI-compatible servers put their chain of thought in a separate
         # field (dropped here) or inline in <think> tags (stripped by parse_json_block).
         text = choice["message"].get("content") or ""
-        usage = [UsageRecord(provider="openai-compatible", model=data.get("model", model),
-                             input_tokens=u.get("prompt_tokens", 0), output_tokens=u.get("completion_tokens", 0),
-                             estimated=not u, latency_ms=int((time.monotonic() - t0) * 1000), call_role="assess")]
+        n_in, n_out = u.get("prompt_tokens", 0), u.get("completion_tokens", 0)
+        # Some servers count reasoning tokens only in total_tokens; bill whatever total exceeds in + out.
+        thinking = max(0, (u.get("total_tokens") or 0) - n_in - n_out) or None
+        usage = [UsageRecord(provider="openai-compatible", model=data.get("model", model), input_tokens=n_in,
+                             output_tokens=n_out, thinking_tokens=thinking, estimated=not u,
+                             latency_ms=int((time.monotonic() - t0) * 1000), call_role="assess")]
         sent = {"provider": provider, **{k: v for k, v in body.items() if k != "messages"}}
         return parse_json_block(text), usage, sent
 

@@ -122,3 +122,16 @@ def test_diff_fail_on_regression(monkeypatch):
     finally:
         for d in dirs.values():
             shutil.rmtree(d, ignore_errors=True)
+
+
+def test_no_heldout_rungs_refuse_the_heldout_split(tmp_path, monkeypatch):
+    monkeypatch.setenv("RIGHTSIZE_PLUGIN_PATH", str(ROOT / "tests/fixtures"))
+    monkeypatch.setenv("RIGHTSIZE_ROOT", str(ROOT))
+    ladder = tmp_path / "ladder.yaml"
+    ladder.write_text(yaml.safe_dump({"rungs": [{"name": "free", "model": "fake-small", "params": {"no_heldout": True}}]}))
+    res = CliRunner().invoke(app, ["sweep", "--system", "plugin:fake_ladder_system:make", "--ladder", str(ladder),
+                                   "--split", "heldout", "--dry-run"])
+    assert res.exit_code != 0 and "no_heldout" in (res.output + str(res.exception))
+    res = CliRunner().invoke(app, ["run", "--system", "plugin:fake_ladder_system:make", "--model", "fake-small",
+                                   "--split", "heldout", "--param", "no_heldout=true"])
+    assert res.exit_code != 0 and "no_heldout" in (res.output + str(res.exception))
