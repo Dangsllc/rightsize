@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "rightsize",
+  "description": "Rightsize: benchmark compliance AI systems with labels built by construction, and find the cheapest model that's good enough for each task.",
+  "owner": {"name": "Dan Gonzalez"},
+  "plugins": [
+    {
+      "name": "rightsize",
+      "description": "Benchmark your compliance AI system and right-size its models from Claude Code: conformance, guarded runs and sweeps, calibration, and results that keep their caveats.",
+      "source": "./plugins/rightsize",
+      "category": "development",
+      "homepage": "https://github.com/Dangsllc/rightsize"
+    }
+  ]
+}

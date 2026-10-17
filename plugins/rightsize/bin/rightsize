@@ -1,0 +1,11 @@
+#!/bin/sh
+# Run the Rightsize CLI from the same checkout the MCP server uses (see rightsize-mcp).
+set -eu
+here=$(cd "$(dirname "$0")/.." && pwd)
+for cand in "${RIGHTSIZE_ROOT:-}" "$here/../.." "$HOME/rightsize"; do
+  if [ -n "$cand" ] && [ -d "$cand/configs/suites" ]; then
+    exec uv run --quiet --directory "$(cd "$cand" && pwd)" rightsize "$@"
+  fi
+done
+echo "rightsize: no Rightsize checkout found; set RIGHTSIZE_ROOT or run /rightsize:setup" >&2
+exit 1

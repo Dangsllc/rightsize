@@ -1,10 +1,9 @@
-import json
 import sys
 from pathlib import Path
 
 import pytest
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tests" / "fixtures"))
 
 import ui_states
@@ -28,7 +27,3 @@ def index(states):
 def plugin_path(monkeypatch):
     monkeypatch.setenv("RIGHTSIZE_PLUGIN_PATH", str(ROOT / "tests" / "fixtures"))
     monkeypatch.setenv("RIGHTSIZE_ROOT", str(ROOT))
-
-
-def ids_of(states) -> dict[str, str]:
-    return json.loads(json.dumps(states[1]))

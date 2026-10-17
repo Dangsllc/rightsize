@@ -100,12 +100,13 @@ def headlines(card: dict) -> list[Headline]:
         usage = r.get("usage", {})
         cost = usage.get("cost_usd_per_task")
         errs = [m["value"] for k, m in r["metrics"].items() if k.endswith("error_rate")]
+        floors = {name: f[pm_name] for name, f in (r.get("floors") or {}).items() if f.get(pm_name) is not None}
         out.append(Headline(
             task_type=tt, metric=pm_name,
             value=pm["value"] if pm else None, lo=pm["lo"] if pm else None, hi=pm["hi"] if pm else None,
             n_clusters=n, low_n=n < MIN_ITEMS,
             tiny_n=bool(pm) and n < TINY_N,
-            floors={name: f[pm_name] for name, f in (r.get("floors") or {}).items() if f.get(pm_name) is not None},
+            floors=floors, clears_floors=(pm["lo"] > max(floors.values())) if pm and floors else None,
             cost_per_task=cost, cost_total=usage.get("cost_usd_total"),
             cost_state="unknown" if cost is None else "zero" if cost == 0 else "known",
             calls=int(usage.get("calls", 0)), error_rate=max(errs, default=0.0),

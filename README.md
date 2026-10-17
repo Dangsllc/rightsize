@@ -42,6 +42,18 @@ self-contained `scorecard.html`.
   for held-out data, the spend cap, and missing keys. Only then does it start the run in the
   background. A pilot measures cost on 20 tasks before the full run.
 
+## Use it from Claude Code
+```
+/plugin marketplace add Dangsllc/rightsize
+/plugin install rightsize@rightsize
+/rightsize:setup
+```
+The plugin runs `rightsize mcp`, which gives agents the same results, items, comparisons, and
+calibration the Workbench shows, plus planned launches: `plan_run` / `plan_sweep` return a plan
+with its guards and a measured-cost estimate, and `start(plan_id)` refuses if the plan changed.
+Two skills walk through benchmarking a system and right-sizing its models. For scripts,
+`report`, `diff`, `calibrate`, and `sweep --dry-run` also take `--json` and print the same payloads.
+
 ## Publishing results
 `uv run rightsize export --out docs/results --sweep <id> --run <id> --compare <A>:<B>` writes a static
 bundle: an index, a page per run, sweep, and comparison (the same pages the Workbench shows, without

@@ -88,6 +88,11 @@ def _build(runs_dir: Path) -> dict[str, str]:
     ids["run_aborted"] = _run_dir(_cli(["run", "--system", "plugin:fake_ladder_system:make", "--model", "fake-large",
                                         "--max-cost", "0.05", "--concurrency", "1", *base]))
 
+    # A classification run (the oracle answers from the labels, so no model is called) for item views
+    # with whole documents.
+    ids["run_classification"] = _run_dir(_cli(["run", "--system", "ref:oracle", "--suite", "m2", "--split",
+                                               "public", "--task-type", "control_classification", "--limit", "2"]))
+
     # A run whose process died: the manifest still says running and there is no heartbeat.
     src = runs_dir / ids["run_ok_small"]
     dead = runs_dir / src.name.replace("fake-small", "fake-medium-killed")

@@ -24,6 +24,7 @@ class Headline(BaseModel):
     low_n: bool = False  # below calibrate's bar for a routing claim
     tiny_n: bool = False  # too few clusters to estimate uncertainty (a perfect score may still be zero-width)
     floors: dict[str, float] = Field(default_factory=dict)  # trivial predictor -> its value on this metric
+    clears_floors: bool | None = None  # lower bound above every trivial predictor; None when there are none
     cost_per_task: float | None = None
     cost_total: float | None = None
     cost_state: CostState = "unknown"

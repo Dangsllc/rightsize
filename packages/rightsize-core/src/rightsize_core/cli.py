@@ -316,26 +316,50 @@ def _summary(card: dict) -> None:
                    f"{'unknown' if cost is None else f'${cost:.4f}'}")
 
 
+def _echo_json(payload) -> None:
+    typer.echo(json.dumps(payload, indent=2, default=str))
+
+
 @app.command()
-def report(run_dir: Path):
+def report(run_dir: Path, json_out: bool = typer.Option(False, "--json", help="Print the agent summary as JSON")):
     """Re-score an existing run (no system calls) and re-render its scorecard."""
     from rightsize_core.report.html import render
     from rightsize_core.runner.score import score_run
 
-    card = score_run(_root(), run_dir)
+    root = _root()
+    card = score_run(root, run_dir)
     render(card, run_dir / "scorecard.html")
-    _summary(card)
+    if json_out:
+        from rightsize_core.service import agent
+        from rightsize_core.service.index import Index
+
+        _echo_json(agent.summarize_run(Index(root, run_dir.resolve().parent), run_dir.resolve().name))
+    else:
+        _summary(card)
 
 
 @app.command()
 def diff(run_a: Path, run_b: Path, delta: float = typer.Option(0.0, help="Regression margin"),
-         fail_on_regression: bool = typer.Option(False, help="Exit 1 if any primary metric regressed (for CI)")):
+         fail_on_regression: bool = typer.Option(False, help="Exit 1 if any primary metric regressed (for CI)"),
+         json_out: bool = typer.Option(False, "--json", help="Print the comparison as JSON")):
     """Paired comparison of two runs on the items both scored (B minus A)."""
     from rightsize_core.report.diff import diff_data, primary_regressions, render_diff
 
-    data = diff_data(_root(), run_a, run_b, delta)
-    typer.echo(render_diff(data))
-    if fail_on_regression and (bad := primary_regressions(data)):
+    root = _root()
+    if json_out:
+        from rightsize_core.service import agent
+        from rightsize_core.service.index import Index
+
+        if run_a.resolve().parent != run_b.resolve().parent:
+            raise typer.BadParameter("--json compares two runs in the same runs folder")
+        payload = agent.diff_runs(Index(root, run_a.resolve().parent), run_a.resolve().name, run_b.resolve().name)
+        _echo_json(payload)
+        bad = [tt for tt, t in payload["task_types"].items() if (t["primary"] or {}).get("flag") == "regression"]
+    else:
+        data = diff_data(root, run_a, run_b, delta)
+        typer.echo(render_diff(data))
+        bad = primary_regressions(data)
+    if fail_on_regression and bad:
         typer.echo(f"\nPrimary metric regressed: {', '.join(bad)}", err=True)
         raise typer.Exit(1)
 
@@ -374,7 +398,8 @@ def sweep(
     concurrency: int = 4,
     max_cost: float | None = typer.Option(None, help="Stop the sweep once total reported spend passes this"),
     stop_after_errors: int | None = typer.Option(None, help="Stop a rung if its first N calls all fail"),
-    dry_run: bool = typer.Option(False, help="Print the plan and stop"),
+    dry_run: bool = typer.Option(False, help="Print the plan (calls, prices, keys, guards) and stop"),
+    json_out: bool = typer.Option(False, "--json", help="With --dry-run, print the plan as JSON"),
     pricing_file: Path = typer.Option(Path("configs/pricing/2026-10.yaml"), "--pricing"),
 ):
     """Run one suite across a ladder of models (same tasks, same settings) for right-sizing."""
@@ -399,6 +424,10 @@ def sweep(
         raise typer.BadParameter(f"rungs {blocked} are marked no_heldout (e.g. a provider that trains on prompts)")
     tasks = sample_tasks(load_tasks(root, suite, split, task_types), sample)
     pricing = Pricing(root / pricing_file)
+    if dry_run:
+        _sweep_plan(root, system, ladder, rungs, suite, split, task_types, sample, repeats, concurrency, max_cost,
+                    stop_after_errors, pricing_file, json_out)
+        return
     typer.echo(f"{len(ladder_rungs)} rungs x {len(tasks)} tasks x {repeats} repeats = "
                f"{len(ladder_rungs) * len(tasks) * repeats} system calls")
     for r in ladder_rungs:
@@ -406,8 +435,6 @@ def sweep(
         price = f"${rate['input']:.2f}/${rate['output']:.2f} per MTok" if rate else "no price on file"
         conc = f"  concurrency {r.concurrency}" if r.concurrency else ""
         typer.echo(f"  {r.name:<18} {r.model:<20} {r.params}  {price}{conc}")
-    if dry_run:
-        return
     sweep_id = f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}_{uuid.uuid4().hex[:6]}"
     sdir = default_runs_dir(root) / "sweeps" / sweep_id
     sdir.mkdir(parents=True)
@@ -469,6 +496,38 @@ def sweep(
     typer.echo(f"\nspend ${spent:.2f}. Next: rightsize calibrate \"{sdir}\"")
 
 
+def _sweep_plan(root, system, ladder, rungs, suite, split, task_types, sample, repeats, concurrency, max_cost,
+                stop_after_errors, pricing_file, json_out) -> None:
+    """`sweep --dry-run`: the same plan the Workbench and the MCP server build."""
+    from rightsize_core.service import agent
+    from rightsize_core.service.index import Index
+    from rightsize_core.service.models import PlanRequest
+    from rightsize_core.service.plans import build_plan
+
+    req = PlanRequest(kind="sweep", system=system, ladder=str(ladder), rungs=rungs.split(",") if rungs else [],
+                      suite=suite, split=split, task_types=task_types or [], limit=sample, repeats=repeats,
+                      concurrency=concurrency, max_cost=max_cost, stop_after_errors=stop_after_errors)
+    plan = asyncio.run(build_plan(root, req, Index(root), pricing_file=str(pricing_file)))
+    if json_out:
+        _echo_json(agent.plan_payload(plan))
+        return
+    typer.echo(f"{len(plan.rungs)} rungs x {plan.tasks} tasks x {repeats} repeats = {plan.calls} system calls")
+    for r in plan.rungs:
+        price = f"${r.rate['input']:.2f}/${r.rate['output']:.2f} per MTok" if r.rate else "no price on file"
+        conc = f"  concurrency {r.concurrency}" if r.concurrency else ""
+        missing = [k for k, ok in r.env.items() if not ok]
+        keys = f"  missing {', '.join(missing)}" if missing else ""
+        typer.echo(f"  {r.name:<18} {(r.model or ''):<20} {r.params}  {price}{conc}{keys}")
+    est = plan.estimate
+    if est.usd is not None:
+        typer.echo(f"estimate: ${est.usd:.2f} ({est.source})")
+    else:
+        typer.echo(f"estimate: no measured cost yet for {', '.join(est.missing)}; a pilot measures it")
+    for g in plan.guards:
+        typer.echo(f"  [{'ok' if g.ok else 'BLOCKS' if g.blocking else 'note'}] {g.name}: {g.message}")
+    typer.echo(f"plan {plan.plan_id}: {'ready' if plan.ok else 'blocked'}")
+
+
 @app.command()
 def calibrate(
     sweep_dir: Path,
@@ -476,6 +535,7 @@ def calibrate(
     delta: float = typer.Option(0.03, help="Non-inferiority margin versus the best rung"),
     floor: list[str] = typer.Option([], help="metric=value every chosen rung must clear, e.g. spec.deficiency_recall=0.9"),
     emit: Path | None = typer.Option(None, help="Write routing.yaml here"),
+    json_out: bool = typer.Option(False, "--json", help="Print the routes as JSON"),
 ):
     """Pick the cheapest good-enough rung per task type and tier; write a report and routing.yaml."""
     import yaml as _yaml
@@ -489,14 +549,21 @@ def calibrate(
     fl = {k: float(v) for k, _, v in (t.partition("=") for t in floor)}
     result = _cal(root, sweep_dir, th, delta, fl)
     (sweep_dir / "calibration.json").write_text(json.dumps(result, indent=2, default=str))
-    render(result, sweep_dir / "calibration.html")
-    for d in result["decisions"]:
-        flag = " (n<30)" if d["insufficient_n"] else ""
-        typer.echo(f"{d['task_type']:<24} {d['stratum']:<28} -> {d['chosen'] or '—':<18} ({d['why']}){flag}")
     sweep = _yaml.safe_load((sweep_dir / "sweep.json").read_text())
     ladder = {r.name: r for r in load_ladder(root / sweep["ladder"])}
     if emit:
         emit.write_text(routing_yaml(result, ladder))
+    render(result, sweep_dir / "calibration.html")  # after routing.yaml, which the page shows
+    if json_out:
+        from rightsize_core.report.export import index_for
+        from rightsize_core.service import agent
+
+        _echo_json(agent.get_calibration(index_for(sweep_dir.resolve()), sweep_dir.resolve().name))
+        return
+    for d in result["decisions"]:
+        flag = " (n<30)" if d["insufficient_n"] else ""
+        typer.echo(f"{d['task_type']:<24} {d['stratum']:<28} -> {d['chosen'] or '—':<18} ({d['why']}){flag}")
+    if emit:
         typer.echo(f"wrote {emit}")
     typer.echo(f"{sweep_dir / 'calibration.html'}")
 
@@ -561,6 +628,15 @@ def ui(
     except ImportError as e:
         raise typer.BadParameter("The Workbench needs the rightsize-ui package: uv sync --all-packages") from e
     serve_ui(_root(), host=host, port=port, runs_dir=runs_dir.resolve() if runs_dir else None, open_browser=not no_open)
+
+
+@app.command()
+def mcp(runs_dir: Path | None = typer.Option(None, help="Read and launch into this runs folder instead of runs/")):
+    """Serve the harness to agents over MCP (stdio): results, items, comparisons, calibration, and
+    planned, guarded launches. Claude Code's rightsize plugin starts this."""
+    from rightsize_core.mcp_server import serve as serve_mcp
+
+    serve_mcp(_root(), runs_dir.resolve() if runs_dir else None)
 
 
 @app.command()

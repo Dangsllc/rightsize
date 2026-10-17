@@ -1,0 +1,9 @@
+{
+  "name": "rightsize",
+  "version": "0.1.0",
+  "description": "Benchmark compliance AI systems and find the cheapest model that's good enough for each task. Tools for results, items, comparisons, calibration, and planned, guarded runs and sweeps.",
+  "author": {"name": "Dan Gonzalez"},
+  "homepage": "https://github.com/Dangsllc/rightsize",
+  "license": "Apache-2.0",
+  "keywords": ["benchmark", "compliance", "hipaa", "llm-evaluation", "model-routing"]
+}
