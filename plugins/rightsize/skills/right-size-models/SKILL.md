@@ -21,6 +21,8 @@ per task type and tier, the cheapest rung that's good enough, and writes `routin
 - **Keys stay out of the conversation.** A missing key shows up in the plan as `missing_env`;
   tell the user which variable to add to the checkout's `.env`.
 - **"Good enough" is the user's call.** Propose thresholds; don't pick them silently.
+- **Held-out stays here.** Sweeps you report run on public or dev. A held-out run comes back as
+  aggregates only.
 - **Evidence over verdicts.** A route on fewer than 30 clusters is marked `insufficient_n` and is
   not a finding. Say so whenever you mention it.
 

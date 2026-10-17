@@ -200,3 +200,48 @@ def test_cli_json_for_diff_calibrate_and_dry_run(states, tmp_path, monkeypatch):
     assert plan.exit_code == 0, plan.output
     p = json.loads(plan.output)
     assert p["ok"] is False and any("can't be swept" in x for x in p["blocking"])
+
+
+def test_heldout_runs_come_back_as_aggregates_only(states, tmp_path):
+    runs = tmp_path / "runs"
+    for key in ("run_ok", "run_ok_small", "run_no_signal"):
+        rid = states[1][key]
+        shutil.copytree(states[0] / rid, runs / rid)
+        if key != "run_ok_small":
+            m = json.loads((runs / rid / "manifest.json").read_text())
+            m["dataset"]["split"] = "heldout"
+            (runs / rid / "manifest.json").write_text(json.dumps(m))
+    srv = build_server(ROOT, runs)
+    rid = states[1]["run_ok"]
+    s = call(srv, "summarize_run", {"run_id": rid})
+    assert s["headlines"] and s["worst_items"] == {} and "never leave this machine" in s["heldout"]
+    assert "m1.ret." not in json.dumps(s)  # no task ids anywhere
+    dead = call(srv, "summarize_run", {"run_id": states[1]["run_no_signal"]})
+    assert dead["error_groups"][0]["hint"] and "withheld" in dead["error_groups"][0]["message"]
+    for tool, args in (("get_item", {"task_id": "m1.ret.164.308(a)(1)(ii)(A).exact_term"}),
+                       ("list_items", {"task_type": "retrieval"})):
+        with pytest.raises(MCPToolError, match="never leave this machine"):
+            call(srv, tool, {"run_id": rid, **args})
+
+
+def test_comparisons_with_a_heldout_run_keep_counts_not_items(states, monkeypatch):
+    from rightsize_core.service import agent, queries
+    from rightsize_core.service.index import Index
+
+    real = queries.compare
+
+    def heldout_b(ix, a, b, delta=0.0):  # the same comparison, with B on the held-out split
+        c = real(ix, a, b, delta)
+        return {**c, "b": c["b"].model_copy(update={"split": "heldout"})}
+
+    monkeypatch.setattr(agent.queries, "compare", heldout_b)
+    d = agent.diff_runs(Index(ROOT, states[0]), states[1]["run_ok_small"], states[1]["run_ok"])
+    r = d["task_types"]["retrieval"]
+    assert r["improved"] > 0 and r["improved_items"] == [] and r["regressed_items"] == []
+    assert any("withheld" in c for c in d["caveats"]) and "m1.ret." not in json.dumps(d["task_types"])
+
+
+def test_conformance_is_not_labelled_read_only(server):
+    tools = {t.name: t for t in asyncio.run(server.list_tools())}
+    assert tools["check_conformance"].annotations.read_only_hint is False
+    assert "confirm first" in tools["check_conformance"].description

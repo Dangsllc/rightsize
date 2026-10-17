@@ -21,6 +21,8 @@ are missing, run `/rightsize:setup` first.
   checkout's `.env`. Never ask for or echo a key.
 - **Third parties are untrusted.** A config for anyone else's system says `trusted: false`; the
   held-out split never goes to it, and the plan enforces that.
+- **Held-out stays here.** A held-out run comes back as aggregates only; its items and error text
+  stay in the Workbench. Don't try to work around that.
 - **Relay numbers with their caveats.** Every score with its 95% interval and n; errors and
   refusals separately, never as wrong answers; cost `unknown` is not $0; quote the `caveats`
   sentences. See `references/reading-a-scorecard.md`.
@@ -41,7 +43,8 @@ Save it as `configs/systems/<name>.yaml`. The format, every field, and the vocab
 `references/config-reference.md`. Mark tasks the system can't do as `unsupported`.
 
 ## 3. Prove the mapping
-`check_conformance(system="configs/systems/<name>.yaml", suite="m1")`. A failure is a mapping
+`check_conformance(system="configs/systems/<name>.yaml", suite="m1")` sends two real items per
+task type; if the system calls a paid model, tell the user first. A failure is a mapping
 bug, not a weak model: fix the JSONPaths, status `map`, or transforms it names, and check again.
 Stop after five attempts and show the user the last findings.
 

@@ -8,6 +8,9 @@ The shapes follow from how agents read:
   state, and whether it clears the trivial predictors; `caveats` holds sentences to quote as is.
 * Bounded size. Documents are truncated unless asked for in full; lists have limits.
 * A person can follow along. Each payload has a `ui_url` into the Workbench.
+* Held-out data stays on this machine. An agent's context goes to a model provider, so for a
+  held-out run only aggregates come back: no item ids, no item views, no error text (which can
+  quote a system's input). The Workbench, which runs locally, shows the rest.
 """
 
 from __future__ import annotations
@@ -22,6 +25,19 @@ from rightsize_core.service.models import Headline, Plan, RunSummary, SweepSumma
 
 UI_DEFAULT = "http://127.0.0.1:8765"
 DOC_PREVIEW = 1500
+HELDOUT_ITEMS = "Held-out items never leave this machine; open them in the Workbench instead."
+
+
+def _heldout(ix: Index, run_id: str) -> bool:
+    return ix.manifest(run_id)["dataset"]["split"] == "heldout"
+
+
+def _errors(s: RunSummary) -> list[dict[str, Any]]:
+    groups = [g.model_dump() for g in s.error_groups]
+    if s.split == "heldout":
+        for g in groups:
+            g["message"], g["first_task_id"] = "(withheld for a held-out run; see the Workbench)", None
+    return groups
 
 
 def ui_url(path: str) -> str:
@@ -62,12 +78,17 @@ def summarize_run(ix: Index, run_id: str) -> dict[str, Any]:
     for tt, r in d["task_types"].items():
         pm = r["primary_metric"]
         tiers[tt] = [{"tier": g["stratum"], "n": g["n"], "few": g["few"], pm: _r(g["metrics"].get(pm))} for g in r["grid"]]
+        if s.split == "heldout":
+            continue
         try:
             worst[tt] = [row.task_id for row in queries.items(ix, run_id, tt, show="wrong")[:5]]
         except Exception:  # noqa: BLE001 - an older run's items can't be re-read; the summary still stands
             worst[tt] = []
     out = run_brief(s)
-    out.update(progress=s.progress.model_dump(), error_groups=[g.model_dump() for g in s.error_groups],
+    if s.split == "heldout":
+        worst = {}
+        out["heldout"] = "Aggregates only: " + HELDOUT_ITEMS
+    out.update(progress=s.progress.model_dump(), error_groups=_errors(s),
                caveats=s.caveats, notes=s.notes, tiers=tiers, worst_items=worst,
                next=[("get_item(run_id, task_id) explains one item: what was asked, how its label was built, "
                       "what the system answered"),
@@ -77,6 +98,8 @@ def summarize_run(ix: Index, run_id: str) -> dict[str, Any]:
 
 def list_items(ix: Index, run_id: str, task_type: str, tier: str | None = None, show: str = "wrong",
                limit: int = 25) -> dict[str, Any]:
+    if _heldout(ix, run_id):
+        raise ValueError(HELDOUT_ITEMS)
     rows = queries.items(ix, run_id, task_type, tier, show)
     return {"total": len(rows), "items": [r.model_dump() for r in rows[:limit]],
             "ui_url": ui_url(f"/runs/{run_id}/items?task_type={task_type}"),
@@ -84,6 +107,8 @@ def list_items(ix: Index, run_id: str, task_type: str, tier: str | None = None, 
 
 
 def get_item(ix: Index, run_id: str, task_id: str, repeat: int = 0, full_document: bool = False) -> dict[str, Any]:
+    if _heldout(ix, run_id):
+        raise ValueError(HELDOUT_ITEMS)
     view = queries.item_view(ix, run_id, task_id, repeat).model_dump()
     for b in view["blocks"]:
         if b["kind"] != "document":
@@ -102,8 +127,9 @@ def get_item(ix: Index, run_id: str, task_id: str, repeat: int = 0, full_documen
 
 def diff_runs(ix: Index, run_a: str, run_b: str, flips_limit: int = 20) -> dict[str, Any]:
     c = queries.compare(ix, run_a, run_b)
+    heldout = c["a"].split == "heldout" or c["b"].split == "heldout"
     task_types = {}
-    caveats = []
+    caveats = [f"A held-out run is involved: item lists are withheld. {HELDOUT_ITEMS}"] if heldout else []
     for sec in c["sections"]:
         rows = {r["name"]: {"delta": _r(r["value"]), "ci95": [_r(r["lo"]), _r(r["hi"])], "flag": r["flag"],
                             "higher_is_better": r["higher_is_better"]} for r in sec["rows"]}
@@ -112,8 +138,8 @@ def diff_runs(ix: Index, run_a: str, run_b: str, flips_limit: int = 20) -> dict[
             "primary_metric": sec["primary"], "primary": rows.get(sec["primary"]), "n_clusters": sec["n"],
             "flagged": {k: v for k, v in rows.items() if v["flag"]},
             "regressed": len(flips.get("regressed", [])), "improved": len(flips.get("improved", [])),
-            "regressed_items": [f.task_id for f in flips.get("regressed", [])][:flips_limit],
-            "improved_items": [f.task_id for f in flips.get("improved", [])][:flips_limit],
+            "regressed_items": [] if heldout else [f.task_id for f in flips.get("regressed", [])][:flips_limit],
+            "improved_items": [] if heldout else [f.task_id for f in flips.get("improved", [])][:flips_limit],
         }
         if sec["n"] < MIN_ITEMS:
             caveats.append(f"{sec['task_type']}: paired on {sec['n']} clusters (below {MIN_ITEMS}); treat the "
@@ -219,7 +245,7 @@ def job_status(ix: Index, job_id: str) -> dict[str, Any]:
         except LookupError:
             continue
         runs.append({"run_id": rid, "health": s.health, "health_reason": s.health_reason,
-                     "progress": s.progress.model_dump(), "error_groups": [g.model_dump() for g in s.error_groups[:3]],
+                     "progress": s.progress.model_dump(), "error_groups": _errors(s)[:3],
                      "headlines": [headline(h) for h in s.headlines], "ui_url": ui_url(f"/runs/{rid}")})
     cap = float(j.argv[j.argv.index("--max-cost") + 1]) if "--max-cost" in j.argv else None
     out = {"job_id": j.job_id, "kind": j.kind, "state": j.state, "launched_by": j.launched_by,

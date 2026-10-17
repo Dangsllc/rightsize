@@ -27,12 +27,14 @@ model that is good enough for each task. When you relay results:
 Before anything that calls models or spends money: plan_run or plan_sweep, show the user the plan
 (calls, estimate, blocking guards), and call start(plan_id) only after the user agrees. Never ask
 the user to paste an API key into chat; keys go in the checkout's .env. Held-out data only ever
-goes to systems marked trusted, and the plan enforces it.
+goes to systems marked trusted, and the plan enforces it. A held-out run comes back as aggregates
+only: its items and error text stay on this machine, in the Workbench.
 """
 
 READ = {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}
 CALLS_SYSTEM = {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True}
 SPENDS = {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": True}
+PROBES = {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True}
 
 
 def build_server(root: Path, runs_dir: Path | None = None):
@@ -131,10 +133,11 @@ def build_server(root: Path, runs_dir: Path | None = None):
         return agent.job_status(ix, job_id)
 
     # ------------------------------------------------------------------ systems
-    @tool(CALLS_SYSTEM)
+    @tool(PROBES)
     async def check_conformance(system: str, suite: str = "m1") -> dict[str, Any]:
-        """Send a few public items to a system and check its answers map onto the task contracts. Run this
-        before measuring a new system: a mapping bug looks exactly like a weak model in the scores."""
+        """Send two public items per task type to a system and check its answers map onto the task
+        contracts. Run this before measuring a new system: a mapping bug looks exactly like a weak model
+        in the scores. These are real calls; on a paid system they cost a little, so confirm first."""
         from rightsize_core.conformance.check import run_conformance
         from rightsize_core.systems.loader import load_system
 
