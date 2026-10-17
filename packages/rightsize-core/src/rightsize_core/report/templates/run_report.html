@@ -1,0 +1,17 @@
+{% extends "report_base.html" %}
+{% from "_macros.html" import run_meta with context %}
+{% block main %}
+<div class="head"><div>
+  <h1>{{ s.system or "?" }} <span class="muted">· {{ s.model or "default model" }}</span></h1>
+  <div class="sub">{{ run_meta(s) }}</div>
+</div></div>
+{% include "_run_body.html" %}
+<h2>Reproduce</h2>
+<section class="card">
+  <p class="small muted">The manifest pins the dataset hashes, the system's self-description, the pricing file, and the git commit. Re-scoring needs no system calls:</p>
+  <div class="cmd"><pre>uv run rightsize report {{ s.path }}</pre></div>
+  {% if manifest_href %}<p class="small"><a href="{{ manifest_href }}">manifest.json</a> · <a href="{{ scorecard_href }}">scorecard.json</a></p>
+  {% else %}<details><summary>manifest.json</summary><pre class="log">{{ manifest_json }}</pre></details>{% endif %}
+</section>
+{% endblock %}
+{% block foot %}Run <code>{{ s.run_id }}</code>{% if manifest_sha %} · manifest sha256 <code>{{ manifest_sha }}</code>{% endif %}.<br>{% endblock %}

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Rightsize {{ version }}">
+<title>{% block title %}{{ page_title }}{% endblock %}</title>
+<style>{{ css|safe }}</style>
+</head><body>
+{% if heldout %}<div class="heldout" role="note">Held-out split · never export, publish, or share these results or their items</div>{% endif %}
+<header class="rhead"><div class="rhead-in">
+  <span class="brand">Rightsize<span>{{ kind_label }}</span></span>
+  {% if home %}<a href="{{ home }}">← All results</a>{% endif %}
+</div></header>
+<main>
+{% block main %}{% endblock %}
+</main>
+<footer class="rfoot">
+  {% block foot %}{% endblock %}
+  Rendered by Rightsize {{ version }}{% if git_sha %} at commit <code>{{ git_sha[:12] }}</code>{% endif %} on {{ when(rendered_at) }} UTC.
+  Static page: no scripts, no network requests.
+</footer>
+</body></html>

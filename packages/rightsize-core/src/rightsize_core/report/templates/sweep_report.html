@@ -1,0 +1,48 @@
+{% extends "report_base.html" %}
+{% from "_macros.html" import banner with context %}
+{% block main %}
+<div class="head"><div>
+  <h1>Sweep <span class="muted">{{ w.sweep_id }}</span></h1>
+  <div class="sub">{{ w.system }} · {{ w.suite }}/{{ w.split }} · ladder <code>{{ (w.ladder or "").split("/")[-1] }}</code> · {{ w.task_count }} tasks × {{ w.repeats }} repeat{{ "s" if w.repeats != 1 }}{% if w.max_cost is not none %} · cap ${{ w.max_cost }}{% endif %}</div>
+</div></div>
+{% if w.state != "complete" %}{{ banner(SWEEP, w.state, w.state_reason) }}{% endif %}
+{% include "_sweep_rungs.html" %}
+
+<h2 id="calibration">Cheapest model that's good enough</h2>
+{% if cal %}
+<section class="card">
+  <p>A rung is good enough when its lower 95% bound clears the threshold, or when a paired comparison puts it within {{ cal.delta }} of the best rung; either way with under 2% errors{% if cal.floors %} and clearing every floor ({% for m, v in cal.floors.items() %}{{ m }} ≥ {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}. The cheapest such rung is chosen, by measured cost per task.</p>
+  <p class="small muted">Thresholds used: {% for m, v in cal.thresholds.items() %}<code>{{ m }} ≥ {{ v }}</code>{% if not loop.last %}, {% endif %}{% else %}none (non-inferiority to the best rung only){% endfor %}.</p>
+</section>
+{% include "_calibration.html" %}
+
+{% if sensitivity %}
+<h3>How the overall route depends on the threshold</h3>
+<div class="card scroll"><table>
+  <thead><tr><th>task type</th><th class="n">threshold</th><th>route</th><th class="n">cost / task</th></tr></thead>
+  <tbody>{% for row in sensitivity %}<tr {% if row.current %}class="mark-info"{% endif %}>
+    <td>{% if loop.first or sensitivity[loop.index0 - 1].task_type != row.task_type %}{{ row.task_type }}{% endif %}</td><td class="n">{{ "%.2f"|format(row.threshold) if row.threshold is not none else "none" }}{% if row.current %} <span class="badge">used</span>{% endif %}</td>
+    <td><b>{{ row.chosen or "no rung qualifies" }}</b></td><td class="n">{{ money(row.cost) if row.chosen else "—" }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+<p class="small muted">Recomputed from the saved bounds with the same rule calibrate uses, at margin {{ cal.delta }}.</p>
+{% endif %}
+
+{% if volume %}
+<h3>What the routing costs at a given volume</h3>
+<div class="card scroll"><table>
+  <thead><tr><th>task type</th><th>route</th>{% for v in volumes %}<th class="n">{{ "{:,}".format(v) }} tasks</th>{% endfor %}<th>always using the best rung</th></tr></thead>
+  <tbody>{% for row in volume %}<tr>
+    <td>{{ row.task_type }}</td><td>{{ row.chosen or "—" }}</td>
+    {% for v in volumes %}<td class="n">{{ money(row.cost * v) if row.cost is not none else money(none) }}</td>{% endfor %}
+    <td>{% if row.chosen == row.best %}same rung{% elif row.best_cost is not none %}{{ row.best }}: {% for v in volumes %}{{ money(row.best_cost * v) }}{% if not loop.last %} / {% endif %}{% endfor %}{% else %}—{% endif %}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+<p class="small muted">Measured cost per task × volume, nothing more: no token model and no forecast.</p>
+{% endif %}
+{% include "_routing.html" %}
+{% else %}
+<p class="muted">This sweep hasn't been calibrated.</p>
+{% endif %}
+{% endblock %}
+{% block foot %}Sweep <code>{{ w.sweep_id }}</code>{% if calibration_sha %} · calibration.json sha256 <code>{{ calibration_sha }}</code>{% endif %}.<br>{% endblock %}

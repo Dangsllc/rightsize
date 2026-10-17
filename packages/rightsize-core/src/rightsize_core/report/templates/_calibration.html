@@ -1,0 +1,19 @@
+{#- Per task type: the cost-quality frontier and the decision table. Needs cal and tau. -#}
+{% for tt, chart in cal.charts.items() %}
+<h3>{{ tt }} · {{ chart.metric }}</h3>
+<section class="card">
+  <div data-frontier="{{ tt }}">{{ frontier(chart.points, chart.metric, tau.get(tt)) }}</div>
+  <p class="small muted">Each point is one rung on all items, with its 95% interval. The blue point is the rung chosen for the whole task type; the thin line joins rungs that nothing cheaper beats; grey rungs are dominated.</p>
+</section>
+<div class="card scroll"><table data-decisions="{{ tt }}">
+  <thead><tr><th>tier</th><th class="n">clusters</th><th>cheapest good enough</th><th>best scoring</th><th>why</th></tr></thead>
+  <tbody>{% for d in cal.decisions if d.task_type == tt %}<tr data-stratum="{{ d.stratum }}" class="{{ 'few' if d.insufficient_n }}">
+    <td>{{ d.stratum }}</td>
+    <td class="n">{{ d.n_clusters }}{% if d.insufficient_n %} <span class="badge" title="Fewer than 30 clusters: shown, but not a routing claim">low n</span>{% endif %}</td>
+    <td data-chosen><b>{{ d.chosen or "no rung qualifies" }}</b></td>
+    <td>{{ d.best }}</td>
+    <td class="small" data-why>{{ d.why }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+<p class="small muted">Tiers marked <span class="badge">low n</span> are greyed: calibrate shows them but routing.yaml makes no stratum override from fewer than 30 clusters{% if cal.decisions|selectattr("task_type", "eq", tt)|selectattr("stratum", "eq", "all")|selectattr("insufficient_n")|list %}. <b>The overall route for this task type is itself below 30 clusters; don't quote it as a finding.</b>{% else %}.{% endif %}</p>
+{% endfor %}

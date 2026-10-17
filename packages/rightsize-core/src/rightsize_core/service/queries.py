@@ -158,7 +158,18 @@ def compare(ix: Index, run_a: str, run_b: str, delta: float = 0.0) -> dict[str, 
             "improved": [Flip(task_id=t, unit_id=u, a_correct=a[(t, u)], b_correct=b[(t, u)])
                          for t, u in shared if b[(t, u)] >= 0.5 > a[(t, u)]],
         }
-    return {"a": ix.summary(run_a), "b": ix.summary(run_b), "diff": data, "flips": flips}
+    card_a = ix.scorecard(run_a)[0] or {}
+    sections = []
+    for tt, t in data["task_types"].items():
+        hib = card_a.get("task_types", {}).get(tt, {}).get("higher_is_better", {})
+        rows = [{"name": name, **m, "primary": name == t["primary_metric"], "higher_is_better": hib.get(name, True)}
+                for name, m in t["metrics"].items()]
+        # The forest shows the primary metric and anything flagged, topped up to ten rows.
+        shown = [r for r in rows if r["primary"] or r["flag"]]
+        shown += [r for r in rows if r not in shown][: max(0, 10 - len(shown))]
+        sections.append({"task_type": tt, "primary": t["primary_metric"], "n": t["n_clusters"], "forest": shown,
+                         "rows": rows, "flips": flips.get(tt, {})})
+    return {"a": ix.summary(run_a), "b": ix.summary(run_b), "diff": data, "flips": flips, "sections": sections}
 
 
 def calibration(ix: Index, sweep_id: str) -> dict[str, Any] | None:

@@ -42,6 +42,15 @@ self-contained `scorecard.html`.
   for held-out data, the spend cap, and missing keys. Only then does it start the run in the
   background. A pilot measures cost on 20 tasks before the full run.
 
+## Publishing results
+`uv run rightsize export --out docs/results --sweep <id> --run <id> --compare <A>:<B>` writes a static
+bundle: an index, a page per run, sweep, and comparison (the same pages the Workbench shows, without
+scripts or network requests), the manifests and scorecards behind them, and an `export.json` that
+hashes every file so a claim can cite exactly what was published. Sweeps bring their rungs' runs.
+Export refuses held-out splits, unfinished runs, and anything the public-boundary guard would
+reject, and it rewrites local paths. `tests/guards/test_published_results.py` then fails if a
+committed bundle no longer matches its record.
+
 ## Testing your own system
 1. Copy a template from [`configs/systems/examples/`](configs/systems/examples/) (search API,
    async document-review API, MCP server) and fill in endpoints and JSONPaths.

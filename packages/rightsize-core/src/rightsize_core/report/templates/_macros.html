@@ -52,3 +52,13 @@
   {% endif %}
 </section>
 {%- endmacro %}
+
+{% macro link(url, text) -%}
+{%- if url %}<a href="{{ url }}">{{ text }}</a>{% else %}{{ text }}{% endif -%}
+{%- endmacro %}
+
+{% macro run_meta(s) -%}
+{{ s.suite }}/{{ s.split }} · {{ s.repeats }} repeat{{ "s" if s.repeats != 1 }} · started {{ when(s.started_at) }}{% if s.ended_at %} · ended {{ when(s.ended_at) }}{% endif %}
+{%- if s.sweep_id %} · sweep {{ link(href("sweep", s.sweep_id), s.sweep_id) }}{% endif %}
+{%- if s.params %} · params <code>{{ s.params|tojson }}</code>{% endif %}
+{%- endmacro %}

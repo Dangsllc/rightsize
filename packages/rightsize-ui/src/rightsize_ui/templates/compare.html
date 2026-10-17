@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% from "_macros.html" import status, headline_cell %}
 {% block title %}Compare · Rightsize{% endblock %}
 {% block main %}
 <div class="crumbs"><a href="/runs">Runs</a> / compare</div>
@@ -7,49 +6,6 @@
 <p class="sub">B minus A, paired on the items both runs scored, with 95% intervals from resampling the same clusters for both.</p>
 {% if problem %}<div class="card banner tone-warning"><p class="reason">{{ problem }}</p></div>
 {% elif c %}
-<div class="grid2">
-  {% for label, r in [("A", c.a), ("B", c.b)] %}
-  <section class="card">
-    <h3>{{ label }}</h3>
-    <div><a href="/runs/{{ r.run_id }}"><b>{{ r.system }} · {{ r.model or "default model" }}</b></a></div>
-    <div class="small muted">{{ r.suite }}/{{ r.split }} · {{ when(r.started_at) }}</div>
-    <p>{{ status(HEALTH, r.health, r.health_reason) }}</p>
-    {% for h in r.headlines %}<div class="small"><span class="muted">{{ h.task_type }} · {{ h.metric }}</span> {{ headline_cell(h) }} · {{ money(h.cost_per_task, h.cost_state) }}</div>{% endfor %}
-  </section>
-  {% endfor %}
-</div>
-
-<h2>What changed between them</h2>
-<section class="card">
-  <p class="small muted">Read this before the deltas: a changed parameter, commit, or dataset can explain a difference better than the model can.</p>
-  {% if c.diff.changes %}<ul class="caveats mono">{% for ch in c.diff.changes %}<li>{{ ch }}</li>{% endfor %}</ul>
-  {% else %}<p>Nothing recorded in the manifests differs.</p>{% endif %}
-</section>
-
-{% for sec in sections %}
-<h2>{{ sec.task_type }}</h2>
-<section class="card">
-  <p class="small muted">Paired on {{ sec.n }} shared clusters{% if sec.n < 30 %} <span class="badge">low n</span>{% endif %}. A mark right of zero means B scored higher; ↓ marks metrics where lower is better. A flag needs the whole interval past zero.</p>
-  {{ forest(sec.forest) }}
-  <details><summary>Every metric ({{ sec.rows|length }})</summary>
-  <div class="scroll"><table class="small"><thead><tr><th>metric</th><th class="n">B − A</th><th class="n">95% interval</th><th>flag</th></tr></thead><tbody>
-  {% for r in sec.rows %}<tr><td>{% if r.primary %}<b>{{ r.name }}</b>{% else %}{{ r.name }}{% endif %}{% if not r.higher_is_better %} <span class="muted">(lower is better)</span>{% endif %}</td>
-    <td class="n">{{ "%+.3f"|format(r.value) }}</td><td class="n">{{ "%+.3f"|format(r.lo) }} – {{ "%+.3f"|format(r.hi) }}</td>
-    <td>{% if r.flag == "regression" %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">▼</span>regression</span>{% elif r.flag == "improved" %}<span class="status tone-good"><span class="glyph" aria-hidden="true">▲</span>improved</span>{% endif %}</td></tr>{% endfor %}
-  </tbody></table></div></details>
-</section>
-{% set reg = sec.flips.regressed or [] %}{% set imp = sec.flips.improved or [] %}
-<div class="grid2">
-  {% for title, flips, tone, glyph in [("Right in A, wrong in B", reg, "critical", "▼"), ("Wrong in A, right in B", imp, "good", "▲")] %}
-  <section class="card">
-    <h3><span class="status tone-{{ tone }}"><span class="glyph" aria-hidden="true">{{ glyph }}</span>{{ title }}</span> · {{ flips|length }}</h3>
-    {% if flips %}<ul class="caveats small">{% for f in flips[:40] %}<li><span class="mono">{{ f.task_id }}</span>{% if f.unit_id != f.task_id %} · <span class="mono">{{ f.unit_id.split("::")[-1] }}</span>{% endif %}
-      · see it in <a href="/runs/{{ c.a.run_id }}/item?{{ qs(task=f.task_id) }}">A</a> or <a href="/runs/{{ c.b.run_id }}/item?{{ qs(task=f.task_id) }}">B</a></li>{% endfor %}</ul>
-      {% if flips|length > 40 %}<p class="small muted">and {{ flips|length - 40 }} more.</p>{% endif %}
-    {% else %}<p class="muted small">None.</p>{% endif %}
-  </section>
-  {% endfor %}
-</div>
-{% endfor %}
+{% include "_compare_body.html" %}
 {% endif %}
 {% endblock %}

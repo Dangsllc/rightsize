@@ -1,0 +1,14 @@
+{#- A sweep's rungs: status, the run each produced, and its headline. Needs w, runs_by_id, href. -#}
+{% from "_macros.html" import status, headline_cell, link with context %}
+<h2>Rungs</h2>
+<div class="card scroll"><table>
+  <thead><tr><th>rung</th><th>model</th><th>status</th><th>run</th><th>headline (95% interval)</th><th class="n">cost / task</th></tr></thead>
+  <tbody>{% for r in w.rungs %}{% set run = runs_by_id.get(r.run_id) %}<tr>
+    <td><b>{{ r.rung }}</b></td><td class="mono small">{{ r.model }}</td>
+    <td>{{ status(RUNG, r.status) }}{% if r.error %}<div class="small mono">{{ r.error }}</div>{% endif %}</td>
+    <td>{% if run %}{{ link(href("run", run.run_id), status(HEALTH, run.health, run.health_reason)) }}{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td>{% if run %}{% for h in run.headlines %}<div><span class="muted small">{{ h.task_type }}</span> {{ headline_cell(h) }}</div>{% endfor %}{% endif %}</td>
+    <td class="n">{% if run %}{% for h in run.headlines %}<div>{{ money(h.cost_per_task, h.cost_state) }}</div>{% endfor %}{% endif %}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% if w.spend_usd is not none %}<p class="small muted">Reported spend ${{ "%.4f"|format(w.spend_usd) }}{% if w.unknown_cost_rungs %}, plus {{ w.unknown_cost_rungs }} rung{{ "s" if w.unknown_cost_rungs != 1 }} whose cost is unknown{% endif %}.</p>{% endif %}

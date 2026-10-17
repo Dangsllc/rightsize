@@ -1,0 +1,49 @@
+{% extends "report_base.html" %}
+{% from "_macros.html" import status, headline_cell, link with context %}
+{% block main %}
+<h1>{{ title }}</h1>
+<p class="sub">Rightsize results, exported {{ when(rendered_at) }} UTC.</p>
+<section class="card">
+  <p>Rightsize benchmarks compliance AI with labels that come from how each item was built, and finds the cheapest model that's good enough for each task.</p>
+  <ul class="caveats">
+    <li>Every score is shown with its 95% interval. Fewer than 30 clusters is marked <span class="badge">low n</span>: no routing claim rests on it.</li>
+    <li>Errors and missing answers are counted separately, never as wrong answers.</li>
+    <li>Cost appears only where the system reported usage. <span class="cost unknown">unknown</span> is not $0; <span class="cost zero">$0 · local</span> is a model priced at zero.</li>
+    <li>Only public and dev splits are published. Held-out items never leave the machine that holds them.</li>
+  </ul>
+</section>
+
+{% if sweeps %}
+<h2>Right-sizing sweeps</h2>
+{% for w, routes in sweeps %}
+<section class="card">
+  <h3>{{ link(href("sweep", w.sweep_id), "Sweep " ~ w.sweep_id) }} · {{ w.suite }}/{{ w.split }} · {{ w.rungs|length }} rungs</h3>
+  {% if routes %}<table class="small"><thead><tr><th>task type</th><th>route</th><th class="n">lower bound</th><th class="n">clusters</th><th class="n">cost / task</th></tr></thead><tbody>
+  {% for r in routes %}<tr><td>{{ r.task_type }}</td><td><b>{{ r.chosen or "no rung qualifies" }}</b></td><td class="n">{{ fmt(r.lo, 3) }} <span class="muted small">{{ r.metric }}</span></td>
+    <td class="n">{{ r.n }}{% if r.insufficient_n %} <span class="badge">low n</span>{% endif %}</td><td class="n">{{ money(r.cost) if r.chosen else "—" }}</td></tr>{% endfor %}
+  </tbody></table>{% else %}<p class="muted">Not calibrated.</p>{% endif %}
+</section>
+{% endfor %}
+{% endif %}
+
+{% if runs %}
+<h2>Runs</h2>
+<div class="card scroll"><table>
+  <thead><tr><th>health</th><th>system · model</th><th>suite</th><th>headline (95% interval)</th><th class="n">cost / task</th><th class="n">started</th></tr></thead>
+  <tbody>{% for r in runs %}<tr>
+    <td>{{ status(HEALTH, r.health, r.health_reason) }}</td>
+    <td>{{ link(href("run", r.run_id), (r.system or "?") ~ " · " ~ (r.model or "default model")) }}</td>
+    <td>{{ r.suite }}/{{ r.split }}</td>
+    <td>{% for h in r.headlines %}<div><span class="muted small">{{ h.task_type }} · {{ h.metric }}</span> {{ headline_cell(h) }}</div>{% endfor %}</td>
+    <td class="n">{% for h in r.headlines %}<div>{{ money(h.cost_per_task, h.cost_state) }}</div>{% endfor %}</td>
+    <td class="n">{{ when(r.started_at) }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% endif %}
+
+{% if compares %}
+<h2>Comparisons</h2>
+<ul class="caveats">{% for c in compares %}<li>{{ link(c.href, c.label) }}</li>{% endfor %}</ul>
+{% endif %}
+{% endblock %}
+{% block foot %}Hashes of every published file are in <a href="export.json">export.json</a>.<br>{% endblock %}

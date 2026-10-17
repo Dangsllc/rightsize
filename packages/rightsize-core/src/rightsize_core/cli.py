@@ -501,6 +501,44 @@ def calibrate(
     typer.echo(f"{sweep_dir / 'calibration.html'}")
 
 
+@app.command("export")
+def export_cmd(
+    out: Path = typer.Option(..., help="Folder to write the static site into, e.g. results/"),
+    run: list[str] = typer.Option([], "--run", help="A run to publish (id or path; repeatable)"),
+    sweep: list[str] = typer.Option([], "--sweep", help="A sweep to publish, with its rungs' runs (repeatable)"),
+    compare: list[str] = typer.Option([], "--compare", help="Two runs to compare, as A:B (repeatable)"),
+    title: str = typer.Option("Rightsize results", help="Heading of the bundle's index page"),
+    denylist: Path | None = typer.Option(None, help="Regex denylist to enforce (default: RIGHTSIZE_DENYLIST, "
+                                                    "else the guard's private denylist when present)"),
+    runs_dir: Path | None = typer.Option(None, help="Read runs from here instead of runs/"),
+):
+    """Write a static, publishable bundle (no scripts, no network) of runs, sweeps, and comparisons.
+    Refuses held-out data, unfinished runs, and anything the public-boundary guard would reject."""
+    from rightsize_core.report.export import ExportRefused, export_bundle
+    from rightsize_core.service.index import Index
+
+    root = _root()
+    ix = Index(root, runs_dir.resolve() if runs_dir else None)
+    pairs = []
+    for c in compare:
+        a, _, b = c.partition(":")
+        if not b:
+            raise typer.BadParameter(f"--compare takes A:B, got {c!r}")
+        pairs.append((Path(a).name, Path(b).name))
+    try:
+        record = export_bundle(root, ix, out.resolve(), runs=[Path(r).name for r in run],
+                               sweeps=[Path(s).name for s in sweep], compares=pairs, title=title, denylist=denylist)
+    except ExportRefused as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(1) from e
+    typer.echo(f"wrote {len(record['files'])} files to {out}: {len(record['runs'])} runs, "
+               f"{len(record['sweeps'])} sweeps, {len(record['compares'])} comparisons")
+    if record["denylist"] == "none":
+        typer.echo("warning: no denylist was checked (set RIGHTSIZE_DENYLIST or pass --denylist); "
+                   "only the public rules were applied", err=True)
+    typer.echo(f"{out / 'index.html'}")
+
+
 @app.command("spec")
 def spec_export():
     """Regenerate spec/schemas/*.json from the code."""

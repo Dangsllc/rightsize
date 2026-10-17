@@ -9,18 +9,7 @@
 </div>
 {{ banner(SWEEP, w.state, w.state_reason) }}
 
-<h2>Rungs</h2>
-<div class="card scroll"><table>
-  <thead><tr><th>rung</th><th>model</th><th>status</th><th>run</th><th>headline (95% interval)</th><th class="n">cost / task</th></tr></thead>
-  <tbody>{% for r in w.rungs %}{% set run = runs_by_id.get(r.run_id) %}<tr>
-    <td><b>{{ r.rung }}</b></td><td class="mono small">{{ r.model }}</td>
-    <td>{{ status(RUNG, r.status) }}{% if r.error %}<div class="small mono">{{ r.error }}</div>{% endif %}</td>
-    <td>{% if run %}<a href="/runs/{{ run.run_id }}">{{ status(HEALTH, run.health, run.health_reason) }}</a>{% else %}<span class="muted">—</span>{% endif %}</td>
-    <td>{% if run %}{% for h in run.headlines %}<div><span class="muted small">{{ h.task_type }}</span> {{ headline_cell(h) }}</div>{% endfor %}{% endif %}</td>
-    <td class="n">{% if run %}{% for h in run.headlines %}<div>{{ money(h.cost_per_task, h.cost_state) }}</div>{% endfor %}{% endif %}</td>
-  </tr>{% endfor %}</tbody>
-</table></div>
-{% if w.spend_usd is not none %}<p class="small muted">Reported spend ${{ "%.4f"|format(w.spend_usd) }}{% if w.unknown_cost_rungs %}, plus {{ w.unknown_cost_rungs }} rung{{ "s" if w.unknown_cost_rungs != 1 }} whose cost is unknown{% endif %}.</p>{% endif %}
+{% include "_sweep_rungs.html" %}
 
 <h2 id="calibration">Cheapest model that's good enough</h2>
 {% if cal %}
@@ -44,24 +33,7 @@
     <span class="changed-note" data-changed-note hidden>Highlighted rows differ from the saved calibration.</span></div>
 </form>
 
-{% for tt, chart in cal.charts.items() %}
-<h3>{{ tt }} · {{ chart.metric }}</h3>
-<section class="card">
-  <div data-frontier="{{ tt }}">{{ frontier(chart.points, chart.metric, tau.get(tt)) }}</div>
-  <p class="small muted">Each point is one rung on all items, with its 95% interval. The blue point is the rung chosen for the whole task type; the thin line joins rungs that nothing cheaper beats; grey rungs are dominated.</p>
-</section>
-<div class="card scroll"><table data-decisions="{{ tt }}">
-  <thead><tr><th>tier</th><th class="n">clusters</th><th>cheapest good enough</th><th>best scoring</th><th>why</th></tr></thead>
-  <tbody>{% for d in cal.decisions if d.task_type == tt %}<tr data-stratum="{{ d.stratum }}" class="{{ 'few' if d.insufficient_n }}">
-    <td>{{ d.stratum }}</td>
-    <td class="n">{{ d.n_clusters }}{% if d.insufficient_n %} <span class="badge" title="Fewer than 30 clusters: shown, but not a routing claim">low n</span>{% endif %}</td>
-    <td data-chosen><b>{{ d.chosen or "no rung qualifies" }}</b></td>
-    <td>{{ d.best }}</td>
-    <td class="small" data-why>{{ d.why }}</td>
-  </tr>{% endfor %}</tbody>
-</table></div>
-<p class="small muted">Tiers marked <span class="badge">low n</span> are greyed: calibrate shows them but routing.yaml makes no stratum override from fewer than 30 clusters{% if cal.decisions|selectattr("task_type", "eq", tt)|selectattr("stratum", "eq", "all")|selectattr("insufficient_n")|list %}. <b>The overall route for this task type is itself below 30 clusters; don't quote it as a finding.</b>{% else %}.{% endif %}</p>
-{% endfor %}
+{% include "_calibration.html" %}
 
 <h3>What this routing costs at your volume</h3>
 <section class="card" data-volume>
@@ -78,11 +50,7 @@
   <p class="small muted">Measured cost per task × your volume, nothing more: no token model, no forecast. Costs come from the sweep's own reported usage at the prices in its pricing file.</p>
 </section>
 
-{% if routing %}
-<h3>routing.yaml</h3>
-<section class="card"><div class="cmd"><pre data-copy-source>{{ routing }}</pre><button type="button" data-copy>Copy</button></div></section>
-{% endif %}
-
+{% include "_routing.html" %}
 {% else %}
 <form class="card" method="post" action="/sweeps/{{ w.sweep_id }}/calibrate">
   {% if w.state != "complete" and w.state != "stopped" %}<p class="muted">This sweep isn't complete, so calibration would only cover the rungs that finished.</p>{% endif %}

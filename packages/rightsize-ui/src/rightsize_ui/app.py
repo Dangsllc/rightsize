@@ -14,14 +14,11 @@ import secrets
 import time
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlencode
 
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from jinja2 import ChoiceLoader, Environment, FileSystemLoader, select_autoescape
-from markupsafe import Markup
-from rightsize_core.report import charts
+from rightsize_core.report.render import HEALTH, STATIC, SWEEP, TONE_ORDER, environment, explain, qs
 from rightsize_core.runner.run import default_runs_dir
 from rightsize_core.service import jobs, queries
 from rightsize_core.service.env import env_present, load_dotenv
@@ -32,106 +29,14 @@ from rightsize_core.service.plans import build_plan
 from rightsize_ui.security import SessionGuard
 
 HERE = Path(__file__).resolve().parent
-CORE_REPORT = Path(charts.__file__).resolve().parent
 
-HEALTH = {  # glyph, label, tone. Tone picks a color; the glyph and label carry the meaning.
-    "running": ("◐", "Running", "info"),
-    "interrupted": ("◌", "Interrupted", "warning"),
-    "no_signal": ("✕", "No signal", "critical"),
-    "aborted": ("■", "Stopped early", "warning"),
-    "degraded": ("▲", "Degraded", "warning"),
-    "ok": ("●", "OK", "good"),
-    "unscored": ("○", "Not scored", "info"),
-}
-SWEEP = {
-    "empty": ("✕", "Died before first rung", "critical"),
-    "running": ("◐", "Running", "info"),
-    "interrupted": ("◌", "Interrupted", "warning"),
-    "failed": ("✕", "Failed", "critical"),
-    "cancelled": ("■", "Cancelled", "warning"),
-    "stopped": ("■", "Stopped at the cap", "warning"),
-    "complete": ("●", "Complete", "good"),
-}
-JOB = {
-    "running": ("◐", "Running", "info"),
-    "finished": ("●", "Finished", "good"),
-    "failed": ("✕", "Failed", "critical"),
-    "cancelled": ("■", "Cancelled", "warning"),
-    "lost": ("◌", "Lost", "warning"),
-}
-RUNG = {"pending": ("○", "Pending", "info"), "running": ("◐", "Running", "info"), "done": ("●", "Done", "good"),
-        "scoring": ("◐", "Scoring", "info"), "failed": ("✕", "Failed", "critical"),
-        "cancelled": ("■", "Cancelled", "warning")}
-TONE_ORDER = {"critical": 0, "warning": 1, "info": 2, "good": 3}
-
-
-# ---------------------------------------------------------------------------- formatting
-
-
-def fmt(v: Any, digits: int = 2) -> str:
-    if v is None:
-        return "—"
-    if isinstance(v, float | int):
-        return f"{v:.{digits}f}"
-    return str(v)
-
-
-def money(v: float | None, state: str | None = None) -> Markup:
-    if v is None or state == "unknown":
-        return Markup('<span class="cost unknown" title="The system reported no usage, so cost is unknown">'
-                      'unknown</span>')
-    if v == 0 or state == "zero":
-        return Markup('<span class="cost zero" title="Priced at $0, e.g. a local model">$0 · local</span>')
-    text = f"${v:.4f}" if v < 0.01 else f"${v:.3f}" if v < 1 else f"${v:,.2f}"
-    return Markup('<span class="cost">') + text + Markup("</span>")
-
-
-def ms(v: float | None) -> str:
-    if v is None:
-        return "—"
-    return f"{v / 1000:.1f}s" if v >= 1000 else f"{v:.0f}ms"
-
-
-def when(iso: str | None) -> str:
-    """'2026-10-14 17:05' from an ISO timestamp."""
-    return "—" if not iso else iso.replace("T", " ")[:16]
-
-
-def segments(text: str, highlights: list) -> list[tuple[str, Any]]:
-    """Split a document into plain and highlighted runs. Overlapping highlights keep the first."""
-    out, pos = [], 0
-    for h in sorted(highlights, key=lambda h: h.start):
-        if h.start < pos or h.end <= h.start:
-            continue
-        if h.start > pos:
-            out.append((text[pos:h.start], None))
-        out.append((text[h.start:h.end], h))
-        pos = h.end
-    out.append((text[pos:], None))
-    return out
-
-
-def explain(e: Exception) -> str:
-    """One readable sentence for why a run can't be read, instead of a validation dump."""
-    text = str(e)
-    if "rightsize_version" in text and "Field required" in text:
-        return ("it was written by an older version of Rightsize, before manifests recorded "
-                "rightsize_version. Its saved scorecard still shows on the run page.")
-    return text.strip().splitlines()[0][:300] if text.strip() else type(e).__name__
-
-
-def qs(**kw: Any) -> str:
-    return urlencode({k: v for k, v in kw.items() if v not in (None, "", [])}, doseq=True)
-
-
-def _env() -> Environment:
-    env = Environment(loader=ChoiceLoader([FileSystemLoader(HERE / "templates")]),
-                      autoescape=select_autoescape(default=True, default_for_string=True))
-    env.globals.update(fmt=fmt, money=money, ms=ms, when=when, segments=segments, qs=qs, HEALTH=HEALTH, SWEEP=SWEEP,
-                       JOB=JOB, RUNG=RUNG, interval=lambda *a, **k: Markup(charts.interval(*a, **k)),
-                       frontier=lambda *a, **k: Markup(charts.frontier(*a, **k)),
-                       forest=lambda *a, **k: Markup(charts.forest(*a, **k)))
-    return env
+def href(kind: str, ident: str | None = None, **query) -> str:
+    """Where the Workbench shows a run, sweep, item list, item, or job (shared report templates link
+    through this; an export links within its bundle instead)."""
+    base = {"run": f"/runs/{ident}", "sweep": f"/sweeps/{ident}", "items": f"/runs/{ident}/items",
+            "item": f"/runs/{ident}/item", "job": f"/jobs/{ident}"}[kind]
+    q = qs(**query)
+    return f"{base}?{q}" if q else base
 
 
 # ---------------------------------------------------------------------------- the app
@@ -315,13 +220,14 @@ def plan_request(form) -> PlanRequest:
 def create_app(root: Path, runs_dir: Path | None = None, token: str | None = None) -> FastAPI:
     load_dotenv(root)
     wb = Workbench(root, runs_dir or default_runs_dir(root))
-    env = _env()
+    env = environment(HERE / "templates")
+    env.globals.update(href=href, static=False)
     app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
     app.state.wb = wb
     app.state.token = token or secrets.token_urlsafe(24)
     app.add_middleware(SessionGuard, token=app.state.token)
     app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
-    app.mount("/core-static", StaticFiles(directory=CORE_REPORT / "static"), name="core-static")
+    app.mount("/core-static", StaticFiles(directory=STATIC), name="core-static")
 
     def page(name: str, request: Request, status: int = 200, **ctx: Any) -> HTMLResponse:
         ctx.setdefault("nav", name.split(".")[0])
@@ -396,18 +302,8 @@ def create_app(root: Path, runs_dir: Path | None = None, token: str | None = Non
             raise
         except Exception as e:  # noqa: BLE001
             c, problem = None, f"These runs can't be compared: {explain(e)}"
-        sections = []
-        if c:
-            card_a = wb.index.scorecard(a)[0] or {}
-            for tt, t in c["diff"]["task_types"].items():
-                hib = card_a.get("task_types", {}).get(tt, {}).get("higher_is_better", {})
-                rows = [{"name": name, **m, "primary": name == t["primary_metric"],
-                         "higher_is_better": hib.get(name, True)} for name, m in t["metrics"].items()]
-                shown = [r for r in rows if r["primary"] or r["flag"]]
-                shown += [r for r in rows if r not in shown][: max(0, 10 - len(shown))]
-                sections.append({"task_type": tt, "primary": t["primary_metric"], "n": t["n_clusters"],
-                                 "forest": shown, "rows": rows, "flips": c["flips"].get(tt, {})})
-        return page("compare.html", request, nav="runs", c=c, problem=problem, a=a, b=b, sections=sections)
+        return page("compare.html", request, nav="runs", c=c, problem=problem, a=a, b=b,
+                    sections=c["sections"] if c else [])
 
     @app.get("/sweeps", response_class=HTMLResponse)
     def sweeps(request: Request):
