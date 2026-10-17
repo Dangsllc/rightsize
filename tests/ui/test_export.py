@@ -94,3 +94,32 @@ def test_denylist_hits_are_refused_without_echoing_the_term(states, tmp_path):
 def test_cli_scorecard_is_the_same_static_page(states):
     html = (states[0] / states[1]["run_ok"] / "scorecard.html").read_text()
     assert "<script" not in html and 'class="chart interval"' in html and "Read before quoting" not in html
+
+
+def test_export_refuses_without_the_guard(states, tmp_path, monkeypatch):
+    from rightsize_core.report import export
+
+    monkeypatch.setattr(export, "_guard_module", lambda root: None)
+    with pytest.raises(ExportRefused, match="public-boundary guard"):
+        export_bundle(ROOT, Index(ROOT, states[0]), tmp_path / "out", runs=[states[1]["run_ok"]])
+    assert not (tmp_path / "out").exists()
+
+
+def test_older_manifests_are_refused(states, tmp_path):
+    rid = states[1]["run_ok"]
+    runs = tmp_path / "runs"
+    shutil.copytree(states[0] / rid, runs / rid)
+    m = json.loads((runs / rid / "manifest.json").read_text())
+    del m["rightsize_version"]
+    (runs / rid / "manifest.json").write_text(json.dumps(m))
+    with pytest.raises(ExportRefused, match="older Rightsize"):
+        export_bundle(ROOT, Index(ROOT, runs), tmp_path / "out", runs=[rid])
+
+
+def test_refusals_never_print_a_denylisted_name(states, tmp_path):
+    rid = states[1]["run_interrupted"]
+    deny = tmp_path / "deny.txt"
+    deny.write_text("medium-killed\n")
+    with pytest.raises(ExportRefused) as e:
+        export_bundle(ROOT, Index(ROOT, states[0]), tmp_path / "out", runs=[rid], denylist=deny)
+    assert "interrupted" in str(e.value) and "medium-killed" not in str(e.value) and "[redacted]" in str(e.value)

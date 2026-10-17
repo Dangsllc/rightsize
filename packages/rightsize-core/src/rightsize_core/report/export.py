@@ -153,10 +153,13 @@ def load_rules(root: Path, denylist: Path | None) -> tuple[list[tuple[re.Pattern
     """([(pattern, public?)], where the denylist came from). The guard's public rules always apply;
     a public rule's match may be quoted back, a denylist match never is."""
     mod = _guard_module(root)
-    rules = [(p, True) for p, _ in getattr(mod, "PUBLIC_RULES", [])]
+    if mod is None:
+        raise ExportRefused("Can't load the public-boundary guard from tests/guards; export needs a full "
+                            "checkout with dev dependencies (uv sync --all-packages).")
+    rules = [(p, True) for p, _ in mod.PUBLIC_RULES]
     source = "none"
     path = denylist or (Path(os.environ["RIGHTSIZE_DENYLIST"]) if os.environ.get("RIGHTSIZE_DENYLIST") else None)
-    if path is None and mod is not None and Path(mod.DENYLIST).exists():
+    if path is None and Path(mod.DENYLIST).exists():
         path, source = Path(mod.DENYLIST), "the private checkout"
     elif path is not None:
         source = "configured"
@@ -196,6 +199,19 @@ def export_bundle(root: Path, ix: Index, out: Path, *, runs: list[str] = (), swe
                   denylist: Path | None = None) -> dict[str, Any]:
     """Write a static bundle to `out` and return its export.json. Raises ExportRefused, writing
     nothing, if anything in it must not be published."""
+    from pydantic import ValidationError
+
+    from rightsize_core.schema import RunManifest
+
+    rules, source = load_rules(root, denylist)
+    private = [rule for rule, public in rules if not public]
+
+    def refuse(message: str) -> ExportRefused:
+        # Ids can carry a system's name; nothing the denylist matches is ever printed.
+        for rule in private:
+            message = rule.sub("[redacted]", message)
+        return ExportRefused(message)
+
     problems: list[str] = []
     sweep_list = list(dict.fromkeys(sweeps))
     run_list = list(dict.fromkeys(runs))
@@ -216,10 +232,15 @@ def export_bundle(root: Path, ix: Index, out: Path, *, runs: list[str] = (), swe
             problems.append(f"run {rid} ran the held-out split")
         if s.health in ("running", "interrupted"):
             problems.append(f"run {rid} is {s.health}")
+        try:
+            RunManifest.model_validate_json((ix.run_dir(rid) / "manifest.json").read_text())
+        except ValidationError:
+            # Its page would tell readers to run `rightsize report`, which can't read this manifest.
+            problems.append(f"run {rid} was written by an older Rightsize; re-run it to publish")
     if problems:
-        raise ExportRefused("Refusing to export: " + "; ".join(problems))
+        raise refuse("Refusing to export: " + "; ".join(problems))
     if out.exists() and any(out.iterdir()) and not (out / MARKER).exists():
-        raise ExportRefused(f"{out} has files Rightsize didn't write; choose an empty or new folder")
+        raise refuse(f"{out} has files Rightsize didn't write; choose an empty or new folder")
 
     def href_from(rel: str):
         def href(kind: str, ident: str | None = None, **_q) -> str | None:
@@ -276,7 +297,6 @@ def export_bundle(root: Path, ix: Index, out: Path, *, runs: list[str] = (), swe
         "sweeps": sweep_rows, "runs": [summaries[r] for r in run_list], "compares": compare_links}, root))
 
     files = {path: scrub(text, root, ix.runs_dir.parent) for path, text in files.items()}
-    rules, source = load_rules(root, denylist)
     public_hits, private_hits = [], set()
     for path, text in files.items():
         for rule, public in rules:
@@ -290,7 +310,7 @@ def export_bundle(root: Path, ix: Index, out: Path, *, runs: list[str] = (), swe
         raise ExportRefused("Refusing to export: the private denylist matches " + ", ".join(sorted(private_hits))
                             + ". Positions follow export order: --run, then sweep rungs, then compared runs.")
     if public_hits:
-        raise ExportRefused("Refusing to export, public-boundary rule: " + "; ".join(public_hits[:12])
+        raise refuse("Refusing to export, public-boundary rule: " + "; ".join(public_hits[:12])
                             + (f"; and {len(public_hits) - 12} more" if len(public_hits) > 12 else ""))
     record["denylist"] = source
     record["files"] = {path: _sha(text) for path, text in sorted(files.items())}
