@@ -19,7 +19,8 @@ clone it there). API keys go in that checkout's `.env`; the tools only check tha
   calibrate, explain routing.yaml).
 - **Tools** (`rightsize` MCP server): `list_runs`, `summarize_run`, `list_items`, `get_item`,
   `diff_runs`, `list_sweeps`, `get_calibration`, `preview_routing`, `list_jobs`, `job_status`,
-  `check_conformance`, `plan_run`, `plan_sweep`, `start`, `calibrate`, `cancel_job`.
+  `describe_suite`, `validate_config`, `check_conformance`, `plan_run`, `plan_sweep`, `start`,
+  `calibrate`, `cancel_job`.
 - **Command:** `/rightsize:setup`.
 
 Nothing that calls a model starts without a plan: `plan_run` or `plan_sweep` returns the calls, a

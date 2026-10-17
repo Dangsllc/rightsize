@@ -24,6 +24,7 @@ class Finding:
     task_id: str
     ok: bool
     message: str
+    task_type: str | None = None
 
 
 @dataclass
@@ -54,7 +55,7 @@ async def run_conformance(root: Path, system: System, suite: str, per_type: int 
     for task_type in info.task_types:
         sample = [t for t in tasks if t.task_type == task_type][:per_type]
         if not sample:
-            report.findings.append(Finding(task_type, False, "no public tasks of this type to test with"))
+            report.findings.append(Finding(task_type, False, "no public tasks of this type to test with", task_type))
             continue
         spec = pack.task_types[task_type]
         shares, inferred = [], []
@@ -67,17 +68,19 @@ async def run_conformance(root: Path, system: System, suite: str, per_type: int 
                     inputs.pop("document_ref")
                 out = await system.run(task_type, inputs)
                 if out.error:
-                    report.findings.append(Finding(t.id, False, f"{out.error.kind}: {out.error.message[:300]}"))
+                    report.findings.append(Finding(t.id, False, f"{out.error.kind}: {out.error.message[:300]}", task_type))
                     continue
                 try:
                     pred = spec.prediction_model.model_validate(out.prediction)
                 except ValidationError as e:
-                    report.findings.append(Finding(t.id, False, f"prediction does not match contract: {e.errors()[:2]}"))
+                    report.findings.append(Finding(t.id, False, f"prediction does not match contract: {e.errors()[:2]}",
+                                                   task_type))
                     continue
                 unmapped = (out.raw or {}).get("unmapped") if isinstance(out.raw, dict) else None
                 if unmapped:
                     vals = sorted({f"{k}={v!r}" for k, v in unmapped})
-                    report.findings.append(Finding(t.id, False, f"values with no mapping: {', '.join(vals[:8])}"))
+                    report.findings.append(Finding(t.id, False, f"values with no mapping: {', '.join(vals[:8])}",
+                                                   task_type))
                     continue
                 m = pack.conformance_metrics(t, pred) if hasattr(pack, "conformance_metrics") else {"mapped_share": 1.0}
                 shares.append(m["mapped_share"])
@@ -90,7 +93,7 @@ async def run_conformance(root: Path, system: System, suite: str, per_type: int 
                     msg += f", {m['inferred_share']:.0%} citations inferred from free text"
                 if not ok:
                     msg += f" — below {MIN_MAPPED_SHARE:.0%}; check the extract paths and code normalization"
-                report.findings.append(Finding(t.id, ok, msg))
+                report.findings.append(Finding(t.id, ok, msg, task_type))
         finally:
             await system.teardown()
         if shares:

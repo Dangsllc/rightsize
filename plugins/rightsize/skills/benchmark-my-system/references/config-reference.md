@@ -1,8 +1,12 @@
 # Declarative system configs
 
 A config maps Rightsize's tasks onto a system's own HTTP or MCP API, with no code on the system's
-side. It lives at `configs/systems/<name>.yaml` in the checkout; the examples in
-`configs/systems/examples/` are working starting points.
+side. Save one at `configs/systems/local/<name>.yaml` in the checkout (gitignored); the examples
+in `configs/systems/examples/` are working starting points. `validate_config` checks one without
+calling anything.
+
+YAML trap: inside `{ ... }`, a JSONPath with brackets must be quoted, `{path: "$.items[*]"}`;
+unquoted, the file doesn't parse.
 
 ## Top level
 | Key | Meaning |

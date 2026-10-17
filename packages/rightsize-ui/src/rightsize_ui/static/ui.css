@@ -51,6 +51,9 @@ button:disabled { opacity: .45; cursor: not-allowed; }
 @media (max-width: 640px) { .attn > li, .guards > li { grid-template-columns: 1fr; gap: 2px; } }
 
 .tip { position: fixed; z-index: 20; pointer-events: none; background: var(--raised); color: var(--ink); border: 1px solid var(--border); border-radius: 8px; padding: 6px 9px; font-size: 12.5px; box-shadow: 0 4px 16px rgba(0,0,0,.12); max-width: 320px; }
+.connect-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 12px; align-items: start; }
+@media (max-width: 900px) { .connect-grid { grid-template-columns: 1fr; } }
+textarea.editor { min-height: 520px; font-size: 12.5px; line-height: 1.55; tab-size: 2; white-space: pre; overflow-wrap: normal; overflow-x: auto; }
 .whatif { display: flex; gap: 16px; flex-wrap: wrap; align-items: end; }
 .whatif output { font-variant-numeric: tabular-nums; font-weight: 600; min-width: 3.5em; display: inline-block; }
 .changed { background: var(--wash-warning); }

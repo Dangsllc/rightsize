@@ -132,7 +132,34 @@ def build_server(root: Path, runs_dir: Path | None = None):
         """A job's state, its runs' progress, health, and errors so far, spend against the cap, and output."""
         return agent.job_status(ix, job_id)
 
+    @tool(READ)
+    def describe_suite(suite: str = "m1") -> dict[str, Any]:
+        """What a suite holds: items per task type and split, how public items spread over the tiers results
+        are broken down by, the classification label mix, and whether its data matches its manifest.
+        Held-out items are counted, never listed."""
+        from rightsize_core.service.queries import suite_overview
+
+        return suite_overview(root, suite)
+
     # ------------------------------------------------------------------ systems
+    @tool(READ)
+    def validate_config(path: str | None = None, text: str | None = None) -> dict[str, Any]:
+        """Check a system config (a path under the checkout, or its YAML text) without calling anything:
+        typos in step and field keys, fields that aren't part of the prediction contract, vocabulary
+        maps onto disallowed values, unknown transforms, unset env vars. Each problem has its line."""
+        from rightsize_core.systems.config_schema import validate_config as check
+
+        if (path is None) == (text is None):
+            raise ValueError("Pass either path or text.")
+        if path is not None:
+            p = (root / path).resolve()
+            if not p.is_relative_to(root.resolve()) or p.suffix not in (".yaml", ".yml") or not p.exists():
+                raise ValueError(f"No config at {path} in the checkout.")
+            text = p.read_text()
+        problems = [x.as_dict() for x in check(text)]
+        return {"ok": not any(x["severity"] == "error" for x in problems), "problems": problems,
+                "next": "check_conformance(system=path) once there are no errors; it makes real calls"}
+
     @tool(PROBES)
     async def check_conformance(system: str, suite: str = "m1") -> dict[str, Any]:
         """Send two public items per task type to a system and check its answers map onto the task

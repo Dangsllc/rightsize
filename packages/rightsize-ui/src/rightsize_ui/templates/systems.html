@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Systems · Rightsize{% endblock %}
 {% block main %}
-<h1>Systems</h1>
-<p class="sub">Every system Rightsize can reach from this checkout. Check conformance before trusting a score: a mapping bug looks exactly like a weak model.</p>
+<div class="head">
+  <div><h1>Systems</h1>
+  <p class="sub">Every system Rightsize can reach from this checkout. Check conformance before trusting a score: a mapping bug looks exactly like a weak model.</p></div>
+  <div class="actions"><a class="btn primary" href="/systems/new">Connect a new system</a></div>
+</div>
 {% if report or problem %}
 <section class="card banner tone-{{ 'good' if report and report.ok else 'critical' }}" id="result">
   <h3>Conformance · {{ checked }} · {{ checked_suite }}</h3>
@@ -25,8 +28,10 @@
     <td><form method="post" action="/systems/conformance" class="actions"><input type="hidden" name="system" value="{{ s.spec }}">
       <select name="suite" aria-label="suite">{% for su in suites %}<option>{{ su }}</option>{% endfor %}</select>
       <button type="submit">Check conformance</button></form>
-      <a class="small" href="/launch?{{ qs(system=s.spec) }}">Launch with it</a></td>
+      <a class="small" href="/launch?{{ qs(system=s.spec) }}">Launch with it</a>
+      {% if s.example %} · <a class="small" href="/systems/new?{{ qs(template=s.spec.split('/')[-1].rsplit('.', 1)[0]) }}">Use as a template</a>
+      {% elif s.path %} · <a class="small" href="/systems/edit?{{ qs(spec=s.spec) }}">Edit</a>{% endif %}</td>
   </tr>{% endfor %}</tbody>
 </table></div>
-<p class="small muted">Add your own: copy a template from <code>configs/systems/examples/</code>, or set <code>RIGHTSIZE_SYSTEMS_DIRS</code> to more folders of system configs.</p>
+<p class="small muted">Configs saved from the Workbench go to <code>configs/systems/local/</code>, which git ignores. <code>RIGHTSIZE_SYSTEMS_DIRS</code> adds more folders of configs.</p>
 {% endblock %}

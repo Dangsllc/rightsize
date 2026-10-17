@@ -10,3 +10,5 @@ __pycache__/
 .env.*
 !.env.example
 .DS_Store
+# Configs saved from the Workbench: a config for your own system stays on your machine.
+/configs/systems/local/

@@ -39,17 +39,23 @@ Ask what it is and how it's called, or read its API docs if the user points at t
 Start from the closest template in the checkout's `configs/systems/examples/`:
 `search-api-template.yaml` (retrieval over a search API), `document-review-api.yaml` (upload a
 document, start a review, poll, fetch results), `bm25-declarative-mcp.yaml` (an MCP tool).
-Save it as `configs/systems/<name>.yaml`. The format, every field, and the vocabulary maps are in
-`references/config-reference.md`. Mark tasks the system can't do as `unsupported`.
+Save it as `configs/systems/local/<name>.yaml` (git ignores that folder, so a config for the
+user's own system isn't committed by accident). The format, every field, and the vocabulary maps
+are in `references/config-reference.md`. Mark tasks the system can't do as `unsupported`.
+Then `validate_config(path=...)` until it reports no errors: it catches typos, fields outside the
+contract, bad vocabulary maps, and unset env vars, each with its line, without calling anything.
+In the Workbench, Systems → Connect a new system does the same with a step-by-step trace of one
+item, if the user would rather work there.
 
 ## 3. Prove the mapping
-`check_conformance(system="configs/systems/<name>.yaml", suite="m1")` sends two real items per
+`check_conformance(system="configs/systems/local/<name>.yaml", suite="m1")` sends two real items per
 task type; if the system calls a paid model, tell the user first. A failure is a mapping
 bug, not a weak model: fix the JSONPaths, status `map`, or transforms it names, and check again.
 Stop after five attempts and show the user the last findings.
 
 ## 4. Plan, agree, run
-1. `plan_run(system=..., suite="m1", repeats=3, max_cost=<cap>)`. A system that calls paid models
+1. `describe_suite(suite)` if the user wants to know what's in it. Then
+   `plan_run(system=..., suite="m1", repeats=3, max_cost=<cap>)`. A system that calls paid models
    needs a cap; one with no price on file needs `ack_unpriced=true` and the user's agreement that
    its cost will show as unknown.
 2. If the estimate says no cost is measured yet, offer a pilot first: the same plan with

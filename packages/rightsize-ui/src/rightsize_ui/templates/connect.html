@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Connect a system · Rightsize{% endblock %}
+{% block main %}
+<div class="crumbs"><a href="/systems">Systems</a> / connect</div>
+<h1>Connect a system</h1>
+<p class="sub">Map Rightsize's tasks onto a system's own API. Check is free; Try and Conformance make real calls to the system, with public items only. Nothing here can send held-out data.</p>
+
+{% if failure %}<div class="card banner tone-critical" role="alert"><p class="reason">{{ failure }}</p></div>{% endif %}
+{% if saved %}<div class="card banner tone-good" role="status"><span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>Saved</span>
+  <p class="reason">Saved to <code>{{ saved }}</code> (gitignored, so it stays on this machine). <a href="/launch?{{ qs(system=saved) }}">Launch a run with it</a> · <a href="/systems">Systems</a></p></div>{% endif %}
+
+<form method="post" action="/systems/connect" data-connect>
+<input type="hidden" name="started_from" value="{{ started_from }}">
+<div class="connect-grid">
+  <section class="card">
+    <div class="row">
+      <div class="field"><label for="name">Config name</label><input type="text" id="name" name="name" value="{{ name }}" pattern="[a-z0-9][a-z0-9_-]*" required></div>
+      <div class="field"><label for="tpl">Start over from</label>
+        <select id="tpl" data-template-jump><option value="">(keep this draft)</option><option value="blank">a blank HTTP config</option>{% for t in templates %}<option value="{{ t.name }}">{{ t.name }}</option>{% endfor %}</select></div>
+    </div>
+    <label for="text">Config (YAML) · <span class="muted">env var names only; values go in .env</span></label>
+    <textarea id="text" name="text" class="editor" spellcheck="false" rows="28" data-editor>{{ text }}</textarea>
+    <div class="actions" style="margin-top: 10px">
+      <button type="submit" name="action" value="check">Check <span class="muted small">free</span></button>
+      <span class="field" style="margin: 0"><select name="task_type" aria-label="task type to try">{% for tt in ["retrieval", "control_classification"] %}<option {{ "selected" if tt == task_type }}>{{ tt }}</option>{% endfor %}</select></span>
+      <span class="field" style="margin: 0"><select name="suite" aria-label="suite">{% for su in suites %}<option {{ "selected" if su == suite }}>{{ su }}</option>{% endfor %}</select></span>
+      <button type="submit" name="action" value="try">Try one item <span class="muted small">real calls</span></button>
+      <button type="submit" name="action" value="conformance">Run conformance <span class="muted small">real calls</span></button>
+    </div>
+    <div class="actions" style="margin-top: 10px">
+      <button type="submit" name="action" value="save" class="primary">Save to {{ save_dir.name }}/</button>
+      <label><input type="checkbox" name="overwrite"> replace it if it exists</label>
+    </div>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h3>Problems</h3>
+    {% set errors = problems|selectattr("severity", "eq", "error")|list %}
+    {% if not problems %}<p><span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>Well formed</span></p>
+      <p class="small muted">The shape is right and every field is part of the contract. Whether the system's answers map is what Try and Conformance show.</p>
+    {% else %}
+      <p class="small">{{ errors|length }} error{{ "s" if errors|length != 1 }}, {{ problems|length - errors|length }} warning{{ "s" if problems|length - errors|length != 1 }}.</p>
+      <ul class="guards">{% for p in problems %}<li>
+        <span>{% if p.severity == "error" %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>error</span>{% else %}<span class="status tone-warning"><span class="glyph" aria-hidden="true">▲</span>note</span>{% endif %}</span>
+        <span>{% if p.line %}<a href="#text" data-goto-line="{{ p.line }}">line {{ p.line }}</a> · {% endif %}<code>{{ p.where }}</code><br>{{ p.message }}</span></li>{% endfor %}</ul>
+    {% endif %}
+    <details class="small"><summary>How configs work</summary>
+      <p>Each task lists <code>steps</code> (HTTP <code>call</code>, MCP <code>tool</code>, <code>poll</code>), then <code>extract</code> pulls the answer out of the last response with JSONPath. Map the system's vocabulary onto Rightsize's (<code>status: {map: {met: covered}}</code>). The templates under "Start over from" are working examples.</p>
+    </details>
+  </section>
+</div>
+
+{% if tried %}
+<h2>One item, step by step</h2>
+<section class="card">
+  <p class="small muted">Public item <code>{{ tried.task_id }}</code>{% if tried.query %}: "{{ tried.query }}"{% endif %}</p>
+  {% if tried.error %}<div class="banner tone-critical card"><p class="reason">{{ tried.error }}</p></div>{% endif %}
+  {% for st in tried.steps %}
+  <details class="card" {{ "open" if loop.last }}><summary>Step {{ loop.index }} · <code>{{ st.step }}</code></summary><pre class="log">{{ st.shown }}</pre></details>
+  {% else %}<p class="muted">No step responses were recorded.</p>{% endfor %}
+  <h3>What extract made of it</h3>
+  {% if tried.unmapped %}<p><span class="status tone-warning"><span class="glyph" aria-hidden="true">▲</span>No mapping for</span> {{ tried.unmapped|join(", ") }}: add them to the field's <code>map</code>.</p>{% endif %}
+  {% if tried.prediction %}<pre class="log">{{ tried.prediction }}</pre>{% else %}<p class="muted">No prediction.</p>{% endif %}
+  {% if tried.steps %}
+  <h3>Test a JSONPath against a response</h3>
+  <input type="hidden" name="trace_id" value="{{ tried.trace_id }}">
+  <div class="actions">
+    <select name="step" aria-label="response">{% for st in tried.steps %}<option value="{{ loop.index0 }}" {{ "selected" if jsonpath and jsonpath.index == loop.index0 or (not jsonpath and loop.last) }}>step {{ loop.index }}</option>{% endfor %}</select>
+    <input type="text" name="expr" value="{{ jsonpath.expr if jsonpath else '$.results[*]' }}" aria-label="JSONPath" style="min-width: 18em">
+    <button type="submit" name="action" value="jsonpath">Test</button>
+  </div>
+  {% if jsonpath %}{% if jsonpath.error %}<p class="small">{{ jsonpath.error }}</p>{% else %}<p class="small">{{ jsonpath.count }} match{{ "es" if jsonpath.count != 1 }}{% if jsonpath.count > 20 %} (first 20){% endif %}</p><pre class="log">{{ jsonpath.shown }}</pre>{% endif %}{% endif %}
+  {% endif %}
+</section>
+{% endif %}
+</form>
+
+{% if report %}
+<h2>Conformance</h2>
+<section class="card banner tone-{{ 'good' if report.ok else 'critical' }}">
+  <p>{% if report.ok %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>Pass</span> Answers map cleanly onto the task contracts.{% else %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>Fail</span> These would be scored as a weak system: fix the mapping first.{% endif %}</p>
+  {% for tt, sm in report.summary.items() %}<p class="small"><b>{{ tt }}</b> · {% for k, v in sm.items() %}{{ k }}={{ v }} {% endfor %}</p>{% endfor %}
+  <ul class="guards">{% for f in report.findings %}<li><span>{% if f.ok %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>ok</span>{% else %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>fail</span>{% endif %}</span>
+    <span>{% if f.line %}<a href="#text" data-goto-line="{{ f.line }}">line {{ f.line }}</a> · {% endif %}<span class="mono small">{{ f.task_id }}</span> · {{ f.message }}</span></li>{% endfor %}</ul>
+</section>
+{% endif %}
+
+<h2>Hand it to Claude</h2>
+<section class="card">
+  <p class="small muted">With the Rightsize plugin installed, Claude Code can write the rest from the system's API docs. Paste this, and fill in where the docs are.</p>
+  <div class="cmd"><pre data-copy-source>{{ prompt }}</pre><button type="button" data-copy>Copy</button></div>
+</section>
+{% endblock %}

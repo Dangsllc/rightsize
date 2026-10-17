@@ -21,7 +21,11 @@ def _pack_transforms(pack_name: str | None) -> dict[str, Any]:
 
 
 def system_from_config(path: Path, root: Path) -> System:
-    cfg = yaml.safe_load(path.read_text())
+    return system_from_dict(yaml.safe_load(path.read_text()), root)
+
+
+def system_from_dict(cfg: dict[str, Any], root: Path) -> System:
+    """A system from an already-parsed config (e.g. a draft that hasn't been saved)."""
     if cfg.get("protocol") == "rightsize/v1":
         if cfg["transport"] == "http":
             from rightsize_core.systems.native import NativeHTTPSystem

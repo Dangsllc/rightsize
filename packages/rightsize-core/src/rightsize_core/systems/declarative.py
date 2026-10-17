@@ -151,6 +151,7 @@ class DeclarativeSystem(System):
         self._http: httpx.AsyncClient | None = None
         self._mcp = None
         self._mcp_override = mcp_server_override
+        self.trace: list[dict[str, Any]] | None = None  # set to [] to record each step's response
 
     def required_env(self) -> list[str]:
         names = set(_ENVVAR.findall(json.dumps(self.cfg)))
@@ -290,6 +291,10 @@ class DeclarativeSystem(System):
             return data
         else:
             raise StepError(f"Unknown step {step}")
+        if self.trace is not None:
+            label = step.get("call") or step.get("tool") or "poll " + str(
+                step["poll"].get("call") or step["poll"].get("tool"))
+            self.trace.append({"step": label, "response": data})
         ctx["last"] = data
         for var, path in (step.get("save") or {}).items():
             ctx[var] = jp_first(path, data)

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Suites · Rightsize{% endblock %}
+{% block main %}
+<h1>Suites</h1>
+<p class="sub">What each benchmark suite holds, how its items spread over the tiers results are broken down by, and whether its data still matches its manifest.</p>
+{% for o in overviews %}
+<h2 id="{{ o.suite }}">{{ o.suite }} <span class="muted">· {{ o.pack }} pack · regulation edition {{ o.edition }}</span></h2>
+<section class="card">
+  <p>{% if o.check %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>Data check fails</span> {{ o.check[0] }}{% else %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>Data matches its manifest</span>{% endif %}</p>
+  <div class="scroll"><table>
+    <thead><tr><th>task type</th><th class="n">public</th><th class="n">dev</th><th class="n">held-out</th><th class="n">not built</th></tr></thead>
+    <tbody>{% for tt, c in o.counts.items() %}<tr><td>{{ tt }}</td><td class="n">{{ c.get("public", 0) }}</td><td class="n">{{ c.get("dev", 0) }}</td>
+      <td class="n">{% if o.heldout_counts is none %}<span class="muted small">not on this machine</span>{% else %}{{ o.heldout_counts.get(tt, 0) }}{% endif %}</td>
+      <td class="n">{{ o.not_built.get(tt, "—") }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <p class="small muted">"Not built" counts slots whose LLM-written candidates all failed the overlap filter or cross-model verification; they're absent, never filled with unchecked items. Held-out items are counted here and listed nowhere.</p>
+</section>
+{% if o.labels %}
+<section class="card"><h3>Expected labels, public classification items</h3>
+  {% for level, mix in o.labels.items() %}{% set total = mix.values()|sum %}
+  <p class="small"><b>{{ "requirement groups" if level == "groups" else "requirements" }}</b> ·
+    {% for lab in ["covered", "partial", "gap", "not_applicable"] if lab in mix %}{{ lab }} {{ mix[lab] }} <span class="muted">({{ (100 * mix[lab] / total)|round|int }}%)</span>{% if not loop.last %} · {% endif %}{% endfor %}</p>
+  {% endfor %}
+  <p class="small muted">Labels come from how each document was built: a deleted or hollowed section is a gap; a removed or weakened element makes a requirement partial.</p>
+</section>
+{% endif %}
+<div class="grid2">
+  {% for tt, keys in o.tiers.items() %}
+  <section class="card"><h3>{{ tt }} · public items by tier</h3>
+    <table class="small"><tbody>{% for key, vals in keys.items() %}
+      <tr><th>{{ key }}</th><td>{% for v, n in vals.items() %}<span class="chip">{{ v }} {{ n }}</span>{% endfor %}</td></tr>{% endfor %}</tbody></table>
+  </section>
+  {% endfor %}
+</div>
+<p class="small muted">Canary: <code>{{ o.canary }}</code>. It appears in every item; a model that can reproduce it has seen this benchmark in training.</p>
+{% endfor %}
+{% if datasheet %}
+<h2>Datasheet</h2>
+<details class="card"><summary>How every item is built, and its known limits (data/DATASHEET.md)</summary><pre class="doc">{{ datasheet }}</pre></details>
+{% endif %}
+{% endblock %}

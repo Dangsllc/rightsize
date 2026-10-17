@@ -52,6 +52,26 @@ $$("form[data-two-step]").forEach((f) => f.addEventListener("submit", (ev) => {
   f.addEventListener("change", update); update();
 })();
 
+// ---- the config editor: jump to a problem's line; start over from a template
+$$("[data-goto-line]").forEach((a) => a.addEventListener("click", (ev) => {
+  const ta = $("[data-editor]");
+  if (!ta) return;
+  ev.preventDefault();
+  const line = parseInt(a.dataset.gotoLine, 10);
+  const lines = ta.value.split("\n");
+  const start = lines.slice(0, line - 1).reduce((n, l) => n + l.length + 1, 0);
+  ta.focus();
+  ta.setSelectionRange(start, start + (lines[line - 1] || "").length);
+  ta.scrollTop = Math.max(0, (line - 5) * parseFloat(getComputedStyle(ta).lineHeight || "19"));
+}));
+(function templateJump() {
+  const sel = $("[data-template-jump]");
+  if (!sel) return;
+  sel.addEventListener("change", () => {
+    if (sel.value) location.href = sel.value === "blank" ? "/systems/new" : `/systems/new?template=${encodeURIComponent(sel.value)}`;
+  });
+})();
+
 // ---- tooltips for chart marks (hover and keyboard focus show the same text)
 (function tips() {
   const marks = $$(".chart .rung, .chart .pt, .chart .floor");

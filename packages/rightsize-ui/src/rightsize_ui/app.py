@@ -43,8 +43,10 @@ def href(kind: str, ident: str | None = None, **query) -> str:
 
 
 class Workbench:
-    def __init__(self, root: Path, runs_dir: Path) -> None:
+    def __init__(self, root: Path, runs_dir: Path, systems_dir: Path | None = None) -> None:
         self.root, self.runs_dir = root, runs_dir
+        # Configs saved from the Workbench. Gitignored: a config for your own system stays local.
+        self.systems_dir = systems_dir or root / "configs" / "systems" / "local"
         self.index = Index(root, runs_dir)
         self._checks: tuple[float, dict] | None = None
 
@@ -60,7 +62,7 @@ class Workbench:
 
         out = [{"spec": f"ref:{n}", "name": n, "kind": "reference system", "trusted": True, "env": {}}
                for n in ("bm25", "llm", "oracle")]
-        dirs = [self.root / "configs" / "systems"]
+        dirs = [self.root / "configs" / "systems", self.systems_dir]
         dirs += [Path(d) for d in os.environ.get("RIGHTSIZE_SYSTEMS_DIRS", "").split(os.pathsep) if d]
         seen = set()
         for d in dirs:
@@ -79,7 +81,8 @@ class Workbench:
                 names = set(re.findall(r"\$\{([A-Z0-9_]+)\}", text))
                 if isinstance(cfg.get("auth"), dict) and cfg["auth"].get("env"):
                     names.add(cfg["auth"]["env"])
-                out.append({"spec": spec, "name": cfg.get("name", p.stem),
+                out.append({"spec": spec, "name": cfg.get("name", p.stem), "path": str(p),
+                            "example": p.parent.name == "examples" and p.is_relative_to(self.root / "configs"),
                             "kind": "rightsize/v1 " + cfg.get("transport", "") if cfg.get("protocol") == "rightsize/v1"
                             else f"declarative {cfg.get('transport', '')}",
                             "trusted": bool(cfg.get("trusted")), "env": {n: env_present(n) for n in sorted(names)},
@@ -217,9 +220,10 @@ def plan_request(form) -> PlanRequest:
     )
 
 
-def create_app(root: Path, runs_dir: Path | None = None, token: str | None = None) -> FastAPI:
+def create_app(root: Path, runs_dir: Path | None = None, token: str | None = None,
+               systems_dir: Path | None = None) -> FastAPI:
     load_dotenv(root)
-    wb = Workbench(root, runs_dir or default_runs_dir(root))
+    wb = Workbench(root, runs_dir or default_runs_dir(root), systems_dir)
     env = environment(HERE / "templates")
     env.globals.update(href=href, static=False)
     app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
@@ -229,10 +233,10 @@ def create_app(root: Path, runs_dir: Path | None = None, token: str | None = Non
     app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
     app.mount("/core-static", StaticFiles(directory=STATIC), name="core-static")
 
-    def page(name: str, request: Request, status: int = 200, **ctx: Any) -> HTMLResponse:
-        ctx.setdefault("nav", name.split(".")[0])
+    def page(template: str, request: Request, status: int = 200, **ctx: Any) -> HTMLResponse:
+        ctx.setdefault("nav", template.split(".")[0])
         live = [j for j in jobs.list_jobs(wb.runs_dir) if j.state == "running"]
-        html = env.get_template(name).render(request=request, root=str(root), live_jobs=live, **ctx)
+        html = env.get_template(template).render(request=request, root=str(root), live_jobs=live, **ctx)
         return HTMLResponse(html, status_code=status)
 
     @app.exception_handler(NotFound)
@@ -466,6 +470,75 @@ def create_app(root: Path, runs_dir: Path | None = None, token: str | None = Non
             problem = f"{type(e).__name__}: {e}"
         return page("systems.html", request, systems=wb.system_choices(), suites=wb.suites(), report=report,
                     problem=problem, checked=spec, checked_suite=suite)
+
+    # ------------------------------------------------------------------ connect a system
+    def editable(spec: str) -> Path:
+        """A config the editor may open: one listed on the Systems page, never an arbitrary file."""
+        for s_ in wb.system_choices():
+            if s_.get("path") and s_["spec"] == spec:
+                return Path(s_["path"])
+        raise NotFound(spec)
+
+    def connect_page(request: Request, status: int = 200, **ctx: Any) -> HTMLResponse:
+        from rightsize_ui import connect
+
+        text = ctx.get("text", "")
+        ctx.setdefault("problems", connect.problems(text) if text else [])
+        ctx["prompt"] = connect.claude_prompt(ctx.get("name") or "my-system", text, ctx["problems"],
+                                              ctx.get("report"))
+        ctx.setdefault("suite", "m1")
+        ctx.setdefault("task_type", "retrieval")
+        return page("connect.html", request, status, nav="systems", suites=wb.suites(),
+                    templates=connect.templates(root), save_dir=wb.systems_dir, **ctx)
+
+    @app.get("/systems/new", response_class=HTMLResponse)
+    def systems_new(request: Request, template: str = ""):
+        from rightsize_ui import connect
+
+        t = next((t for t in connect.templates(root) if t["name"] == template), None)
+        text = t["text"] if t else connect.BLANK
+        name = "my-system" if not t or t["name"].startswith(("bm25", "search", "document")) else t["name"]
+        return connect_page(request, text=text, name=name, started_from=t["name"] if t else "blank")
+
+    @app.get("/systems/edit", response_class=HTMLResponse)
+    def systems_edit(request: Request, spec: str):
+        path = editable(spec)
+        return connect_page(request, text=path.read_text(), name=path.stem, started_from=spec)
+
+    @app.post("/systems/connect", response_class=HTMLResponse)
+    async def systems_connect(request: Request):
+        from rightsize_ui import connect
+
+        form = await request.form()
+        text = (form.get("text") or "").replace("\r\n", "\n")
+        ctx: dict[str, Any] = {"text": text, "name": (form.get("name") or "").strip(),
+                               "suite": form.get("suite") or "m1", "task_type": form.get("task_type") or "retrieval",
+                               "started_from": form.get("started_from") or ""}
+        action = form.get("action") or "check"
+        try:
+            if action == "try":
+                ctx["tried"] = await connect.try_one(root, text, ctx["suite"], ctx["task_type"])
+            elif action == "jsonpath":
+                tid = form.get("trace_id") or ""
+                ctx["tried"] = connect._TRACES.get(tid, {}).get("result") if isinstance(
+                    connect._TRACES.get(tid), dict) else None
+                ctx["jsonpath"] = connect.jsonpath(tid, int(form.get("step") or 0), form.get("expr") or "$")
+            elif action == "conformance":
+                ctx["report"] = await connect.conformance(root, text, ctx["suite"])
+            elif action == "save":
+                dest = connect.save(wb.systems_dir, ctx["name"], text, form.get("overwrite") == "on")
+                ctx["saved"] = dest.relative_to(root).as_posix() if dest.is_relative_to(root) else str(dest)
+        except Exception as e:  # noqa: BLE001 - every failure here is something the user needs to read
+            ctx["failure"] = f"{type(e).__name__}: {explain(e)}" if not isinstance(e, ValueError) else str(e)
+        return connect_page(request, **ctx)
+
+    @app.get("/suites", response_class=HTMLResponse)
+    def suites(request: Request):
+        from rightsize_core.service.queries import suite_overview
+
+        datasheet = root / "data" / "DATASHEET.md"
+        return page("suites.html", request, overviews=[suite_overview(root, s) for s in wb.suites()],
+                    datasheet=datasheet.read_text() if datasheet.exists() else None)
 
     # ------------------------------------------------------------------ JSON
     @app.get("/api/jobs/{job_id}")

@@ -17,7 +17,7 @@ from typer.testing import CliRunner
 
 ROOT = Path(__file__).resolve().parents[2]
 READ_TOOLS = {"list_runs", "summarize_run", "list_items", "get_item", "diff_runs", "list_sweeps", "get_calibration",
-              "preview_routing", "list_jobs", "job_status"}
+              "preview_routing", "list_jobs", "job_status", "describe_suite", "validate_config"}
 WRITE_TOOLS = {"start", "calibrate", "cancel_job"}
 
 

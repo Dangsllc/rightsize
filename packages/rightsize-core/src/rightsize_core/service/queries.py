@@ -172,6 +172,44 @@ def compare(ix: Index, run_a: str, run_b: str, delta: float = 0.0) -> dict[str, 
     return {"a": ix.summary(run_a), "b": ix.summary(run_b), "diff": data, "flips": flips, "sections": sections}
 
 
+def suite_overview(root, suite: str) -> dict[str, Any]:
+    """What a suite holds: item counts per task type and split, how public items spread over each
+    tier, the classification label mix, items the build couldn't make, and whether its data checks
+    out. Held-out items are counted, never listed."""
+    from collections import Counter
+
+    from rightsize_core.integrity.dataset import check_suite, heldout_dir, load_suite_config, load_tasks, suite_dir
+
+    cfg = load_suite_config(root, suite)
+    sdir = suite_dir(root, suite)
+    manifest = json.loads((sdir / "MANIFEST.json").read_text()) if (sdir / "MANIFEST.json").exists() else {}
+    build = json.loads((sdir / "BUILD_REPORT.json").read_text()) if (sdir / "BUILD_REPORT.json").exists() else {}
+    tiers: dict[str, dict[str, dict[str, int]]] = {}
+    labels: dict[str, dict[str, int]] = {}
+    try:
+        public = load_tasks(root, suite, "public")
+    except FileNotFoundError:
+        public = []
+    for t in public:
+        for k, v in t.strata.items():
+            tiers.setdefault(t.task_type, {}).setdefault(k, Counter())[v] += 1
+        for level in ("groups", "units"):
+            for e in (t.expected.get(level) or {}).values():
+                if isinstance(e, dict) and "status" in e:
+                    labels.setdefault(level, Counter())[e["status"]] += 1
+    heldout = None
+    if heldout_dir(root, cfg).is_dir():
+        try:
+            heldout = dict(Counter(t.task_type for t in load_tasks(root, suite, "heldout")))
+        except FileNotFoundError:
+            heldout = None
+    missing = {tt: len(r.get("missing", [])) for tt, r in build.items() if isinstance(r, dict) and "missing" in r}
+    return {"suite": suite, "pack": cfg.get("pack"), "edition": cfg.get("edition"), "canary": cfg.get("canary"),
+            "counts": manifest.get("counts", {}), "heldout_counts": heldout, "check": check_suite(root, suite),
+            "tiers": {tt: {k: dict(sorted(v.items())) for k, v in ks.items()} for tt, ks in tiers.items()},
+            "labels": {k: dict(v) for k, v in labels.items()}, "not_built": missing}
+
+
 def calibration(ix: Index, sweep_id: str) -> dict[str, Any] | None:
     """calibration.json plus, per task type, the overall-tier points with the Pareto frontier marked."""
     f = ix.sweep_dir(sweep_id) / "calibration.json"
