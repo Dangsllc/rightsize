@@ -10,3 +10,4 @@ jobs:
       - run: uv run ruff check .
       - run: uv run pytest -q
       - run: uv run rightsize data check --suite m1
+      - run: uv run rightsize data check --suite m2
