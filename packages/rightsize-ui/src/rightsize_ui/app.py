@@ -15,6 +15,7 @@ import time
 from pathlib import Path
 from typing import Any
 
+import yaml
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -462,8 +463,10 @@ def create_app(root: Path, runs_dir: Path | None = None, token: str | None = Non
         try:
             sysobj = load_system(spec, root, suite)
             try:
-                await asyncio.wait_for(sysobj.preflight(), 60)
-                report = await asyncio.wait_for(run_conformance(root, sysobj, suite), 600)
+                # asyncio.timeout, not wait_for: an MCP connection must open and close in one task.
+                async with asyncio.timeout(660):
+                    await sysobj.preflight()
+                    report = await run_conformance(root, sysobj, suite)
             finally:
                 await sysobj.aclose()
         except Exception as e:  # noqa: BLE001
@@ -487,7 +490,12 @@ def create_app(root: Path, runs_dir: Path | None = None, token: str | None = Non
         ctx["prompt"] = connect.claude_prompt(ctx.get("name") or "my-system", text, ctx["problems"],
                                               ctx.get("report"))
         ctx.setdefault("suite", "m1")
-        ctx.setdefault("task_type", "retrieval")
+        if "task_type" not in ctx:  # default to the first task the draft actually supports
+            try:
+                tasks = (yaml.safe_load(text) or {}).get("tasks") or {}
+            except yaml.YAMLError:
+                tasks = {}
+            ctx["task_type"] = next((t for t, spec in tasks.items() if isinstance(spec, dict)), "retrieval")
         return page("connect.html", request, status, nav="systems", suites=wb.suites(),
                     templates=connect.templates(root), save_dir=wb.systems_dir, **ctx)
 

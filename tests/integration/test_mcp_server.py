@@ -245,3 +245,21 @@ def test_conformance_is_not_labelled_read_only(server):
     tools = {t.name: t for t in asyncio.run(server.list_tools())}
     assert tools["check_conformance"].annotations.read_only_hint is False
     assert "confirm first" in tools["check_conformance"].description
+
+
+def test_validate_config_reports_lines_without_calling_anything(server, tmp_path):
+    ok = call(server, "validate_config", {"path": "configs/systems/examples/search-api-template.yaml"})
+    assert ok["ok"] is True
+    bad = call(server, "validate_config", {"text": "name: x\ntransport: http\nbase_url: h\ntasks:\n"
+                                                   "  retrieval:\n    steps: [{cal: GET /x}]\n    extract: {}\n"})
+    assert bad["ok"] is False and bad["problems"][0]["line"] == 6
+    for path in ("../../etc/passwd", "pyproject.toml"):
+        with pytest.raises(MCPToolError, match="No config at"):
+            call(server, "validate_config", {"path": path})
+
+
+def test_describe_suite_counts_heldout_without_listing_it(server):
+    d = call(server, "describe_suite", {"suite": "m2"})
+    assert d["counts"]["control_classification"]["public"] == 60 and d["check"] == []
+    assert "presentation" in d["tiers"]["control_classification"]
+    assert d["heldout_counts"] is None or all(isinstance(v, int) for v in d["heldout_counts"].values())

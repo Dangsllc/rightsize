@@ -90,15 +90,15 @@ async def try_one(root: Path, text: str, suite: str, task_type: str) -> dict[str
         inputs["document"] = resolve_document(root, load_suite_config(root, suite), task)
         inputs.pop("document_ref")
 
-    async def go():
-        await system.preflight()
-        await system.setup()
-        try:
-            return await system.run(task_type, inputs)
-        finally:
-            await system.teardown()
+    # asyncio.timeout, not wait_for: an MCP connection must open and close in the same task.
     try:
-        out = await asyncio.wait_for(go(), TRY_TIMEOUT_S)
+        async with asyncio.timeout(TRY_TIMEOUT_S):
+            await system.preflight()
+            await system.setup()
+            try:
+                out = await system.run(task_type, inputs)
+            finally:
+                await system.teardown()
     finally:
         await system.aclose()
     steps = list(getattr(system, "trace", None) or [])
@@ -134,8 +134,9 @@ async def conformance(root: Path, text: str, suite: str) -> dict[str, Any]:
 
     system = system_from_dict(_cfg(text), root)
     try:
-        await asyncio.wait_for(system.preflight(), 60)
-        report = await asyncio.wait_for(run_conformance(root, system, suite), CONFORMANCE_TIMEOUT_S)
+        async with asyncio.timeout(CONFORMANCE_TIMEOUT_S):
+            await system.preflight()
+            report = await run_conformance(root, system, suite)
     finally:
         await system.aclose()
     return {"ok": report.ok, "summary": report.summary,

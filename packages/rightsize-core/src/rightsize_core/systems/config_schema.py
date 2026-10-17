@@ -173,29 +173,36 @@ class Problem:
 # ------------------------------------------------------------------------------ YAML lines
 
 
-def _node_at(node, path: list) -> Any:
+def _line_at(node, path: list) -> int | None:
+    """0-based line of the key (or list item) at `path`; None if the path doesn't exist."""
+    line = node.start_mark.line
     for key in path:
         if isinstance(node, yaml.MappingNode):
-            node = next((v for k, v in node.value if k.value == str(key)), None)
+            pair = next(((k, v) for k, v in node.value if k.value == str(key)), None)
+            if pair is None:
+                return None
+            line, node = pair[0].start_mark.line, pair[1]
         elif isinstance(node, yaml.SequenceNode) and isinstance(key, int) and key < len(node.value):
             node = node.value[key]
+            line = node.start_mark.line
         else:
             return None
-        if node is None:
-            return None
-    return node
+    return line
 
 
 def line_of(text: str, path: list) -> int | None:
-    """1-based line of the YAML node at `path`, or of its nearest existing ancestor."""
+    """1-based line of the key at `path` (where a person would look), or of its nearest existing
+    ancestor."""
     try:
         root = yaml.compose(text)
     except yaml.YAMLError:
         return None
+    if root is None:
+        return None
     for cut in range(len(path), -1, -1):
-        node = _node_at(root, path[:cut]) if root is not None else None
-        if node is not None:
-            return node.start_mark.line + 1
+        line = _line_at(root, path[:cut])
+        if line is not None:
+            return line + 1
     return None
 
 

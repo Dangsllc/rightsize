@@ -110,8 +110,10 @@ async def build_plan(root: Path, req: PlanRequest, index=None, pricing_file: str
         try:
             first = rung_specs[0] if rung_specs else RungPlan(name="run", model=req.model, params=req.params)
             sysobj.configure(first.model, first.params)
-            await asyncio.wait_for(sysobj.preflight(), INFO_TIMEOUT_S)
-            info = await asyncio.wait_for(sysobj.info(), INFO_TIMEOUT_S)
+            # asyncio.timeout, not wait_for: an MCP connection must open and close in one task.
+            async with asyncio.timeout(INFO_TIMEOUT_S):
+                await sysobj.preflight()
+                info = await sysobj.info()
             trusted, name = sysobj.trusted, info.name
             for r in rung_specs:
                 sysobj.configure(r.model, r.params)

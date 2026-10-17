@@ -158,3 +158,15 @@ def test_cancelling_a_sweep_records_where_it_stopped(plugin_path, tmp_path):
     m = json.loads((runs / j.run_ids[0] / "manifest.json").read_text())
     assert m["status"] == "aborted" and "aborted: cancelled" in m["notes"]
     assert ix.summary(j.run_ids[0]).health == "aborted"
+
+
+def test_plans_reach_mcp_systems(monkeypatch):
+    """An MCP connection must open and close in one task; a plan used to break that and report a
+    healthy MCP system as failing its preflight."""
+    import sys
+
+    monkeypatch.setenv("RIGHTSIZE_ROOT", str(ROOT))
+    spec = f"mcp+stdio:{sys.executable} -m rightsize_core.cli serve bm25 --transport mcp-stdio"
+    p = plan(PlanRequest(kind="run", system=spec, task_types=["retrieval"], limit=2))
+    system = next(g for g in p.guards if g.name == "system")
+    assert system.ok, system.message
