@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_macros.html" import view_block %}
+{% block title %}{{ task }} · Rightsize{% endblock %}
+{% block banner %}{% if s.split == "heldout" %}<div class="heldout" role="note">Held-out item · never export, publish, or share it</div>{% endif %}{% endblock %}
+{% block main %}
+<div class="crumbs"><a href="/runs">Runs</a> / <a href="/runs/{{ s.run_id }}">{{ s.system }} · {{ s.model or "default model" }}</a> / <a href="{{ back }}">items</a> / {{ task }}</div>
+{% if problem %}<div class="card banner tone-warning"><p class="reason">{{ problem }}</p></div>
+{% elif view %}
+<div class="head">
+  <div><h1>{{ view.title }}</h1>
+  <p>{% if view.mark == "ok" %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>Right</span>
+     {% elif view.mark == "bad" %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>Wrong</span>
+     {% elif view.mark == "warn" %}<span class="status tone-warning"><span class="glyph" aria-hidden="true">▲</span>Partly right</span>
+     {% else %}<span class="status tone-info"><span class="glyph" aria-hidden="true">○</span>No answer</span>{% endif %}
+     · {{ view.summary }}</p></div>
+  {% if s.repeats > 1 %}<form class="actions" method="get"><input type="hidden" name="task" value="{{ task }}"><input type="hidden" name="back" value="{{ back }}">
+    <label>Repeat <select name="repeat" data-autosubmit>{% for i in range(s.repeats) %}<option value="{{ i }}" {{ "selected" if i == repeat }}>{{ i + 1 }} of {{ s.repeats }}</option>{% endfor %}</select></label></form>{% endif %}
+</div>
+{% for b in view.blocks %}{{ view_block(b) }}{% endfor %}
+{% endif %}
+{% endblock %}

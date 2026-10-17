@@ -13,6 +13,7 @@ members = [
     "rightsize-core",
     "rightsize-pack-compliance",
     "rightsize-reference-systems",
+    "rightsize-ui",
 ]
 
 [[package]]
@@ -1843,6 +1844,7 @@ dependencies = [
     { name = "rightsize-core" },
     { name = "rightsize-pack-compliance" },
     { name = "rightsize-reference-systems" },
+    { name = "rightsize-ui" },
 ]
 
 [package.dev-dependencies]
@@ -1857,6 +1859,7 @@ requires-dist = [
     { name = "rightsize-core", editable = "packages/rightsize-core" },
     { name = "rightsize-pack-compliance", editable = "packages/rightsize-pack-compliance" },
     { name = "rightsize-reference-systems", editable = "packages/rightsize-reference-systems" },
+    { name = "rightsize-ui", editable = "packages/rightsize-ui" },
 ]
 
 [package.metadata.requires-dev]
@@ -1940,6 +1943,27 @@ requires-dist = [
     { name = "uvicorn", specifier = ">=0.29" },
 ]
 provides-extras = ["dense"]
+
+[[package]]
+name = "rightsize-ui"
+version = "0.1.0"
+source = { editable = "packages/rightsize-ui" }
+dependencies = [
+    { name = "fastapi" },
+    { name = "jinja2" },
+    { name = "python-multipart" },
+    { name = "rightsize-core" },
+    { name = "uvicorn" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "fastapi", specifier = ">=0.110" },
+    { name = "jinja2", specifier = ">=3.1" },
+    { name = "python-multipart", specifier = ">=0.0.9" },
+    { name = "rightsize-core", editable = "packages/rightsize-core" },
+    { name = "uvicorn", specifier = ">=0.29" },
+]
 
 [[package]]
 name = "rpds-py"

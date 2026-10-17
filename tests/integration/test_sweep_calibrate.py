@@ -33,21 +33,33 @@ def test_sweep_then_calibrate_picks_cheap_for_easy_and_large_for_hard(tmp_path, 
             assert pick["query_style=scenario"] == "large"
         routing = yaml.safe_load(out.read_text())
         assert "retrieval" in routing["routes"]
+        record = json.loads((sweep_dir / "sweep.json").read_text())
+        assert [r["status"] for r in record["rungs"]] == ["done", "done"]
+        assert all(not Path(r["run_dir"]).is_absolute() for r in record["runs"])
         assert (sweep_dir / "calibration.html").read_text().count("<svg") >= 1
     finally:
         import shutil
 
         for r in json.loads((sweep_dir / "sweep.json").read_text())["runs"]:
-            shutil.rmtree(r["run_dir"], ignore_errors=True)
+            shutil.rmtree(ROOT / r["run_dir"], ignore_errors=True)
         shutil.rmtree(sweep_dir, ignore_errors=True)
 
 
 def test_sweep_refuses_system_without_model_param(monkeypatch):
+    import shutil
+
     monkeypatch.setenv("RIGHTSIZE_ROOT", str(ROOT))
     res = CliRunner().invoke(app, ["sweep", "--system", "ref:bm25", "--split", "public", "--rungs", "haiku-4.5",
                                    "--task-type", "retrieval"])
     assert res.exit_code != 0
     assert "can't be swept" in str(res.exception) or "can't be swept" in res.output
+    # The sweep directory still records which rung failed and why.
+    sweep_dir = Path(next(ln for ln in res.output.splitlines() if ln.startswith("sweep_dir=")).split("=", 1)[1])
+    try:
+        rung = json.loads((sweep_dir / "sweep.json").read_text())["rungs"][0]
+        assert rung["status"] == "failed" and "can't be swept" in rung["error"]
+    finally:
+        shutil.rmtree(sweep_dir, ignore_errors=True)
 
 
 def test_unknown_cost_falls_back_to_ladder_order(tmp_path, monkeypatch):
@@ -74,7 +86,7 @@ def test_unknown_cost_falls_back_to_ladder_order(tmp_path, monkeypatch):
         import shutil
 
         for r in json.loads((sweep_dir / "sweep.json").read_text())["runs"]:
-            shutil.rmtree(r["run_dir"], ignore_errors=True)
+            shutil.rmtree(ROOT / r["run_dir"], ignore_errors=True)
         shutil.rmtree(sweep_dir, ignore_errors=True)
 
 

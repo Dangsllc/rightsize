@@ -115,6 +115,12 @@ class LLMSystem(ReferenceSystem):
         return {"provider": self.provider, "base_url": self.base_url, "prompt": self.skill_meta,
                 "fallbacks": "disabled"}
 
+    def required_env(self, params: dict) -> list[str]:
+        provider, _, api_key_env = self.route(params)
+        if provider == "anthropic":
+            return ["ANTHROPIC_API_KEY"]
+        return [api_key_env] if api_key_env else []
+
     # ------------------------------------------------------------------ calls
     def route(self, params: dict) -> tuple[str, str | None, str | None]:
         """Provider, base URL, and API-key env var for one call. A ladder rung may override all

@@ -26,6 +26,22 @@ uv run rightsize diff runs/<A> runs/<B>              # paired comparison, flags 
 Each run writes `runs/<id>/` with `manifest.json`, `results.jsonl`, `scorecard.json`, and a
 self-contained `scorecard.html`.
 
+## Workbench
+`uv run rightsize ui` opens a local web UI over the same files the CLI writes. It listens on
+127.0.0.1 only, and the URL it prints carries a session token.
+- **Home** lists what needs a person: runs that measured nothing (every call failed), runs whose
+  process died, sweeps that stopped, routing decisions resting on fewer than 30 clusters, and API keys
+  the ladders need but `.env` lacks.
+- **Runs** put health and caveats before scores. Each primary metric is drawn as its 95% interval
+  against trivial predictors, and every tier links down to its items: what was asked, how the expected
+  answer was built, and what the system said.
+- **Compare** lists what changed between two runs before the paired deltas, then the items that flipped.
+- **Sweeps** draw cost against quality per rung. Moving the threshold, margin, or floor re-decides
+  routing instantly; Save reruns `calibrate`, so `routing.yaml` matches the CLI.
+- **Launch** builds a plan first: calls, cost measured in earlier runs (never guessed), and guards
+  for held-out data, the spend cap, and missing keys. Only then does it start the run in the
+  background. A pilot measures cost on 20 tasks before the full run.
+
 ## Testing your own system
 1. Copy a template from [`configs/systems/examples/`](configs/systems/examples/) (search API,
    async document-review API, MCP server) and fill in endpoints and JSONPaths.

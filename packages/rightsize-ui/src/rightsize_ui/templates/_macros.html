@@ -1,0 +1,54 @@
+{% macro status(table, key, reason=None) -%}
+{%- set g = table.get(key, ("○", key, "info")) -%}
+<span class="status tone-{{ g[2] }}" {% if reason %}title="{{ reason }}"{% endif %}><span class="glyph" aria-hidden="true">{{ g[0] }}</span>{{ g[1] }}</span>
+{%- endmacro %}
+
+{% macro banner(table, key, reason, extra=None) -%}
+{%- set g = table.get(key, ("○", key, "info")) -%}
+<div class="card banner tone-{{ g[2] }}" role="status">
+  <span class="status tone-{{ g[2] }}"><span class="glyph" aria-hidden="true">{{ g[0] }}</span>{{ g[1] }}</span>
+  {% if reason %}<p class="reason">{{ reason }}</p>{% endif %}
+  {% if extra %}{{ extra }}{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro headline_cell(h) -%}
+{%- if h.value is none -%}<span class="muted">no signal</span>
+{%- else -%}<span class="num"><b>{{ fmt(h.value) }}</b>{% if not h.tiny_n and h.lo is not none %} <span class="muted">[{{ fmt(h.lo) }}–{{ fmt(h.hi) }}]</span>{% endif %}</span>
+<span class="muted small">n={{ h.n_clusters }}</span>{% if h.tiny_n %} <span class="badge" title="Too few clusters to estimate uncertainty">too few</span>{% elif h.low_n %} <span class="badge" title="Below 30 clusters: no routing claim">low n</span>{% endif %}
+{%- endif -%}
+{%- endmacro %}
+
+{% macro error_groups(groups) -%}
+{% if groups %}
+<div class="scroll"><table class="small">
+  <thead><tr><th>calls</th><th>kind</th><th>message</th><th>what to check</th></tr></thead>
+  <tbody>{% for g in groups %}<tr>
+    <td class="n">{{ g.count }}</td><td>{{ g.kind }}</td><td class="mono">{{ g.message }}</td><td>{{ g.hint or "—" }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% endif %}
+{%- endmacro %}
+
+{% macro view_block(b) -%}
+<section class="card">
+  {% if b.title %}<h3>{{ b.title }}</h3>{% endif %}
+  {% if b.kind == "fields" %}
+    <dl class="fields">{% for k, v in b.fields %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}</dl>
+  {% elif b.kind == "table" %}
+    <div class="scroll"><table>
+      <thead><tr><th><span class="sr">mark</span></th>{% for c in b.columns %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+      <tbody>{% for row in b.rows %}{% set m = b.row_marks[loop.index0] if b.row_marks|length > loop.index0 else "" %}
+        <tr class="{% if m %}mark-{{ m }}{% endif %}">
+          <td>{% if m == "ok" %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span><span class="sr">right</span></span>{% elif m == "bad" %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span><span class="sr">wrong</span></span>{% elif m == "warn" %}<span class="status tone-warning"><span class="glyph" aria-hidden="true">▲</span><span class="sr">partly</span></span>{% endif %}</td>
+          {% for cell in row %}<td>{{ cell }}</td>{% endfor %}
+        </tr>{% endfor %}</tbody>
+    </table></div>
+  {% elif b.kind == "document" %}
+    {% if b.highlights %}<p class="small muted">{{ b.highlights|length }} highlighted passage{{ "s" if b.highlights|length != 1 }}: green where the system's answer was right, red where it was wrong.</p>{% endif %}
+    <pre class="doc">{% for text, h in segments(b.text, b.highlights) %}{% if h %}<mark class="hl {{ 'bad' if h.mark == 'bad' }}" title="{{ h.label }}">{{ text }}<sup>{{ h.label }}</sup></mark>{% else %}{{ text }}{% endif %}{% endfor %}</pre>
+  {% elif b.kind == "notes" %}
+    <ul class="caveats">{% for n in b.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+  {% endif %}
+</section>
+{%- endmacro %}

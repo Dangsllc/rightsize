@@ -1,0 +1,88 @@
+/* Rightsize design tokens: one set for the Workbench and every exported report.
+   Surfaces and inks extend the original scorecard palette; chart chrome, the accent, and the
+   status steps follow the validated dataviz reference palette. Status colors never carry meaning
+   alone: every status ships with a glyph and a word (green and red collapse under deuteranopia). */
+:root {
+  color-scheme: light;
+  --page: #f7f6f3;
+  --surface: #fcfcfb;
+  --raised: #ffffff;
+  --ink: #1d1c1a;
+  --ink-2: #4a4843;
+  --muted: #66635d;          /* body-size text: >= 4.5:1 on --surface */
+  --faint: #8b887f;          /* non-text chrome only */
+  --line: #e4e1db;
+  --grid: #e9e7e1;
+  --axis: #c3c2b7;
+  --ring: #fcfcfb;           /* 2px surface ring around overlapping marks */
+  --border: rgba(11, 11, 11, 0.10);
+  --accent: #2a78d6;         /* the one emphasized series */
+  --accent-ink: #1c5cab;     /* links and accent text: >= 4.5:1 */
+  --accent-wash: rgba(42, 120, 214, 0.12);
+  --deemph: #b8b5ad;         /* context marks beside the emphasized one */
+  --good: #0ca30c;
+  --warning: #fab219;
+  --warning-mark: #c98500;   /* the warning glyph on light surfaces (#fab219 is 1.8:1 there) */
+  --serious: #ec835a;
+  --critical: #d03b3b;
+  --info: #7d7a73;
+  --wash-good: rgba(12, 163, 12, 0.08);
+  --wash-warning: rgba(250, 178, 25, 0.14);
+  --wash-critical: rgba(208, 59, 59, 0.08);
+  --wash-info: rgba(125, 122, 115, 0.10);
+  --radius: 10px;
+  --font: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --page: #121211;
+    --surface: #1a1a19;
+    --raised: #20201e;
+    --ink: #ecebe8;
+    --ink-2: #cfcdc6;
+    --muted: #a3a097;
+    --faint: #7c7a73;
+    --line: #2e2d2a;
+    --grid: #2a2a28;
+    --axis: #45443f;
+    --ring: #1a1a19;
+    --border: rgba(255, 255, 255, 0.10);
+    --accent: #3987e5;
+    --accent-ink: #8db4dc;
+    --accent-wash: rgba(57, 135, 229, 0.16);
+    --deemph: #5c5a55;
+    --warning-mark: #fab219;
+    --info: #9a978f;
+    --wash-good: rgba(12, 163, 12, 0.14);
+    --wash-warning: rgba(250, 178, 25, 0.14);
+    --wash-critical: rgba(208, 59, 59, 0.16);
+    --wash-info: rgba(154, 151, 143, 0.12);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #121211;
+  --surface: #1a1a19;
+  --raised: #20201e;
+  --ink: #ecebe8;
+  --ink-2: #cfcdc6;
+  --muted: #a3a097;
+  --faint: #7c7a73;
+  --line: #2e2d2a;
+  --grid: #2a2a28;
+  --axis: #45443f;
+  --ring: #1a1a19;
+  --border: rgba(255, 255, 255, 0.10);
+  --accent: #3987e5;
+  --accent-ink: #8db4dc;
+  --accent-wash: rgba(57, 135, 229, 0.16);
+  --deemph: #5c5a55;
+  --warning-mark: #fab219;
+  --info: #9a978f;
+  --wash-good: rgba(12, 163, 12, 0.14);
+  --wash-warning: rgba(250, 178, 25, 0.14);
+  --wash-critical: rgba(208, 59, 59, 0.16);
+  --wash-info: rgba(154, 151, 143, 0.12);
+}

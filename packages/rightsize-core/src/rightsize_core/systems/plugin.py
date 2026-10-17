@@ -42,6 +42,11 @@ class PluginSystem(System):
             out.latency_ms = int((time.monotonic() - t0) * 1000)
         return out
 
+    def required_env(self) -> list[str]:
+        if hasattr(self.impl, "required_env"):
+            return list(self.impl.required_env(self.params))
+        return []
+
     def describe(self) -> dict[str, Any]:
         d = super().describe()
         if hasattr(self.impl, "self_report"):

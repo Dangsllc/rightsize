@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status, banner, headline_cell %}
+{% block title %}Sweep {{ w.sweep_id }} · Rightsize{% endblock %}
+{% block main %}
+<div class="crumbs"><a href="/sweeps">Sweeps</a> / {{ w.sweep_id }}</div>
+<div class="head">
+  <div><h1>Sweep <span class="muted">{{ w.sweep_id }}</span></h1>
+  <div class="sub">{{ w.system }} · {{ w.suite }}/{{ w.split }} · ladder <code title="{{ w.ladder }}">{{ (w.ladder or "").split("/")[-1] }}</code> · {{ w.task_count }} tasks × {{ w.repeats }} repeat{{ "s" if w.repeats != 1 }}{% if w.max_cost is not none %} · cap ${{ w.max_cost }}{% endif %}</div></div>
+</div>
+{{ banner(SWEEP, w.state, w.state_reason) }}
+
+<h2>Rungs</h2>
+<div class="card scroll"><table>
+  <thead><tr><th>rung</th><th>model</th><th>status</th><th>run</th><th>headline (95% interval)</th><th class="n">cost / task</th></tr></thead>
+  <tbody>{% for r in w.rungs %}{% set run = runs_by_id.get(r.run_id) %}<tr>
+    <td><b>{{ r.rung }}</b></td><td class="mono small">{{ r.model }}</td>
+    <td>{{ status(RUNG, r.status) }}{% if r.error %}<div class="small mono">{{ r.error }}</div>{% endif %}</td>
+    <td>{% if run %}<a href="/runs/{{ run.run_id }}">{{ status(HEALTH, run.health, run.health_reason) }}</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td>{% if run %}{% for h in run.headlines %}<div><span class="muted small">{{ h.task_type }}</span> {{ headline_cell(h) }}</div>{% endfor %}{% endif %}</td>
+    <td class="n">{% if run %}{% for h in run.headlines %}<div>{{ money(h.cost_per_task, h.cost_state) }}</div>{% endfor %}{% endif %}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% if w.spend_usd is not none %}<p class="small muted">Reported spend ${{ "%.4f"|format(w.spend_usd) }}{% if w.unknown_cost_rungs %}, plus {{ w.unknown_cost_rungs }} rung{{ "s" if w.unknown_cost_rungs != 1 }} whose cost is unknown{% endif %}.</p>{% endif %}
+
+<h2 id="calibration">Cheapest model that's good enough</h2>
+{% if cal %}
+<script type="application/json" id="calibration-data">{{ {"decisions": cal.decisions, "thresholds": cal.thresholds, "delta": cal.delta, "floors": cal.floors}|tojson }}</script>
+<form class="card" method="post" action="/sweeps/{{ w.sweep_id }}/calibrate" data-whatif>
+  <p class="small muted">"Good enough" means the rung's lower 95% bound clears the threshold, or it is within the margin of the best rung on a paired comparison, with under 2% errors and every floor cleared. Moving a control re-decides instantly from the saved bounds. <b>Save</b> reruns calibrate so <code>routing.yaml</code> matches the CLI exactly.</p>
+  <div class="whatif">
+    {% for tt, m in task_metrics.items() %}
+    <div class="field"><label for="th-{{ tt }}">{{ tt }}: threshold on {{ m }} · <output data-out="th-{{ tt }}">{{ fmt(tau[tt]) if tau[tt] is not none else "off" }}</output></label>
+      <input type="range" id="th-{{ tt }}" name="threshold:{{ m }}" min="0" max="1" step="0.01" value="{{ tau[tt] if tau[tt] is not none else '' }}" data-tt="{{ tt }}" data-metric="{{ m }}" data-threshold {% if tau[tt] is none %}data-off{% endif %}>
+      <label class="small"><input type="checkbox" name="threshold_off:{{ m }}" data-threshold-off="th-{{ tt }}" {{ "checked" if tau[tt] is none }}> no absolute bar (non-inferiority only)</label></div>
+    {% endfor %}
+    <div class="field"><label for="delta">margin vs the best rung · <output data-out="delta">{{ cal.delta }}</output></label>
+      <input type="range" id="delta" name="delta" min="0" max="0.2" step="0.005" value="{{ cal.delta }}" data-delta></div>
+    <div class="field"><label for="floor-metric">floor every rung must clear</label>
+      <div class="row"><select id="floor-metric" name="floor_metric" data-floor-metric><option value="">none</option>{% for m in floor_metrics %}<option {{ "selected" if m in cal.floors }}>{{ m }}</option>{% endfor %}</select>
+      <input type="number" name="floor_value" min="0" max="1" step="0.01" value="{{ cal.floors.values()|first if cal.floors else '' }}" data-floor-value aria-label="floor value" style="width: 6em"></div></div>
+  </div>
+  <div class="actions"><label><input type="checkbox" name="emit" checked> write routing.yaml</label>
+    <button type="submit" class="primary">Save: rerun calibrate with these settings</button>
+    <span class="changed-note" data-changed-note hidden>Highlighted rows differ from the saved calibration.</span></div>
+</form>
+
+{% for tt, chart in cal.charts.items() %}
+<h3>{{ tt }} · {{ chart.metric }}</h3>
+<section class="card">
+  <div data-frontier="{{ tt }}">{{ frontier(chart.points, chart.metric, tau.get(tt)) }}</div>
+  <p class="small muted">Each point is one rung on all items, with its 95% interval. The blue point is the rung chosen for the whole task type; the thin line joins rungs that nothing cheaper beats; grey rungs are dominated.</p>
+</section>
+<div class="card scroll"><table data-decisions="{{ tt }}">
+  <thead><tr><th>tier</th><th class="n">clusters</th><th>cheapest good enough</th><th>best scoring</th><th>why</th></tr></thead>
+  <tbody>{% for d in cal.decisions if d.task_type == tt %}<tr data-stratum="{{ d.stratum }}" class="{{ 'few' if d.insufficient_n }}">
+    <td>{{ d.stratum }}</td>
+    <td class="n">{{ d.n_clusters }}{% if d.insufficient_n %} <span class="badge" title="Fewer than 30 clusters: shown, but not a routing claim">low n</span>{% endif %}</td>
+    <td data-chosen><b>{{ d.chosen or "no rung qualifies" }}</b></td>
+    <td>{{ d.best }}</td>
+    <td class="small" data-why>{{ d.why }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+<p class="small muted">Tiers marked <span class="badge">low n</span> are greyed: calibrate shows them but routing.yaml makes no stratum override from fewer than 30 clusters{% if cal.decisions|selectattr("task_type", "eq", tt)|selectattr("stratum", "eq", "all")|selectattr("insufficient_n")|list %}. <b>The overall route for this task type is itself below 30 clusters; don't quote it as a finding.</b>{% else %}.{% endif %}</p>
+{% endfor %}
+
+<h3>What this routing costs at your volume</h3>
+<section class="card" data-volume>
+  <div class="field"><label for="volume">Tasks per month</label><input type="number" id="volume" min="0" step="100" value="10000" data-volume-input style="width: 10em"></div>
+  <div class="scroll"><table class="small">
+    <thead><tr><th>task type</th><th>route</th><th class="n">measured cost / task</th><th class="n">× volume</th><th>vs always using the best rung</th></tr></thead>
+    <tbody>{% for d in cal.decisions if d.stratum == "all" %}{% set ch = d.rungs.get(d.chosen) if d.chosen else none %}{% set be = d.rungs.get(d.best) %}<tr data-volume-row="{{ d.task_type }}">
+      <td>{{ d.task_type }}</td><td data-route>{{ d.chosen or "—" }}</td>
+      <td class="n" data-unit>{{ money(ch.cost if ch else none, "known" if ch and ch.cost else ("zero" if ch and ch.cost == 0 else "unknown")) }}</td>
+      <td class="n" data-total>{% if ch and ch.cost is not none %}${{ "{:,.2f}".format(ch.cost * 10000) }}{% else %}unknown{% endif %}</td>
+      <td data-vs>{% if d.chosen == d.best %}same rung{% elif ch and be and ch.cost is not none and be.cost is not none %}{{ d.best }}: ${{ "{:,.2f}".format(be.cost * 10000) }}{% else %}—{% endif %}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  <p class="small muted">Measured cost per task × your volume, nothing more: no token model, no forecast. Costs come from the sweep's own reported usage at the prices in its pricing file.</p>
+</section>
+
+{% if routing %}
+<h3>routing.yaml</h3>
+<section class="card"><div class="cmd"><pre data-copy-source>{{ routing }}</pre><button type="button" data-copy>Copy</button></div></section>
+{% endif %}
+
+{% else %}
+<form class="card" method="post" action="/sweeps/{{ w.sweep_id }}/calibrate">
+  {% if w.state != "complete" and w.state != "stopped" %}<p class="muted">This sweep isn't complete, so calibration would only cover the rungs that finished.</p>{% endif %}
+  <p>Choose what "good enough" means, then calibrate. Thresholds apply to each task type's primary metric.</p>
+  <div class="row">
+    {% for tt, m in task_metrics.items() %}<div class="field"><label for="c-{{ tt }}">{{ tt }}: {{ m }} ≥</label><input type="number" id="c-{{ tt }}" name="threshold:{{ m }}" min="0" max="1" step="0.01" placeholder="e.g. 0.70"></div>{% endfor %}
+    <div class="field"><label for="c-delta">margin vs the best rung</label><input type="number" id="c-delta" name="delta" min="0" max="0.5" step="0.005" value="0.03"></div>
+  </div>
+  <label><input type="checkbox" name="emit" checked> write routing.yaml</label>
+  <div class="actions"><button type="submit" class="primary" {{ "disabled" if not w.rungs|selectattr("status", "eq", "done")|list }}>Calibrate</button></div>
+</form>
+{% endif %}
+{% endblock %}

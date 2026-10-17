@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status %}
+{% block title %}Sweeps · Rightsize{% endblock %}
+{% block main %}
+<div class="head">
+  <div><h1>Sweeps</h1><p class="sub">One suite across a ladder of models, then calibrate: the cheapest rung that's good enough, per task type and tier.</p></div>
+  <div class="actions"><a class="btn primary" href="/launch?kind=sweep">Launch a sweep</a></div>
+</div>
+<div class="card scroll">
+{% if sweeps %}
+<table>
+  <thead><tr><th>state</th><th>sweep</th><th>suite</th><th>rungs</th><th class="n">reported spend</th><th>calibration</th></tr></thead>
+  <tbody>{% for w in sweeps %}<tr>
+    <td>{{ status(SWEEP, w.state, w.state_reason) }}</td>
+    <td><a href="/sweeps/{{ w.sweep_id }}">{{ w.sweep_id }}</a><div class="small muted">{{ w.system }} · {{ (w.ladder or "").split("/")[-1] }}</div></td>
+    <td>{{ w.suite }}/{{ w.split }}</td>
+    <td>{% for r in w.rungs %}<span class="chip" title="{{ r.rung }}: {{ RUNG.get(r.status, ('', r.status))[1] }}{% if r.health %}, {{ HEALTH[r.health][1] }}{% endif %}"><span class="status tone-{{ (HEALTH[r.health][2] if r.health else RUNG.get(r.status, ('','','info'))[2]) }}"><span class="glyph" aria-hidden="true">{{ HEALTH[r.health][0] if r.health else RUNG.get(r.status, ('○',))[0] }}</span></span> {{ r.rung }}</span>{% endfor %}</td>
+    <td class="n">{% if w.spend_usd is not none %}${{ "%.2f"|format(w.spend_usd) }}{% if w.unknown_cost_rungs %} <span class="muted">+ {{ w.unknown_cost_rungs }} unknown</span>{% endif %}{% else %}—{% endif %}</td>
+    <td>{% if w.calibrated %}<a href="/sweeps/{{ w.sweep_id }}#calibration">calibrated</a>{% if w.routing %} · routing.yaml{% endif %}{% if w.low_n_decisions %} <span class="badge">{{ w.low_n_decisions }} low n</span>{% endif %}{% else %}<span class="muted">not yet</span>{% endif %}</td>
+  </tr>{% endfor %}</tbody>
+</table>
+{% else %}<p class="empty-state">No sweeps with a record yet.</p>{% endif %}
+</div>
+{% if empty %}
+<h2 id="empty">Sweeps that left no record · {{ empty|length }}</h2>
+<section class="card">
+  <p>{{ status(SWEEP, "empty") }} Older sweeps wrote <code>sweep.json</code> only after a rung finished, so these directories are empty and can't say why they stopped. New sweeps record every rung as it starts.</p>
+  <details><summary>Directories</summary><ul class="caveats mono small">{% for w in empty %}<li>{{ w.path }}</li>{% endfor %}</ul></details>
+</section>
+{% endif %}
+{% endblock %}

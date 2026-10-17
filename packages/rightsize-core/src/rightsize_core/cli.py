@@ -15,33 +15,13 @@ data_app = typer.Typer(no_args_is_help=True, help="Build, seed, and check suite 
 app.add_typer(data_app, name="data")
 
 
-def _load_dotenv(root: Path) -> None:
-    """Read KEY=VALUE lines from a gitignored .env at the repo root (never overrides real env)."""
-    path = root / ".env"
-    if not path.exists():
-        return
-    for line in path.read_text().splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        k, _, v = line.partition("=")
-        os.environ.setdefault(k.strip().removeprefix("export ").strip(), v.strip().strip("'\""))
-
-
 def _root() -> Path:
-    env = os.environ.get("RIGHTSIZE_ROOT")
-    root = None
-    if env:
-        root = Path(env).resolve()
-    else:
-        p = Path.cwd().resolve()
-        for cand in [p, *p.parents]:
-            if (cand / "configs" / "suites").is_dir():
-                root = cand
-                break
+    from rightsize_core.service.env import load_dotenv, locate_root
+
+    root = locate_root()
     if root is None:
         raise typer.BadParameter("Run inside a Rightsize checkout or set RIGHTSIZE_ROOT")
-    _load_dotenv(root)
+    load_dotenv(root)
     return root
 
 
@@ -271,7 +251,8 @@ def run(
     concurrency: int = 4,
     limit: int | None = typer.Option(None, help="Only the first N tasks (smoke runs)"),
     pricing_file: Path = typer.Option(Path("configs/pricing/2026-10.yaml"), "--pricing"),
-    max_cost: float | None = typer.Option(None, help="Abort once reported spend passes this (USD)"),
+    max_cost: float | None = typer.Option(None, help="Stop new calls once reported spend passes this (USD)"),
+    stop_after_errors: int | None = typer.Option(None, help="Stop if the first N calls all fail"),
     skip_conformance: bool = typer.Option(False, help="Skip the conformance preflight for declarative systems"),
 ):
     """Run a suite against a system, score it, and write runs/<id>/."""
@@ -313,7 +294,8 @@ def run(
                     typer.echo(f"  {done}/{total}", err=True)
 
             return await execute(root, sysobj, tasks, suite, split, repeats, concurrency,
-                                 pricing=pricing, max_cost=max_cost, progress=tick)
+                                 pricing=pricing, max_cost=max_cost, progress=tick,
+                                 stop_after_errors=stop_after_errors)
         finally:
             await sysobj.aclose()
 
@@ -390,7 +372,8 @@ def sweep(
     sample: int | None = typer.Option(None, help="Stratified sample of N tasks"),
     repeats: int = 1,
     concurrency: int = 4,
-    max_cost: float | None = typer.Option(None, help="Abort the sweep once total reported spend passes this"),
+    max_cost: float | None = typer.Option(None, help="Stop the sweep once total reported spend passes this"),
+    stop_after_errors: int | None = typer.Option(None, help="Stop a rung if its first N calls all fail"),
     dry_run: bool = typer.Option(False, help="Print the plan and stop"),
     pricing_file: Path = typer.Option(Path("configs/pricing/2026-10.yaml"), "--pricing"),
 ):
@@ -401,7 +384,7 @@ def sweep(
     from rightsize_core.calibration.sweep import load_ladder, sample_tasks
     from rightsize_core.integrity.dataset import load_tasks
     from rightsize_core.report.html import render
-    from rightsize_core.runner.run import execute
+    from rightsize_core.runner.run import default_runs_dir, execute, record_job_dir
     from rightsize_core.runner.score import score_run
     from rightsize_core.systems.loader import load_system
     from rightsize_core.usage.pricing import Pricing
@@ -426,10 +409,20 @@ def sweep(
     if dry_run:
         return
     sweep_id = f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}_{uuid.uuid4().hex[:6]}"
-    sdir = root / "runs" / "sweeps" / sweep_id
+    sdir = default_runs_dir(root) / "sweeps" / sweep_id
     sdir.mkdir(parents=True)
+    # Written before the first rung and after every change, so a sweep that dies says where.
     record = {"sweep_id": sweep_id, "system": system, "suite": suite, "split": split, "ladder": str(ladder),
-              "task_ids": [t.id for t in tasks], "repeats": repeats, "runs": []}
+              "task_ids": [t.id for t in tasks], "repeats": repeats, "max_cost": max_cost, "pid": os.getpid(),
+              "rungs": [{"rung": r.name, "model": r.model, "status": "pending"} for r in ladder_rungs],
+              "runs": []}
+
+    def save() -> None:
+        (sdir / "sweep.json").write_text(json.dumps(record, indent=2))
+
+    save()
+    record_job_dir("sweep", sdir)
+    typer.echo(f"sweep_dir={sdir}")
     spent = 0.0
 
     async def one(r):
@@ -442,24 +435,38 @@ def sweep(
                 raise typer.BadParameter(f"{info.name} does not take a model parameter; it can't be swept")
             remaining = None if max_cost is None else max(0.0, max_cost - spent)
             return await execute(root, sysobj, tasks, suite, split, repeats, r.concurrency or concurrency, pricing=pricing,
-                                 sweep_id=sweep_id, max_cost=remaining)
+                                 sweep_id=sweep_id, max_cost=remaining, stop_after_errors=stop_after_errors)
         finally:
             await sysobj.aclose()
 
-    for r in ladder_rungs:
+    for r, status in zip(ladder_rungs, record["rungs"], strict=True):
         typer.echo(f"\n== {r.name}")
-        run_dir = asyncio.run(one(r))
+        status["status"] = "running"
+        save()
+        try:
+            run_dir = asyncio.run(one(r))
+        except (KeyboardInterrupt, Exception) as e:
+            status.update(status="cancelled" if isinstance(e, KeyboardInterrupt) else "failed", error=repr(e)[:500])
+            save()
+            raise
+        rel = run_dir.relative_to(root) if run_dir.is_relative_to(root) else run_dir
+        status.update(status="scoring", run_dir=str(rel))
+        save()
         card = score_run(root, run_dir)
         render(card, run_dir / "scorecard.html")
         _summary(card)
         spent += sum((t["usage"]["cost_usd_total"] or 0.0) for t in card["task_types"].values())
-        record["runs"].append({"rung": r.name, "model": r.model, "params": r.params, "run_dir": str(run_dir)})
-        (sdir / "sweep.json").write_text(json.dumps(record, indent=2))
+        record["runs"].append({"rung": r.name, "model": r.model, "params": r.params, "run_dir": str(rel)})
+        status.update(status="done", run_dir=str(rel), run_status=card["status"])
+        save()
         if max_cost is not None and spent > max_cost:
-            typer.echo(f"Stopping: spend ${spent:.2f} passed --max-cost {max_cost}", err=True)
+            record["stopped"] = f"spend ${spent:.2f} passed --max-cost {max_cost}"
+            typer.echo(f"Stopping: {record['stopped']}", err=True)
             break
+    record["finished_at"] = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    record["spend_usd"] = spent
+    save()
     typer.echo(f"\nspend ${spent:.2f}. Next: rightsize calibrate \"{sdir}\"")
-    typer.echo(f"sweep_dir={sdir}")
 
 
 @app.command()
@@ -501,6 +508,21 @@ def spec_export():
 
     for p in export(_root() / "spec" / "schemas"):
         typer.echo(p)
+
+
+@app.command()
+def ui(
+    port: int = 8765,
+    host: str = typer.Option("127.0.0.1", help="Loopback only: 127.0.0.1, localhost, or ::1"),
+    runs_dir: Path | None = typer.Option(None, help="Read and launch into this runs folder instead of runs/"),
+    no_open: bool = typer.Option(False, "--no-open", help="Don't open a browser"),
+):
+    """Open the Workbench: runs, sweeps, calibration what-ifs, item drill-downs, and guarded launches."""
+    try:
+        from rightsize_ui.app import serve as serve_ui
+    except ImportError as e:
+        raise typer.BadParameter("The Workbench needs the rightsize-ui package: uv sync --all-packages") from e
+    serve_ui(_root(), host=host, port=port, runs_dir=runs_dir.resolve() if runs_dir else None, open_browser=not no_open)
 
 
 @app.command()

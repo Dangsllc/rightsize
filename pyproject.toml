@@ -3,7 +3,7 @@ name = "rightsize"
 version = "0.1.0"
 description = "Rightsize: an objective, system-agnostic benchmark harness for compliance AI and model right-sizing"
 requires-python = ">=3.11"
-dependencies = ["rightsize-core", "rightsize-pack-compliance", "rightsize-reference-systems"]
+dependencies = ["rightsize-core", "rightsize-pack-compliance", "rightsize-reference-systems", "rightsize-ui"]
 
 [tool.uv.workspace]
 members = ["packages/*"]
@@ -12,6 +12,7 @@ members = ["packages/*"]
 rightsize-core = { workspace = true }
 rightsize-pack-compliance = { workspace = true }
 rightsize-reference-systems = { workspace = true }
+rightsize-ui = { workspace = true }
 
 [dependency-groups]
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6"]
@@ -30,3 +31,4 @@ target-version = "py311"
 "packages/rightsize-core/src/rightsize_core/cli.py" = ["B008"]
 "packages/rightsize-core/src/rightsize_core/systems/declarative.py" = ["S110"]
 "packages/rightsize-reference-systems/src/rightsize_reference_systems/*.py" = ["S110"]
+"packages/rightsize-ui/src/rightsize_ui/*.py" = ["B008"]

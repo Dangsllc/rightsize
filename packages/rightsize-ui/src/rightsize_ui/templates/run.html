@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status, banner, headline_cell, error_groups %}
+{% block title %}{{ s.system }} · {{ s.model or "default" }} · Rightsize{% endblock %}
+{% block banner %}{% if s.split == "heldout" %}<div class="heldout" role="note">Held-out split · never export, publish, or share these results or their items</div>{% endif %}{% endblock %}
+{% block main %}
+<div class="crumbs"><a href="/runs">Runs</a> / {{ s.run_id }}</div>
+<div class="head" data-run="{{ s.run_id }}" data-health="{{ s.health }}">
+  <div>
+    <h1>{{ s.system or "?" }} <span class="muted">· {{ s.model or "default model" }}</span></h1>
+    <div class="sub">{{ s.suite }}/{{ s.split }} · {{ s.repeats }} repeat{{ "s" if s.repeats != 1 }} · started {{ when(s.started_at) }}{% if s.ended_at %} · ended {{ when(s.ended_at) }}{% endif %}
+      {% if s.sweep_id %} · sweep <a href="/sweeps/{{ s.sweep_id }}">{{ s.sweep_id }}</a>{% endif %}
+      {% if s.params %} · params <code>{{ s.params|tojson }}</code>{% endif %}</div>
+  </div>
+  <div class="actions">
+    {% if others %}
+    <form method="get" action="/compare" class="actions"><input type="hidden" name="a" value="{{ s.run_id }}">
+      <label class="sr" for="cmp">Compare with</label>
+      <select id="cmp" name="b">{% for o in others %}<option value="{{ o.run_id }}">{{ o.system }} · {{ o.model or "default" }} · {{ when(o.started_at) }}</option>{% endfor %}</select>
+      <button type="submit">Compare</button></form>
+    {% endif %}
+  </div>
+</div>
+
+{% set extra %}
+  {% if s.health in ("running", "interrupted") %}
+    <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="{{ s.progress.total }}" aria-valuenow="{{ s.progress.done }}" data-progress><i style="width: {{ (100 * s.progress.done / (s.progress.total or 1))|round(1) }}%"></i></div>
+    <div class="small muted num" data-progress-text>{{ s.progress.done }} of {{ s.progress.total }} calls · {{ s.progress.errors }} failed · reported spend ${{ "%.4f"|format(s.progress.spend_usd) }}</div>
+  {% endif %}
+  {{ error_groups(s.error_groups) }}
+{% endset %}
+{% if s.health != "ok" or s.error_groups %}{{ banner(HEALTH, s.health, s.health_reason, extra) }}
+{% else %}<p>{{ status(HEALTH, "ok") }} <span class="muted small">{{ s.progress.done }} calls, none failed.</span></p>{% endif %}
+
+{% if s.caveats %}
+<section class="card"><h3>Read before quoting these numbers</h3>
+<ul class="caveats">{% for c in s.caveats %}<li>{{ c }}</li>{% endfor %}</ul></section>
+{% endif %}
+
+{% if d.unscored_reason and not d.card %}<p class="muted">Scores: {{ d.unscored_reason }}.</p>{% endif %}
+
+{% for h in s.headlines %}
+{% set r = d.task_types[h.task_type] %}
+<h2 id="{{ h.task_type }}">{{ h.task_type }}</h2>
+<section class="card">
+  <div class="headline">
+    <div>
+      <div class="metric-name">{{ h.metric }} (primary metric)</div>
+      {% if h.value is none %}
+        <div class="big">no signal</div>
+        <p class="muted">Every answer for this task type errored or was missing, so there is nothing to score. Errors are never counted as wrong answers.</p>
+      {% else %}
+        <div class="big">{{ fmt(h.value) }}<small>{% if h.tiny_n %}too few items to estimate uncertainty{% else %}95% interval {{ fmt(h.lo) }}–{{ fmt(h.hi) }}{% endif %} · n={{ h.n_clusters }} clusters</small></div>
+        {{ interval(h.value, h.lo, h.hi, floors=h.floors, low_n=h.low_n, tiny_n=h.tiny_n, metric=h.metric) }}
+        {% if h.floors %}<p class="small muted">Ticks on the axis are trivial predictors (e.g. always answering the most common label). A useful system clears all of them.</p>{% endif %}
+        {% if h.low_n and not h.tiny_n %}<p class="small muted">The dotted interval marks fewer than 30 clusters: calibrate makes no routing claim from this.</p>{% endif %}
+      {% endif %}
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="k">cost / task</div><div class="v">{{ money(h.cost_per_task, h.cost_state) }}</div>
+        {% if h.cost_total is not none and h.cost_state == "known" %}<div class="small muted">${{ "%.4f"|format(h.cost_total) }} total</div>{% endif %}</div>
+      <div class="stat"><div class="k">latency p50 / p95{% if h.latency_kind %} ({{ h.latency_kind }}){% endif %}</div><div class="v">{{ ms(h.latency_ms_p50) }} <span class="muted small">/ {{ ms(h.latency_ms_p95) }}</span></div></div>
+      <div class="stat"><div class="k">errors or missing</div><div class="v">{{ (100 * h.error_rate)|round(1) }}%</div></div>
+      <div class="stat"><div class="k">calls</div><div class="v">{{ h.calls }}</div></div>
+      {% if r.stability %}<div class="stat"><div class="k">pass^{{ r.stability.k|int }} / flip rate</div><div class="v">{{ fmt(r.stability["pass^k"]) }} <span class="muted small">/ {{ fmt(r.stability.flip_rate) }}</span></div></div>{% endif %}
+    </div>
+  </div>
+</section>
+
+{% if r.floors %}
+<details class="card"><summary>Against trivial predictors (table)</summary>
+<table class="small"><thead><tr><th>predictor</th><th class="n">{{ h.metric }}</th></tr></thead><tbody>
+<tr><td><b>this run</b></td><td class="n"><b>{{ fmt(h.value) }}</b></td></tr>
+{% for name, f in r.floors.items() %}<tr><td>{{ name }}</td><td class="n">{{ fmt(f.get(h.metric)) }}</td></tr>{% endfor %}
+</tbody></table></details>
+{% endif %}
+
+{% if r.grid %}
+<h3>By tier · select a tier to see its items</h3>
+<div class="card scroll"><table>
+  {% set cols = [] %}{% for g in r.grid %}{% for k in g.metrics %}{% if k not in cols %}{% set _ = cols.append(k) %}{% endif %}{% endfor %}{% endfor %}
+  <thead><tr><th>tier</th><th class="n">n</th>{% for k in cols %}<th class="n">{{ k }}</th>{% endfor %}</tr></thead>
+  <tbody>{% for g in r.grid %}<tr>
+    <td><a href="/runs/{{ s.run_id }}/items?{{ qs(task_type=h.task_type, stratum=g.stratum) }}">{{ g.key }} = {{ g.value }}</a></td>
+    <td class="n {{ 'few' if g.few }}">{{ g.n if g.n is not none else "—" }}{% if g.few %} <span class="badge" title="Fewer than 30 units in this tier">few</span>{% endif %}</td>
+    {% for k in cols %}{% set v = g.metrics.get(k) %}<td class="n">{{ fmt(v) }}{% if k == h.metric and v is not none and 0 <= v <= 1 %}<span class="bar01" aria-hidden="true"><i style="width: {{ (100 * v)|round(1) }}%"></i></span>{% endif %}</td>{% endfor %}
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% endif %}
+<p><a class="btn" href="/runs/{{ s.run_id }}/items?{{ qs(task_type=h.task_type, show='wrong') }}">Items it got wrong</a>
+   <a class="btn" href="/runs/{{ s.run_id }}/items?{{ qs(task_type=h.task_type) }}">All items</a></p>
+
+<details class="card"><summary>All metrics with 95% intervals</summary>
+<div class="scroll"><table class="small"><thead><tr><th>metric</th><th class="n">value</th><th class="n">95% interval</th><th class="n">clusters</th></tr></thead><tbody>
+{% for name, m in r.metrics.items() %}<tr><td>{{ name }}{% if r.higher_is_better.get(name) == false %} <span class="muted">(lower is better)</span>{% endif %}</td>
+  <td class="n">{{ fmt(m.value, 3) }}</td><td class="n">{{ fmt(m.lo, 3) }} – {{ fmt(m.hi, 3) }}</td><td class="n">{{ m.n_clusters }}</td></tr>{% endfor %}
+</tbody></table></div></details>
+{% endfor %}
+
+{% if s.notes %}<section class="card"><h3>Notes</h3><ul class="caveats">{% for n in s.notes %}<li>{{ n }}</li>{% endfor %}</ul></section>{% endif %}
+
+<h2>Reproduce</h2>
+<section class="card">
+  <p class="small muted">The manifest pins the dataset hashes, the system's self-description, the pricing file, and the git commit.</p>
+  <div class="cmd"><pre data-copy-source>uv run rightsize report {{ s.path }}</pre><button type="button" data-copy>Copy</button></div>
+  <details><summary>manifest.json</summary><pre class="log">{{ manifest_json }}</pre></details>
+</section>
+{% endblock %}

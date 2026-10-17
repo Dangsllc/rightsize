@@ -152,6 +152,12 @@ class DeclarativeSystem(System):
         self._mcp = None
         self._mcp_override = mcp_server_override
 
+    def required_env(self) -> list[str]:
+        names = set(_ENVVAR.findall(json.dumps(self.cfg)))
+        if self.cfg.get("auth"):
+            names.add(self.cfg["auth"]["env"])
+        return sorted(names)
+
     # ------------------------------------------------------------- connection
     def _headers(self) -> dict[str, str]:
         h = dict(expand_env(self.cfg.get("headers", {})))

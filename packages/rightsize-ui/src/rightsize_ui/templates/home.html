@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status, headline_cell %}
+{% block main %}
+<div class="head">
+  <div><h1>Needs attention</h1>
+  <p class="sub">States that need a person, most serious first. Healthy runs are below.</p></div>
+  <div class="actions"><a class="btn primary" href="/launch">Launch a run</a><a class="btn" href="/launch?kind=sweep">Launch a sweep</a></div>
+</div>
+
+<section class="card" aria-label="Needs attention">
+{% if attention %}
+<ul class="attn">
+  {% for i in attention %}
+  <li>
+    <div><span class="status tone-{{ i.tone }}"><span class="glyph" aria-hidden="true">{{ i.glyph }}</span>{{ i.label }}</span>
+      {% if i.when %}<div class="small muted">{{ when(i.when) }}</div>{% endif %}</div>
+    <div>
+      <div class="title">{% if i.href %}<a href="{{ i.href }}">{{ i.title }}</a>{% else %}{{ i.title }}{% endif %}</div>
+      <div>{{ i.cause }}</div>
+      {% if i.next %}<ul class="next">{% for text, href in i.next %}<li>{% if href %}<a href="{{ href }}">{{ text }}</a>{% else %}{{ text }}{% endif %}</li>{% endfor %}</ul>{% endif %}
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty-state">Nothing needs attention. Every run measured something and every sweep finished.</p>
+{% endif %}
+</section>
+
+{% if jobs %}
+<h2>Jobs</h2>
+<div class="card scroll"><table>
+  <thead><tr><th>state</th><th>job</th><th>launched by</th><th>started</th></tr></thead>
+  <tbody>{% for j in jobs %}<tr>
+    <td>{{ status(JOB, j.state) }}</td><td><a href="/jobs/{{ j.job_id }}">{{ j.kind }} · {{ j.job_id }}</a></td>
+    <td>{{ j.launched_by }}</td><td class="num">{{ when(j.created_at) }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% endif %}
+
+<h2>Recent runs</h2>
+<div class="card scroll">
+{% if recent %}
+<table>
+  <thead><tr><th>health</th><th>system · model</th><th>suite</th><th>headline</th><th class="n">cost / task</th><th class="n">started</th></tr></thead>
+  <tbody>{% for r in recent %}<tr>
+    <td>{{ status(HEALTH, r.health, r.health_reason) }}</td>
+    <td><a href="/runs/{{ r.run_id }}">{{ r.system or "?" }} · {{ r.model or "default model" }}</a></td>
+    <td>{{ r.suite }}/{{ r.split }}</td>
+    <td>{% for h in r.headlines %}<div><span class="muted small">{{ h.task_type }} {{ h.metric }}</span> {{ headline_cell(h) }}</div>{% else %}<span class="muted">{{ r.health_reason or "—" }}</span>{% endfor %}</td>
+    <td class="n">{% for h in r.headlines %}<div>{{ money(h.cost_per_task, h.cost_state) }}</div>{% endfor %}</td>
+    <td class="n">{{ when(r.started_at) }}</td>
+  </tr>{% endfor %}</tbody>
+</table>
+<p class="small"><a href="/runs">All runs →</a></p>
+{% else %}<p class="empty-state">No runs yet. <a href="/launch">Launch one</a>, or run <code>uv run rightsize run --system ref:bm25</code>.</p>{% endif %}
+</div>
+
+<div class="grid2">
+  <section class="card">
+    <h3>API keys the shipped ladders use</h3>
+    {% if keys %}<table class="small"><tbody>{% for k in keys %}<tr>
+      <td class="mono">{{ k.name }}</td>
+      <td>{% if k.set %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>set</span>{% else %}<span class="status tone-warning"><span class="glyph" aria-hidden="true">▲</span>not set</span>{% endif %}</td>
+      <td class="muted">{{ k.used_by|length }} rung{{ "s" if k.used_by|length != 1 }}</td>
+    </tr>{% endfor %}</tbody></table>
+    <p class="small muted">Read from the environment and <code>.env</code>. Values are never shown.</p>
+    {% else %}<p class="muted">No ladder needs a key.</p>{% endif %}
+  </section>
+  <section class="card">
+    <h3>Suite data</h3>
+    <table class="small"><tbody>{% for suite, problems in checks.items() %}<tr>
+      <td>{{ suite }}</td>
+      <td>{% if problems %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>{{ problems|length }} problem{{ "s" if problems|length != 1 }}</span>{% else %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>matches its manifest</span>{% endif %}</td>
+    </tr>{% endfor %}</tbody></table>
+    <p class="small muted">Same check as <code>rightsize data check</code>, rerun every minute.</p>
+  </section>
+</div>
+{% endblock %}

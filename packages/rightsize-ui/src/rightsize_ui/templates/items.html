@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status %}
+{% block title %}Items · {{ s.system }} · Rightsize{% endblock %}
+{% block banner %}{% if s.split == "heldout" %}<div class="heldout" role="note">Held-out split · never export, publish, or share these results or their items</div>{% endif %}{% endblock %}
+{% block main %}
+<div class="crumbs"><a href="/runs">Runs</a> / <a href="/runs/{{ s.run_id }}">{{ s.system }} · {{ s.model or "default model" }}</a> / items</div>
+<h1>Items <span class="muted">· {{ task_type }}</span></h1>
+<form class="filters" method="get">
+  <label>Task type<select name="task_type">{% for t in s.task_types %}<option {{ "selected" if t == task_type }}>{{ t }}</option>{% endfor %}</select></label>
+  <label>Tier<select name="stratum"><option value="">All tiers</option>{% for st in strata %}<option {{ "selected" if st == stratum }}>{{ st }}</option>{% endfor %}</select></label>
+  <label>Show<select name="show">{% for k, label in [("all", "All items"), ("wrong", "Not fully right"), ("errors", "Errored")] %}<option value="{{ k }}" {{ "selected" if show == k }}>{{ label }}</option>{% endfor %}</select></label>
+  <button type="submit">Apply</button>
+</form>
+{% if problem %}<div class="card banner tone-warning"><p class="reason">{{ problem }}</p></div>{% endif %}
+{% set wrong = rows|selectattr("mark", "ne", "ok")|list %}
+<p class="sub">{{ rows|length }} item{{ "s" if rows|length != 1 }}{% if show == "all" %} · {{ wrong|length }} not fully right{% endif %}. Worst first.</p>
+<div class="card scroll">
+{% if rows %}
+<table>
+  <thead><tr><th>result</th><th>item</th><th>tiers</th><th class="n">right</th><th class="n">score</th></tr></thead>
+  <tbody>{% for r in rows %}<tr class="mark-{{ r.mark }}">
+    <td>{% if r.mark == "ok" %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>right</span>
+        {% elif r.mark == "bad" %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>wrong</span>
+        {% elif r.mark == "warn" %}<span class="status tone-warning"><span class="glyph" aria-hidden="true">▲</span>partly</span>
+        {% else %}<span class="status tone-info"><span class="glyph" aria-hidden="true">○</span>no answer</span>{% endif %}</td>
+    <td><a href="/runs/{{ s.run_id }}/item?{{ qs(task=r.task_id, back=request.url.path ~ '?' ~ request.url.query) }}">{{ r.task_id }}</a></td>
+    <td>{% for k, v in r.strata.items() %}<span class="chip">{{ k }}={{ v }}</span>{% endfor %}</td>
+    <td class="n">{{ r.correct }} / {{ r.units }}{% if r.errors %} <span class="muted">({{ r.errors }} errored)</span>{% endif %}</td>
+    <td class="n">{{ fmt(r.value) }}</td>
+  </tr>{% endfor %}</tbody>
+</table>
+{% else %}<p class="empty-state">No items match.</p>{% endif %}
+</div>
+{% endblock %}

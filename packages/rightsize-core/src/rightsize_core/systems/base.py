@@ -45,6 +45,11 @@ class System(ABC):
     async def teardown(self) -> None:
         """Run once after the last task, even after a failure."""
 
+    def required_env(self) -> list[str]:
+        """Environment variables this system needs for the current model and params (e.g. an API
+        key). Checked before a run starts, so a missing key stops the plan, not the run."""
+        return []
+
     def describe(self) -> dict[str, Any]:
         """Static description recorded in the manifest (config hash, transport, endpoint)."""
         return {"name": self.name, "transport": self.transport, "trusted": self.trusted}

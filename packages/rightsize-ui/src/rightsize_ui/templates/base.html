@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Rightsize Workbench{% endblock %}</title>
+<link rel="stylesheet" href="/core-static/tokens.css">
+<link rel="stylesheet" href="/static/ui.css">
+<script src="/static/decide.js" defer></script>
+<script src="/static/ui.js" defer></script>
+</head><body>
+{% block banner %}{% endblock %}
+<header class="top"><div class="top-in">
+  <a class="brand" href="/">Rightsize<span>Workbench</span></a>
+  <nav class="nav" aria-label="Main">
+    {% for key, label, href in [("home", "Home", "/"), ("runs", "Runs", "/runs"), ("sweeps", "Sweeps", "/sweeps"), ("launch", "Launch", "/launch"), ("jobs", "Jobs", "/jobs"), ("systems", "Systems", "/systems")] %}
+    <a href="{{ href }}" class="{{ 'on' if nav == key }}" {% if nav == key %}aria-current="page"{% endif %}>{{ label }}</a>
+    {% endfor %}
+  </nav>
+  <div class="top-right">
+    {% if live_jobs %}<a class="live-pill" href="/jobs"><span class="glyph" aria-hidden="true">◐</span>{{ live_jobs|length }} running</a>{% endif %}
+    <label class="theme">Theme <select data-theme-select aria-label="Color theme"><option value="">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+  </div>
+</div></header>
+<main>
+{% block main %}{% endblock %}
+</main>
+</body></html>

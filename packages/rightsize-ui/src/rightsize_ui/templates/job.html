@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status, error_groups %}
+{% block title %}Job {{ j.job_id }} · Rightsize{% endblock %}
+{% block main %}
+<div class="crumbs"><a href="/jobs">Jobs</a> / {{ j.job_id }}</div>
+<div class="head" data-job="{{ j.job_id }}" data-state="{{ j.state }}">
+  <div><h1>{{ j.kind|capitalize }} <span class="muted">· {{ j.job_id }}</span></h1>
+  <div class="sub">launched by {{ j.launched_by }} · {{ when(j.created_at) }}{% if j.plan_id %} · plan {{ j.plan_id }}{% endif %}</div></div>
+  <div class="actions">
+    <span data-job-state>{{ status(JOB, j.state) }}</span>
+    {% if j.state == "running" %}<form method="post" action="/jobs/{{ j.job_id }}/cancel" data-two-step><button type="submit" class="danger" data-arm-label="Click again to cancel">Cancel</button></form>{% endif %}
+  </div>
+</div>
+
+<section class="card" data-live>
+  {% set cap = live.cap %}
+  {% for r in live.runs %}
+  <div class="live-run" data-live-run="{{ r.run_id }}">
+    <div><a href="/runs/{{ r.run_id }}"><b>{{ r.system }} · {{ r.model or "default model" }}</b></a> {{ status(HEALTH, r.health) }}</div>
+    <div class="meter" role="progressbar" aria-label="calls done" aria-valuemin="0" aria-valuemax="{{ r.progress.total }}" aria-valuenow="{{ r.progress.done }}"><i style="width: {{ (100 * r.progress.done / (r.progress.total or 1))|round(1) }}%"></i></div>
+    <div class="small muted num">{{ r.progress.done }} of {{ r.progress.total }} calls · {{ r.progress.errors }} failed · reported spend ${{ "%.4f"|format(r.progress.spend_usd) }}{% if r.progress.unknown_cost_calls %} · {{ r.progress.unknown_cost_calls }} calls of unknown cost{% endif %}</div>
+    {% if r.health_reason %}<p class="small">{{ r.health_reason }}</p>{% endif %}
+    {{ error_groups(r.error_groups) }}
+  </div>
+  {% else %}<p class="muted" data-waiting>{% if j.state == "running" %}Starting: loading the system and the tasks…{% else %}This job created no runs.{% endif %}</p>{% endfor %}
+  {% if cap is not none %}
+  {% set frac = live.spend / cap if cap else 0 %}
+  <h3>Spend against the cap</h3>
+  <div class="meter {{ 'crit' if frac >= 0.9 else 'warn' if frac >= 0.6 }}" role="meter" aria-label="spend against the cap" aria-valuemin="0" aria-valuemax="{{ cap }}" aria-valuenow="{{ live.spend }}"><i style="width: {{ [100, 100 * frac]|min|round(1) }}%"></i></div>
+  <div class="small muted num">${{ "%.4f"|format(live.spend) }} of ${{ cap }}. The cap stops new calls; calls already in flight may finish.</div>
+  {% endif %}
+  {% if live.sweep %}
+  <h3>Rungs</h3>
+  <table class="small"><tbody>{% for r in live.sweep.rungs %}<tr><td><b>{{ r.rung }}</b></td><td>{{ status(RUNG, r.status) }}</td>
+    <td>{% if r.run_id %}<a href="/runs/{{ r.run_id }}">{{ status(HEALTH, r.health) if r.health else "run" }}</a>{% endif %}</td><td class="small mono">{{ r.error or "" }}</td></tr>{% endfor %}</tbody></table>
+  <p><a href="/sweeps/{{ live.sweep.sweep_id }}">Open the sweep{% if j.state == "finished" %} and calibrate{% endif %} →</a></p>
+  {% endif %}
+  {% if j.kind == "calibrate" and j.state == "finished" %}
+  <p><a class="btn primary" href="/sweeps/{{ j.argv[1].rstrip('/').split('/')[-1] }}#calibration">See the calibration →</a></p>
+  {% endif %}
+</section>
+
+<details class="card" {{ "open" if j.state in ("failed", "lost") }}><summary>Output ({{ j.log_tail|length }} lines)</summary>
+<pre class="log" data-log>{{ j.log_tail|join("\n") }}</pre></details>
+<details class="card"><summary>Command</summary><div class="cmd"><pre data-copy-source>uv run rightsize {{ j.argv|join(" ") }}</pre><button type="button" data-copy>Copy</button></div></details>
+{% endblock %}

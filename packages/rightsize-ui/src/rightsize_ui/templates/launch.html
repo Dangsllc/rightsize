@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Launch · Rightsize{% endblock %}
+{% block main %}
+<h1>Launch</h1>
+<p class="sub">Nothing starts until you review a plan: what will run, what it may cost, and which guards it passes.</p>
+{% if notice %}<div class="card banner tone-warning" role="alert"><p class="reason">{{ notice }}</p></div>{% endif %}
+
+<form method="post" action="/launch/plan" data-launch>
+<datalist id="system-list">{% for s in systems %}<option value="{{ s.spec }}">{{ s.name }} · {{ s.kind }}</option>{% endfor %}</datalist>
+
+<section class="card step"><div class="no" aria-hidden="true">1</div><div>
+  <h3>System</h3>
+  <div class="field"><label for="system">System to test</label>
+    <input type="text" id="system" name="system" list="system-list" value="{{ req.system }}" required style="width: min(100%, 34em)">
+    <span class="hint">A reference system (ref:bm25, ref:llm), a config under configs/systems/, a rightsize/v1 URL, mcp+…, or plugin:module:attr. <a href="/systems">Check a system's conformance first</a>.</span></div>
+  <div class="checks" role="radiogroup" aria-label="Kind">
+    <label><input type="radio" name="kind" value="run" {{ "checked" if req.kind == "run" }} data-refresh> One run (one model)</label>
+    <label><input type="radio" name="kind" value="sweep" {{ "checked" if req.kind == "sweep" }} data-refresh> A sweep (a ladder of models, for right-sizing)</label>
+  </div>
+</div></section>
+
+<section class="card step"><div class="no" aria-hidden="true">2</div><div>
+  <h3>What to run</h3>
+  <div class="row">
+    <div class="field"><label for="suite">Suite</label><select id="suite" name="suite" data-refresh>{% for s in suites %}<option {{ "selected" if s == req.suite }}>{{ s }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="split">Split</label><select id="split" name="split">{% for s in ["public", "dev", "heldout"] %}<option {{ "selected" if s == req.split }}>{{ s }}</option>{% endfor %}</select>
+      <span class="hint">Held-out goes only to systems marked trusted, and never to a no_heldout rung.</span></div>
+    <div class="field"><label for="limit">{{ "Sample (stratified)" if req.kind == "sweep" else "First N tasks" }}</label><input type="number" id="limit" name="limit" min="1" value="{{ req.limit or '' }}" placeholder="all"></div>
+    <div class="field"><label for="repeats">Repeats</label><input type="number" id="repeats" name="repeats" min="1" max="10" value="{{ req.repeats }}"><span class="hint">3 for numbers you'll publish.</span></div>
+    <div class="field"><label for="concurrency">Concurrency</label><input type="number" id="concurrency" name="concurrency" min="1" max="32" value="{{ req.concurrency }}"></div>
+  </div>
+  <div class="field"><span>Task types <span class="hint">(none ticked means all)</span></span>
+    <div class="checks">{% for t in task_type_choices %}<label><input type="checkbox" name="task_types" value="{{ t }}" {{ "checked" if t in req.task_types }}> {{ t }}</label>{% endfor %}</div></div>
+</div></section>
+
+<section class="card step"><div class="no" aria-hidden="true">3</div><div>
+  <h3>{{ "Ladder" if req.kind == "sweep" else "Model" }}</h3>
+  {% if req.kind == "sweep" %}
+    <div class="field"><label for="ladder">Ladder (cheapest rung first)</label><select id="ladder" name="ladder" data-refresh>{% for l in ladders %}<option {{ "selected" if l == req.ladder }}>{{ l }}</option>{% endfor %}</select></div>
+    <div class="field"><span>Rungs <span class="hint">(none ticked means all)</span></span>
+    <div class="scroll"><table class="small"><thead><tr><th></th><th>rung</th><th>model</th><th class="n">price per MTok (in / out)</th><th>params</th></tr></thead><tbody>
+    {% for r in ladder_rungs %}{% set rate = rates.get(r.name) %}<tr>
+      <td><input type="checkbox" name="rungs" value="{{ r.name }}" id="rung-{{ loop.index }}" {{ "checked" if r.name in req.rungs }}></td>
+      <td><label for="rung-{{ loop.index }}"><b>{{ r.name }}</b></label></td><td class="mono">{{ r.model }}</td>
+      <td class="n">{% if rate %}${{ "%.2f"|format(rate.input) }} / ${{ "%.2f"|format(rate.output) }}{% else %}<span class="cost unknown">no price on file</span>{% endif %}</td>
+      <td class="mono small">{% for k, v in r.params.items() if k not in ("api_key_env",) %}{{ k }}={{ v }} {% endfor %}{% if r.params.get("no_heldout") %} <span class="badge">no held-out</span>{% endif %}</td>
+    </tr>{% endfor %}</tbody></table></div></div>
+  {% else %}
+    <div class="row">
+      <div class="field"><label for="model">Model</label><input type="text" id="model" name="model" value="{{ req.model or '' }}" placeholder="the system's default"></div>
+    </div>
+    <div class="field"><label for="params">Params, one key=value per line (JSON values allowed)</label><textarea id="params" name="params" placeholder="effort=low&#10;temperature=0">{{ params_text }}</textarea></div>
+  {% endif %}
+</div></section>
+
+<section class="card step"><div class="no" aria-hidden="true">4</div><div>
+  <h3>Spend and safety</h3>
+  <div class="row">
+    <div class="field"><label for="max_cost">Spend cap (USD)</label><input type="number" id="max_cost" name="max_cost" min="0" step="0.01" value="{{ req.max_cost if req.max_cost is not none else '' }}" placeholder="required for paid models">
+      <span class="hint">Stops new calls once reported spend passes it.</span></div>
+    <div class="field"><label for="stop_after_errors">Stop if the first N calls all fail</label><input type="number" id="stop_after_errors" name="stop_after_errors" min="1" value="{{ req.stop_after_errors or '' }}">
+      <span class="hint">Catches a bad key or an unloaded model after a few calls, not a whole run.</span></div>
+  </div>
+  <label><input type="checkbox" name="ack_unpriced" {{ "checked" if req.ack_unpriced }}> I accept that cost may be unknown for models with no price on file, and that the cap can't stop those.</label>
+  <div class="actions" style="margin-top: 14px">
+    <button type="submit" name="action" value="plan" class="primary">Review plan</button>
+    <button type="submit" name="action" value="pilot" title="20 tasks, 1 repeat, at most a $5 cap">Plan a pilot first</button>
+    <button type="submit" name="action" value="refresh" class="js-hide">Update form</button>
+  </div>
+</div></section>
+
+{% if plan %}
+<section class="card" id="plan" aria-live="polite">
+  <div class="head"><h2 style="margin: 0">{{ "Pilot plan" if pilot else "Plan" }}</h2>
+    {% if plan.ok %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>Ready to launch</span>{% else %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>Blocked</span>{% endif %}</div>
+  {% if pilot %}<p class="small muted">A pilot measures cost per task on a small sample. Once it finishes, plan the full run: the estimate then comes from what the pilot actually spent.</p>{% endif %}
+  <div class="stats" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 12px 0">
+    <div class="stat"><div class="k">system</div><div class="v">{{ plan.system_name or "—" }}</div><div class="small muted">{{ "trusted" if plan.trusted else "not trusted" }}{% if plan.reports_usage %} · reports usage{% else %} · no usage reports{% endif %}</div></div>
+    <div class="stat"><div class="k">tasks</div><div class="v">{{ plan.tasks }}</div><div class="small muted">{{ plan.task_types|join(", ") }}</div></div>
+    <div class="stat"><div class="k">system calls</div><div class="v">{{ plan.calls }}</div><div class="small muted">{{ plan.rungs|length }} rung{{ "s" if plan.rungs|length != 1 }} × {{ plan.tasks }} × {{ plan.request.repeats }}</div></div>
+    <div class="stat"><div class="k">estimated cost</div><div class="v">{% if plan.estimate.usd is not none %}${{ "%.2f"|format(plan.estimate.usd) }}{% else %}<span class="cost unknown">not measured yet</span>{% endif %}</div>
+      <div class="small muted">{% if plan.estimate.source %}{{ plan.estimate.source }}{% endif %}{% if plan.estimate.missing %}{% if plan.estimate.source %}; {% endif %}no measured cost for {{ plan.estimate.missing|join(", ") }}: run a pilot{% endif %}</div></div>
+  </div>
+  {% if plan.request.kind == "sweep" or plan.rungs[0].model %}
+  <div class="scroll"><table class="small"><thead><tr><th>rung</th><th>model</th><th class="n">price per MTok</th><th>keys</th></tr></thead><tbody>
+  {% for r in plan.rungs %}<tr><td>{{ r.name }}</td><td class="mono">{{ r.model or "default" }}</td>
+    <td class="n">{% if r.rate %}${{ "%.2f"|format(r.rate.input) }} / ${{ "%.2f"|format(r.rate.output) }}{% elif r.model %}<span class="cost unknown">none on file</span>{% else %}—{% endif %}</td>
+    <td>{% for k, ok in r.env.items() %}<span class="status tone-{{ 'good' if ok else 'critical' }}"><span class="glyph" aria-hidden="true">{{ "●" if ok else "✕" }}</span>{{ k }} {{ "set" if ok else "missing" }}</span> {% else %}<span class="muted">none needed</span>{% endfor %}</td></tr>{% endfor %}
+  </tbody></table></div>
+  {% endif %}
+  <h3>Guards</h3>
+  <ul class="guards">{% for g in plan.guards %}<li>
+    <span>{% if g.ok %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>pass</span>{% elif g.blocking %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>blocks</span>{% else %}<span class="status tone-info"><span class="glyph" aria-hidden="true">○</span>note</span>{% endif %}</span>
+    <span><b>{{ g.name }}</b> · {{ g.message }}</span></li>{% endfor %}</ul>
+  <h3>The same thing from a terminal</h3>
+  <div class="cmd"><pre data-copy-source>{{ plan.command }}</pre><button type="button" data-copy>Copy</button></div>
+  <input type="hidden" name="plan_id" value="{{ plan.plan_id }}">
+  <div class="actions" style="margin-top: 14px">
+    <button type="submit" class="primary" formaction="/launch/start" {{ "disabled" if not plan.ok }}>{{ "Launch the pilot" if pilot else "Launch" }}</button>
+    {% if not plan.ok %}<span class="small">Fix what blocks it above, then review again.</span>{% else %}<span class="small muted">Runs in the background; you can close this page.</span>{% endif %}
+  </div>
+</section>
+{% endif %}
+</form>
+{% endblock %}

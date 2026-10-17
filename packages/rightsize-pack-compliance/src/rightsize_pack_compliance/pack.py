@@ -16,6 +16,7 @@ from rightsize_pack_compliance.scorers import (
     score_control,
     score_retrieval,
 )
+from rightsize_pack_compliance.views import control_view, retrieval_view
 
 
 class CompliancePack:
@@ -32,6 +33,7 @@ class CompliancePack:
                 aggregate=aggregate_retrieval,
                 primary_metric="ndcg@10",
                 higher_is_better={"confusion@k": False, "empty": False, "error_rate": False},
+                item_view=retrieval_view,
             ),
             "control_classification": TaskTypeSpec(
                 name="control_classification",
@@ -47,6 +49,7 @@ class CompliancePack:
                     "spec.error_rate": False, "group.error_rate": False,
                     "spec.no_prediction_rate": False, "group.no_prediction_rate": False,
                 },
+                item_view=control_view,
             ),
         }
 

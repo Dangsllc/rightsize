@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Systems · Rightsize{% endblock %}
+{% block main %}
+<h1>Systems</h1>
+<p class="sub">Every system Rightsize can reach from this checkout. Check conformance before trusting a score: a mapping bug looks exactly like a weak model.</p>
+{% if report or problem %}
+<section class="card banner tone-{{ 'good' if report and report.ok else 'critical' }}" id="result">
+  <h3>Conformance · {{ checked }} · {{ checked_suite }}</h3>
+  {% if problem %}<p class="reason">{{ problem }}</p>
+  {% else %}
+  <p>{% if report.ok %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>Pass</span> Responses map cleanly onto the task contracts.{% else %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>Fail</span> Fix the mapping before running: these failures would be scored as a weak model.{% endif %}</p>
+  {% for tt, sm in report.summary.items() %}<p class="small"><b>{{ tt }}</b> · {% for k, v in sm.items() %}{{ k }}={{ v }} {% endfor %}</p>{% endfor %}
+  <ul class="guards">{% for f in report.findings %}<li><span>{% if f.ok %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>ok</span>{% else %}<span class="status tone-critical"><span class="glyph" aria-hidden="true">✕</span>fail</span>{% endif %}</span><span><span class="mono small">{{ f.task_id }}</span> · {{ f.message }}</span></li>{% endfor %}</ul>
+  {% if report.ok %}<p><a class="btn primary" href="/launch?{{ qs(system=checked, suite=checked_suite) }}">Launch a run with it</a></p>{% endif %}
+  {% endif %}
+</section>
+{% endif %}
+<div class="card scroll"><table>
+  <thead><tr><th>system</th><th>kind</th><th>trusted</th><th>env it needs</th><th></th></tr></thead>
+  <tbody>{% for s in systems %}<tr>
+    <td><b>{{ s.name }}</b><div class="mono small muted">{{ s.spec }}</div></td>
+    <td>{{ s.kind }}{% if s.tasks %}<div class="small muted">{{ s.tasks|join(", ") }}</div>{% endif %}</td>
+    <td>{% if s.trusted %}<span class="status tone-good"><span class="glyph" aria-hidden="true">●</span>trusted</span>{% else %}<span class="status tone-info"><span class="glyph" aria-hidden="true">○</span>not trusted</span><div class="small muted">never gets held-out data</div>{% endif %}</td>
+    <td>{% for k, ok in s.env.items() %}<div><span class="status tone-{{ 'good' if ok else 'warning' }}"><span class="glyph" aria-hidden="true">{{ "●" if ok else "▲" }}</span><span class="mono">{{ k }}</span> {{ "set" if ok else "not set" }}</span></div>{% else %}<span class="muted">—</span>{% endfor %}</td>
+    <td><form method="post" action="/systems/conformance" class="actions"><input type="hidden" name="system" value="{{ s.spec }}">
+      <select name="suite" aria-label="suite">{% for su in suites %}<option>{{ su }}</option>{% endfor %}</select>
+      <button type="submit">Check conformance</button></form>
+      <a class="small" href="/launch?{{ qs(system=s.spec) }}">Launch with it</a></td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+<p class="small muted">Add your own: copy a template from <code>configs/systems/examples/</code>, or set <code>RIGHTSIZE_SYSTEMS_DIRS</code> to more folders of system configs.</p>
+{% endblock %}

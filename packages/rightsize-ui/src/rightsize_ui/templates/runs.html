@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status, headline_cell %}
+{% block title %}Runs · Rightsize{% endblock %}
+{% block main %}
+<div class="head">
+  <div><h1>Runs</h1><p class="sub">{{ runs|length }} of {{ total }} runs. Pick two to compare them item by item.</p></div>
+  <div class="actions"><a class="btn primary" href="/launch">Launch a run</a></div>
+</div>
+
+<form class="filters" method="get" action="/runs">
+  <label>Suite<select name="suite"><option value="">Any</option>{% for s in suites %}<option {{ "selected" if f.suite == s }}>{{ s }}</option>{% endfor %}</select></label>
+  <label>Split<select name="split"><option value="">Any</option>{% for s in ["public", "dev", "heldout"] %}<option {{ "selected" if f.split == s }}>{{ s }}</option>{% endfor %}</select></label>
+  <label>System<select name="system"><option value="">Any</option>{% for s in systems %}<option {{ "selected" if f.system == s }}>{{ s }}</option>{% endfor %}</select></label>
+  <label>Health<select name="health"><option value="">Any</option>{% for k, g in HEALTH.items() %}<option value="{{ k }}" {{ "selected" if f.health == k }}>{{ g[1] }}</option>{% endfor %}</select></label>
+  <button type="submit">Filter</button>
+  {% if f.values()|select|list %}<a href="/runs">Clear</a>{% endif %}
+</form>
+
+<form method="get" action="/compare" data-compare>
+<div class="card scroll">
+{% if runs %}
+<table>
+  <thead><tr><th><span class="sr">select</span></th><th>health</th><th>system · model</th><th>suite</th><th>headline (95% interval)</th><th class="n">cost / task</th><th class="n">calls</th><th class="n">started</th></tr></thead>
+  <tbody>{% for r in runs %}<tr>
+    <td><input type="checkbox" name="pick" value="{{ r.run_id }}" aria-label="Select {{ r.run_id }} to compare"></td>
+    <td>{{ status(HEALTH, r.health, r.health_reason) }}</td>
+    <td><a href="/runs/{{ r.run_id }}">{{ r.system or "?" }} · {{ r.model or "default model" }}</a>
+      {% if r.sweep_id %}<div class="small muted">sweep <a href="/sweeps/{{ r.sweep_id }}">{{ r.sweep_id }}</a></div>{% endif %}</td>
+    <td>{{ r.suite }}/{{ r.split }}{% if r.split == "heldout" %} <span class="badge">held-out</span>{% endif %}</td>
+    <td>{% for h in r.headlines %}<div><span class="muted small">{{ h.task_type }} · {{ h.metric }}</span> {{ headline_cell(h) }}</div>{% else %}<span class="muted small">{{ r.health_reason or "—" }}</span>{% endfor %}</td>
+    <td class="n">{% for h in r.headlines %}<div>{{ money(h.cost_per_task, h.cost_state) }}</div>{% endfor %}</td>
+    <td class="n">{{ r.progress.done }}{% if r.progress.errors %} <span class="muted">({{ r.progress.errors }} failed)</span>{% endif %}</td>
+    <td class="n">{{ when(r.started_at) }}</td>
+  </tr>{% endfor %}</tbody>
+</table>
+{% else %}<p class="empty-state">No runs match.</p>{% endif %}
+</div>
+<input type="hidden" name="a"><input type="hidden" name="b">
+<div class="actions"><button type="submit" class="primary" data-compare-button disabled>Compare the two selected</button><span class="small muted" data-compare-hint>Select two runs (the older one becomes A).</span></div>
+</form>
+{% endblock %}

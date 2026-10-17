@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status %}
+{% block title %}Jobs · Rightsize{% endblock %}
+{% block main %}
+<h1>Jobs</h1>
+<p class="sub">Runs, sweeps, and calibrations started from the Workbench or by an agent. They keep going if you close the page.</p>
+<div class="card scroll">
+{% if jobs %}<table>
+  <thead><tr><th>state</th><th>job</th><th>launched by</th><th>started</th><th>created</th></tr></thead>
+  <tbody>{% for j in jobs %}<tr>
+    <td>{{ status(JOB, j.state) }}</td><td><a href="/jobs/{{ j.job_id }}">{{ j.kind }} · {{ j.job_id }}</a></td><td>{{ j.launched_by }}</td>
+    <td class="num">{{ when(j.created_at) }}</td>
+    <td class="small">{% for r in j.run_ids %}<a href="/runs/{{ r }}">{{ r }}</a> {% endfor %}{% if j.sweep_id %}<a href="/sweeps/{{ j.sweep_id }}">sweep {{ j.sweep_id }}</a>{% endif %}</td>
+  </tr>{% endfor %}</tbody>
+</table>{% else %}<p class="empty-state">No jobs yet. <a href="/launch">Launch one</a>.</p>{% endif %}
+</div>
+{% endblock %}
