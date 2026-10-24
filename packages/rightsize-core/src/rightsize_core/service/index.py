@@ -297,8 +297,14 @@ def _sweep_state(rec: dict, rungs: list[RungState], alive: bool = False) -> tupl
     if "rungs" not in rec:  # written by an older version, which only listed finished rungs
         return "complete", (f"{done} rung{'' if done == 1 else 's'} recorded (an older sweep record lists "
                             "finished rungs only).")
-    if failed := next((r for r in rungs if r.status == "failed"), None):
-        return "failed", f"Rung {failed.rung} failed: {failed.error or 'no message'}"
+    if failed := [r for r in rungs if r.status == "failed"]:
+        first = failed[0]
+        why = f"Rung {first.rung} failed: {first.error or 'no message'}"
+        if len(failed) > 1:
+            why += f" (and {len(failed) - 1} more)"
+        if rec.get("finished_at"):  # an all-error rung doesn't stop the sweep; calibrate skips it
+            why += f". {done} of {total} rungs finished with answers; calibrate skips the failed ones."
+        return "failed", why
     if cancelled := next((r for r in rungs if r.status == "cancelled"), None):
         return "cancelled", f"Cancelled during rung {cancelled.rung}; {done} of {total} rungs finished."
     if rec.get("finished_at"):

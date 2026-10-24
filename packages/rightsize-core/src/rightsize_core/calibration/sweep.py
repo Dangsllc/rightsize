@@ -4,6 +4,7 @@ difficulty tier, the cheapest rung that is good enough.
 "Good enough" is either an absolute bar (the metric's lower 95% bound clears the threshold) or
 non-inferiority (the paired lower bound of rung minus best is above -delta). A rung must also keep
 its error rate under 2% and, when a floor metric is given (e.g. deficiency recall), clear it.
+A rung whose run failed (every call errored) is never calibrated on; it is listed in `skipped_rungs`.
 
 `calibration.json` keeps every input the rule needs (each rung's bounds, its paired difference
 from the best rung, and its metric values), so a viewer can re-decide for other thresholds,
@@ -22,6 +23,7 @@ import yaml
 from rightsize_core.integrity.dataset import load_suite_config
 from rightsize_core.packs import get_pack
 from rightsize_core.runner.score import unit_records
+from rightsize_core.schema import is_failed
 from rightsize_core.scoring.stats import bootstrap, paired_difference
 
 MAX_ERROR = 0.02
@@ -110,19 +112,29 @@ def decide(rungs: dict[str, dict], best: str, tau: float | None, delta: float,
 def calibrate(root: Path, sweep_dir: Path, thresholds: dict[str, float], delta: float,
               floors: dict[str, float] | None = None, n_resamples: int = 1000) -> dict[str, Any]:
     sweep = json.loads((sweep_dir / "sweep.json").read_text())
-    runs = []
+    runs, skipped = [], []
     for idx, r in enumerate(sweep["runs"]):
         run_dir = resolve_run_dir(root, r["run_dir"])
         manifest, by_type, rows = unit_records(root, run_dir)
+        if is_failed(manifest.status):  # every call errored: it measured nothing
+            skipped.append({"rung": r["rung"], "why": manifest.status})
+            continue
         cost = [x["cost_usd"] for x in rows]
         runs.append({
             "rung": r["rung"], "model": r["model"], "params": r["params"], "by_type": by_type,
             "cost_per_task": (sum(cost) / len(cost)) if cost and all(c is not None for c in cost) else None,
             "suite": manifest.dataset.suite, "ladder_index": idx,
         })
+    skipped += [{"rung": r["rung"], "why": r.get("error") or "failed"}
+                for r in sweep.get("rungs") or [] if r.get("status") == "failed"
+                and r["rung"] not in {x["rung"] for x in skipped}]
+    if not runs:
+        why = "; ".join(f"{x['rung']}: {x['why']}" for x in skipped)
+        raise ValueError(f"Nothing to calibrate in sweep {sweep['sweep_id']}: no rung finished with answers"
+                         + (f" ({why})" if why else ""))
     pack = get_pack(load_suite_config(root, runs[0]["suite"])["pack"])
     result: dict[str, Any] = {"sweep_id": sweep["sweep_id"], "thresholds": thresholds, "delta": delta,
-                              "floors": floors or {}, "decisions": [], "points": []}
+                              "floors": floors or {}, "decisions": [], "points": [], "skipped_rungs": skipped}
     task_types = sorted(set.intersection(*(set(r["by_type"]) for r in runs)))
     for tt in task_types:
         spec = pack.task_types[tt]

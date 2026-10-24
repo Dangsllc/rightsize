@@ -83,7 +83,21 @@ def _build(runs_dir: Path) -> dict[str, str]:
 
     ids["run_unknown_cost"] = _run_dir(_cli(["run", "--system", "plugin:fake_ladder_system:make", "--model",
                                              "fake-small", "--param", "hide_usage=true", *base]))
-    ids["run_no_signal"] = _run_dir(_cli(["run", "--system", "plugin:scripted_systems:failing", *base]))
+    ids["run_failed"] = _run_dir(_cli(["run", "--system", "plugin:scripted_systems:failing", *base]))
+    # The same all-error run as an older Rightsize recorded it (status ok, no error_rate): it scores
+    # nothing, so it reads as no_signal.
+    src = runs_dir / ids["run_failed"]
+    legacy = runs_dir / src.name.replace("scripted", "scripted-legacy")
+    legacy.mkdir(exist_ok=True)
+    m = json.loads((src / "manifest.json").read_text())
+    m.update(run_id=legacy.name, status="ok", notes=[])
+    m.pop("error_rate", None)
+    (legacy / "manifest.json").write_text(json.dumps(m, indent=2))
+    (legacy / "results.jsonl").write_text((src / "results.jsonl").read_text())
+    card = json.loads((src / "scorecard.json").read_text())
+    card.update(run_id=legacy.name, status="ok")
+    (legacy / "scorecard.json").write_text(json.dumps(card, indent=2))
+    ids["run_no_signal"] = legacy.name
     ids["run_degraded"] = _run_dir(_cli(["run", "--system", "plugin:scripted_systems:flaky", *base]))
     ids["run_aborted"] = _run_dir(_cli(["run", "--system", "plugin:fake_ladder_system:make", "--model", "fake-large",
                                         "--max-cost", "0.05", "--concurrency", "1", *base]))

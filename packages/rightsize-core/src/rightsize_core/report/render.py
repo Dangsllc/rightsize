@@ -24,6 +24,7 @@ STATIC = HERE / "static"
 HEALTH = {
     "running": ("◐", "Running", "info"),
     "interrupted": ("◌", "Interrupted", "warning"),
+    "failed": ("✕", "Failed", "critical"),
     "no_signal": ("✕", "No signal", "critical"),
     "aborted": ("■", "Stopped early", "warning"),
     "degraded": ("▲", "Degraded", "warning"),

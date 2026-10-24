@@ -64,6 +64,7 @@ def test_item_pages_render_from_the_items_list(web, states):
 def test_home_names_each_problem_once(web, states):
     html = web.get("/").text
     assert "No signal" in html and "Interrupted" in html and "Stopped early" in html
+    assert ">Failed<" in html  # all calls errored: shown apart from runs a guard stopped
     assert "1 sweep left no record" in html  # empty sweeps fold into one entry
     assert "Thin evidence" in html
 

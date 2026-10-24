@@ -10,6 +10,7 @@ from rightsize_core.runner.run import HEARTBEAT_FILE
 EXPECTED = {
     "run_ok": "ok",
     "run_unknown_cost": "ok",
+    "run_failed": "failed",
     "run_no_signal": "no_signal",
     "run_degraded": "degraded",
     "run_aborted": "aborted",
@@ -22,8 +23,9 @@ def test_run_health(index, states, state):
     assert index.summary(states[1][state]).health == EXPECTED[state]
 
 
-def test_no_signal_names_the_cause_and_a_fix(index, states):
-    s = index.summary(states[1]["run_no_signal"])
+@pytest.mark.parametrize("state", ["run_failed", "run_no_signal"])
+def test_all_error_runs_name_the_cause_and_a_fix(index, states, state):
+    s = index.summary(states[1][state])
     assert "401 Unauthorized" in s.health_reason
     assert s.error_groups and s.error_groups[0].count == s.progress.done
     assert "env var" in (s.error_groups[0].hint or "")
@@ -118,3 +120,9 @@ def test_lists_never_score_but_opening_a_run_does(index, states, tmp_path):
     assert ix.summary(src.name).health_reason.startswith("Not scored yet")
     detail = queries.run_detail(ix, src.name)
     assert detail["summary"].health == "ok" and (runs / src.name / "scorecard.json").exists()
+
+
+def test_failed_says_every_call_errored(index, states):
+    s = index.summary(states[1]["run_failed"])
+    assert s.status.startswith("failed: all ") and s.health_reason.startswith("All ")
+    assert "calls errored" in s.health_reason

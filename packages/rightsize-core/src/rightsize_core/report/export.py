@@ -4,7 +4,8 @@ templates as the Workbench, and `rightsize export`, which bundles them for a sta
 A bundle is safe to publish only if nothing in it is held out, private, or local, so export refuses
 instead of trying to redact:
 * held-out runs and sweeps (task ids alone name the held-out targets);
-* runs that aren't finished and scored;
+* runs that aren't finished and scored, and runs that failed (every call errored; a sweep's page
+  still shows such a rung as failed, but its run isn't bundled);
 * any file matching the public-boundary guard's rules or its private denylist (a manifest embeds
   the system's own description, so a private system's run would name it).
 Local paths are rewritten relative to the checkout (or to ~) before any of that is checked.
@@ -221,7 +222,8 @@ def export_bundle(root: Path, ix: Index, out: Path, *, runs: list[str] = (), swe
             problems.append(f"sweep {sid} ran the held-out split")
         if w.state in ("empty", "running"):
             problems.append(f"sweep {sid} is {w.state}")
-        run_list += [r.run_id for r in w.rungs if r.run_id and r.run_id not in run_list]
+        # A failed rung measured nothing: the sweep page shows it as failed, without a run page.
+        run_list += [r.run_id for r in w.rungs if r.run_id and r.status != "failed" and r.run_id not in run_list]
     for a, b in compares:
         run_list += [r for r in (a, b) if r not in run_list]
     summaries = {}
@@ -232,6 +234,8 @@ def export_bundle(root: Path, ix: Index, out: Path, *, runs: list[str] = (), swe
             problems.append(f"run {rid} ran the held-out split")
         if s.health in ("running", "interrupted"):
             problems.append(f"run {rid} is {s.health}")
+        if s.health == "failed":
+            problems.append(f"run {rid} failed (every call errored), so it has no results to publish")
         try:
             RunManifest.model_validate_json((ix.run_dir(rid) / "manifest.json").read_text())
         except ValidationError:
