@@ -50,8 +50,19 @@ class PluginSystem(System):
     def describe(self) -> dict[str, Any]:
         d = super().describe()
         if hasattr(self.impl, "self_report"):
-            d["self_report"] = self.impl.self_report()
+            d["self_report"] = self._self_report()
         return d
+
+    def _self_report(self) -> dict:
+        """The impl's self-report for the current params (so a per-rung route is what gets
+        recorded), or with no arguments for impls whose self_report takes none."""
+        import inspect
+
+        try:
+            takes_params = bool(inspect.signature(self.impl.self_report).parameters)
+        except (TypeError, ValueError):
+            takes_params = False
+        return self.impl.self_report(self.params) if takes_params else self.impl.self_report()
 
 
 def load_object(spec: str) -> Any:
