@@ -5,8 +5,10 @@ process launched the run:
 
 * running      the run's heartbeat is fresh
 * interrupted  the manifest still says running, but the heartbeat stopped
-* no_signal    it finished, but no task type has a primary metric (e.g. every call failed)
-* aborted      a guard stopped it (spend cap, error circuit breaker, cancel, crash)
+* failed       it finished, but every call errored (manifest status `failed: all N calls errored`)
+* no_signal    it finished, but no task type has a primary metric (e.g. a run recorded before
+               Rightsize marked all-error runs failed)
+* aborted      a guard stopped it (spend cap, cancel, crash)
 * degraded     more than 2% of answers errored or went missing
 * ok
 * unscored     finished, but it can't be scored here (e.g. its split isn't on this machine)
@@ -18,6 +20,7 @@ import re
 from collections import OrderedDict
 
 from rightsize_core.calibration.sweep import MIN_ITEMS
+from rightsize_core.schema import is_failed
 from rightsize_core.service.models import ErrorGroup, Headline, Progress
 
 STALE_AFTER_S = 30.0
@@ -128,6 +131,10 @@ def classify(status: str, card: dict | None, heartbeat_age: float | None, prog: 
         return "interrupted", (f"The process stopped after {prog.done} of {prog.total} calls without finishing "
                                "(no heartbeat).")
     abort = next((n for n in notes if n.startswith("aborted")), None)
+    if is_failed(status):
+        why = status.removeprefix("failed: ")
+        stopped = f" The run stopped early ({abort.removeprefix('aborted: ')})." if abort else ""
+        return "failed", f"{why[:1].upper()}{why[1:]}{cause}.{stopped}"
     if card is None:
         if status == "aborted":
             why = (abort or "aborted").removeprefix("aborted: ")

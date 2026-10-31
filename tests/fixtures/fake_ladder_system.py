@@ -21,6 +21,8 @@ class FakeLadder:
         return SystemInfo(name="fake-ladder", task_types=["retrieval"], supports_model_param=True, reports_usage=True)
 
     async def run(self, task_type, inputs, model, params):
+        if params.get("fail"):  # a rung whose server rejects every call, like a stale key
+            raise RuntimeError("Client error '401 Unauthorized'")
         style, target = STYLE_BY_QUERY[inputs["query"]]
         roll = int(hashlib.sha256(f"{model}|{inputs['query']}".encode()).hexdigest()[:8], 16) / 0xFFFFFFFF
         first = target if roll < ACCURACY[model][style] else "160.103"

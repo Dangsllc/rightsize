@@ -1,4 +1,4 @@
-from rightsize_core.schema.manifest import DatasetRef, RunManifest
+from rightsize_core.schema.manifest import DatasetRef, RunManifest, is_failed
 from rightsize_core.schema.outcome import (
     Outcome,
     OutcomeError,
@@ -19,4 +19,5 @@ __all__ = [
     "SystemInfo",
     "Task",
     "UsageRecord",
+    "is_failed",
 ]

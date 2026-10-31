@@ -27,7 +27,7 @@ from pydantic import ValidationError
 from rightsize_core import __version__
 from rightsize_core.integrity.dataset import load_suite_config, resolve_document, suite_dir
 from rightsize_core.packs import get_pack
-from rightsize_core.schema import DatasetRef, Outcome, OutcomeError, RunManifest, Task
+from rightsize_core.schema import DatasetRef, Outcome, OutcomeError, RunManifest, Task, is_failed
 from rightsize_core.systems.base import System
 from rightsize_core.usage.pricing import Pricing
 
@@ -94,6 +94,11 @@ async def execute(
     `max_cost` stops new calls once reported spend passes it (calls already in flight finish).
     `stop_after_errors` stops the run if its first N calls all fail, e.g. a bad key or an
     unloaded model, instead of spending the whole run on errors.
+
+    How it ends, in the manifest: `failed: all N calls errored` when every row written was an error
+    (it measured nothing; this wins over the error breaker's stop, whose note is kept), `aborted`
+    for the spend cap, a cancel, or a crash, else `ok`. Finished runs also record `error_rate`.
+    Refusals count as answers, not errors, here as in the breaker.
     """
     if split == "heldout" and not system.trusted:
         raise HeldoutGuardError(
@@ -141,11 +146,13 @@ async def execute(
     # Calls that failed before the first answer; None once one comes back. A refusal is an answer:
     # the model is reachable and being measured, so it disarms the breaker rather than tripping it.
     leading_errors: int | None = 0
+    rows_written = 0
+    rows_errored = 0
     results_path = out / "results.jsonl"
     heldout = split == "heldout"
 
     async def one(task: Task, rep: int) -> None:
-        nonlocal spent, abort_note, leading_errors
+        nonlocal spent, abort_note, leading_errors, rows_written, rows_errored
         if abort_note:
             return
         inputs = dict(task.inputs)
@@ -181,6 +188,9 @@ async def execute(
         async with lock:
             with results_path.open("a", encoding="utf-8") as f:
                 f.write(json.dumps(row, ensure_ascii=False) + "\n")
+            rows_written += 1
+            if outcome.error is not None and outcome.error.kind != "refusal":
+                rows_errored += 1
             if cost:
                 spent += cost
                 if max_cost is not None and spent > max_cost and not abort_note:
@@ -197,6 +207,7 @@ async def execute(
                 progress()
 
     beat = asyncio.create_task(_heartbeat(out / HEARTBEAT_FILE))
+    interrupted = True  # until the calls finish without a cancel or a crash
     try:
         await system.setup()
         try:
@@ -209,12 +220,21 @@ async def execute(
     except Exception as e:
         abort_note = f"aborted: {e!r}"[:500]
         raise
+    else:
+        interrupted = False
     finally:
         beat.cancel()
         manifest.ended_at = _now()
-        manifest.status = "aborted" if abort_note else "ok"
+        if rows_written:
+            manifest.error_rate = round(rows_errored / rows_written, 4)
+        if rows_written and rows_errored == rows_written and not interrupted:
+            manifest.status = f"failed: all {rows_written} calls errored"
+        else:
+            manifest.status = "aborted" if abort_note else "ok"
         if abort_note:
             manifest.notes.append(abort_note)
+        if is_failed(manifest.status):
+            manifest.notes.append(manifest.status)
         (out / "manifest.json").write_text(manifest.model_dump_json(indent=2))
         (out / HEARTBEAT_FILE).unlink(missing_ok=True)
     return out

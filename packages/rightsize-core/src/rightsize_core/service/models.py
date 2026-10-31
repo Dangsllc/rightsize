@@ -7,7 +7,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-Health = Literal["running", "interrupted", "no_signal", "aborted", "degraded", "ok", "unscored"]
+Health = Literal["running", "interrupted", "failed", "no_signal", "aborted", "degraded", "ok", "unscored"]
 CostState = Literal["known", "zero", "unknown"]
 SweepState = Literal["empty", "running", "interrupted", "failed", "cancelled", "stopped", "complete"]
 
@@ -80,7 +80,7 @@ class RunSummary(BaseModel):
 class RungState(BaseModel):
     rung: str
     model: str | None = None
-    status: str  # pending | running | done | failed | cancelled
+    status: str  # pending | running | scoring | done | failed (crashed, or every call errored) | cancelled
     run_id: str | None = None
     health: Health | None = None
     error: str | None = None

@@ -111,9 +111,15 @@ class LLMSystem(ReferenceSystem):
             efforts=["low", "medium", "high", "xhigh", "max"],
         )
 
-    def self_report(self) -> dict:
-        return {"provider": self.provider, "base_url": self.base_url, "prompt": self.skill_meta,
-                "fallbacks": "disabled"}
+    def self_report(self, params: dict | None = None) -> dict:
+        """What the manifest records about this system: the route this rung's calls actually take
+        (a ladder rung can override provider, base URL, and key through its params) and the prompt.
+        Only the API key's env var name is recorded, never its value."""
+        provider, base_url, api_key_env = self.route(params or {})
+        if provider == "anthropic":
+            api_key_env = "ANTHROPIC_API_KEY"  # what the SDK reads; matches required_env
+        return {"provider": provider, "base_url": base_url, "api_key_env": api_key_env,
+                "prompt": self.skill_meta, "fallbacks": "disabled"}
 
     def required_env(self, params: dict) -> list[str]:
         provider, _, api_key_env = self.route(params)

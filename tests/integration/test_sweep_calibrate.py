@@ -147,3 +147,58 @@ def test_no_heldout_rungs_refuse_the_heldout_split(tmp_path, monkeypatch):
     res = CliRunner().invoke(app, ["run", "--system", "plugin:fake_ladder_system:make", "--model", "fake-small",
                                    "--split", "heldout", "--param", "no_heldout=true"])
     assert res.exit_code != 0 and "no_heldout" in (res.output + str(res.exception))
+
+
+def test_a_rung_where_every_call_errors_is_failed_and_never_calibrated(tmp_path, monkeypatch):
+    from rightsize_core.service.index import Index
+
+    runs = tmp_path / "runs"
+    monkeypatch.setenv("RIGHTSIZE_PLUGIN_PATH", str(ROOT / "tests/fixtures"))
+    monkeypatch.setenv("RIGHTSIZE_ROOT", str(ROOT))
+    monkeypatch.setenv("RIGHTSIZE_RUNS_DIR", str(runs))
+    ladder = tmp_path / "ladder.yaml"
+    ladder.write_text(yaml.safe_dump({"rungs": [
+        {"name": "small", "model": "fake-small"},
+        {"name": "broken", "model": "fake-medium", "params": {"fail": True}},
+        {"name": "large", "model": "fake-large"}]}))
+    pricing = tmp_path / "pricing.yaml"
+    pricing.write_text(yaml.safe_dump({"as_of": "test", "models": {
+        "fake-small": {"input": 0.1, "output": 0.4}, "fake-medium": {"input": 1, "output": 4},
+        "fake-large": {"input": 10, "output": 40}}}))
+    runner = CliRunner()
+    res = runner.invoke(app, ["sweep", "--system", "plugin:fake_ladder_system:make", "--ladder", str(ladder),
+                              "--split", "public", "--task-type", "retrieval", "--sample", "12",
+                              "--pricing", str(pricing)])
+    assert res.exit_code == 0, res.output
+    sweep_dir = Path(next(ln for ln in res.output.splitlines() if ln.startswith("sweep_dir=")).split("=", 1)[1])
+    record = json.loads((sweep_dir / "sweep.json").read_text())
+    by_rung = {r["rung"]: r for r in record["rungs"]}
+    assert [r["status"] for r in record["rungs"]] == ["done", "failed", "done"]
+    assert by_rung["broken"]["error"] == "failed: all 12 calls errored"
+    assert [r["rung"] for r in record["runs"]] == ["small", "large"]  # only these feed calibrate
+
+    res = runner.invoke(app, ["calibrate", str(sweep_dir), "--threshold", "recall@1=0.8"])
+    assert res.exit_code == 0, res.output
+    cal = json.loads((sweep_dir / "calibration.json").read_text())
+    assert cal["skipped_rungs"] == [{"rung": "broken", "why": "failed: all 12 calls errored"}]
+    assert all(d["chosen"] in ("small", "large", None) for d in cal["decisions"])
+
+    # Even a hand-edited record that lists the failed run is never calibrated on.
+    record["runs"].insert(1, {"rung": "broken", "model": "fake-medium", "params": {"fail": True},
+                              "run_dir": by_rung["broken"]["run_dir"]})
+    (sweep_dir / "sweep.json").write_text(json.dumps(record))
+    res = runner.invoke(app, ["calibrate", str(sweep_dir), "--threshold", "recall@1=0.8"])
+    assert res.exit_code == 0, res.output
+    cal = json.loads((sweep_dir / "calibration.json").read_text())
+    assert [x["rung"] for x in cal["skipped_rungs"]] == ["broken"]
+    assert "broken" not in {p.get("rung") for p in cal["points"]}
+
+    # The Workbench and the run listing show it as failed, not as stopped early.
+    ix = Index(ROOT, runs)
+    w = ix.sweep(sweep_dir.name)
+    assert w.state == "failed" and "Rung broken failed: failed: all 12 calls errored" in w.state_reason
+    assert "2 of 3 rungs finished" in w.state_reason
+    broken = next(r for r in w.rungs if r.rung == "broken")
+    assert broken.status == "failed" and broken.health == "failed"
+    s = ix.summary(broken.run_id)
+    assert s.health == "failed" and s.health_reason.startswith("All 12 calls errored")

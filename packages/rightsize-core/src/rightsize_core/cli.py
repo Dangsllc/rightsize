@@ -411,6 +411,7 @@ def sweep(
     from rightsize_core.report.html import render
     from rightsize_core.runner.run import default_runs_dir, execute, record_job_dir
     from rightsize_core.runner.score import score_run
+    from rightsize_core.schema import is_failed
     from rightsize_core.systems.loader import load_system
     from rightsize_core.usage.pricing import Pricing
 
@@ -483,9 +484,15 @@ def sweep(
         render(card, run_dir / "scorecard.html")
         _summary(card)
         spent += sum((t["usage"]["cost_usd_total"] or 0.0) for t in card["task_types"].values())
-        record["runs"].append({"rung": r.name, "model": r.model, "params": r.params, "run_dir": str(rel)})
-        status.update(status="done", run_dir=str(rel), run_status=card["status"])
-        save()
+        if is_failed(card["status"]):
+            # Every call errored: keep the run for diagnosis, but never calibrate on it.
+            status.update(status="failed", run_dir=str(rel), run_status=card["status"], error=card["status"])
+            save()
+            typer.echo(f"Rung {r.name} {card['status']}; calibrate will skip it.", err=True)
+        else:
+            record["runs"].append({"rung": r.name, "model": r.model, "params": r.params, "run_dir": str(rel)})
+            status.update(status="done", run_dir=str(rel), run_status=card["status"])
+            save()
         if max_cost is not None and spent > max_cost:
             record["stopped"] = f"spend ${spent:.2f} passed --max-cost {max_cost}"
             typer.echo(f"Stopping: {record['stopped']}", err=True)

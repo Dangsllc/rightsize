@@ -20,8 +20,8 @@ Rightsize benchmarks compliance AI systems with labels built by construction, an
 model that is good enough for each task. When you relay results:
 - Quote a score with its 95% interval and n. Say "low n" or "too few items" when the payload says so;
   a routing decision on fewer than 30 clusters is not a finding.
-- Errors and refusals are counted separately, never as wrong answers. A run with health no_signal
-  measured nothing; report its error and hint, not a score.
+- Errors and refusals are counted separately, never as wrong answers. A run with health failed
+  (every call errored) or no_signal measured nothing; report its error and hint, not a score.
 - cost_state "unknown" means the system reported no usage. It is not $0. "zero" is a model priced at $0.
 - Quote the `caveats` sentences rather than paraphrasing them away.
 Before anything that calls models or spends money: plan_run or plan_sweep, show the user the plan
@@ -75,7 +75,7 @@ def build_server(root: Path, runs_dir: Path | None = None):
     def list_runs(suite: str | None = None, split: str | None = None, system: str | None = None,
                   health: str | None = None, limit: int = 20) -> dict[str, Any]:
         """Runs, newest first, each with health and headline metrics (value, 95% interval, n, cost).
-        health is one of ok, degraded, no_signal, aborted, interrupted, running, unscored."""
+        health is one of ok, degraded, failed, no_signal, aborted, interrupted, running, unscored."""
         return agent.list_runs(ix, suite, split, system, health, limit)
 
     @tool(READ)

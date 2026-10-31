@@ -120,7 +120,9 @@ def test_circuit_breaker_stops_a_run_that_only_fails(plugin_path, tmp_path):
     j = _wait(runs, job.job_id, lambda j: j.state != "running")
     m = json.loads((runs / j.run_ids[0] / "manifest.json").read_text())
     rows = (runs / j.run_ids[0] / "results.jsonl").read_text().splitlines()
-    assert m["status"] == "aborted" and len(rows) == 5
+    # Every call that went out errored, so the run is failed (not just stopped early); the
+    # breaker's note says why it ended after 5 calls.
+    assert m["status"] == "failed: all 5 calls errored" and len(rows) == 5
     assert any("first 5 calls all failed" in n for n in m["notes"])
 
 

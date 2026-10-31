@@ -5,8 +5,9 @@
 |---|---|---|
 | `ok` | Finished; under 2% of answers errored or went missing. | Report the scores. |
 | `degraded` | Finished, but more than 2% errored or went missing. | Report scores and the error share; errors are not counted as wrong. |
-| `no_signal` | Finished with nothing to score (e.g. every call failed). | Report the error group and its hint, not a score. |
-| `aborted` | Stopped by a guard: spend cap, the first calls all failing, cancel, or a crash. | Say which, from `health_reason`. Scores cover what finished. |
+| `failed` | Every call errored (manifest status `failed: all N calls errored`), including when the first calls all failing stopped it. Sweeps never calibrate on it. | Report the error group and its hint, not a score. |
+| `no_signal` | Finished with nothing to score (e.g. a run from before all-error runs were marked failed). | Report the error group and its hint, not a score. |
+| `aborted` | Stopped by a guard: spend cap, cancel, or a crash. | Say which, from `health_reason`. Scores cover what finished. |
 | `interrupted` | The process died mid-run. | Partial; `rightsize report <path>` scores what finished. |
 | `running` | Still going. | Follow with `job_status`. |
 | `unscored` | Finished but not scored yet. | `summarize_run` scores it. |

@@ -63,8 +63,8 @@ def test_caveats_travel_with_the_numbers(server, states):
     assert any("not $0" in c for c in unknown["caveats"])
     capped = call(server, "summarize_run", {"run_id": states[1]["run_aborted"]})
     assert capped["headlines"][0]["tiny_n"] and any("too few" in c for c in capped["caveats"])
-    dead = call(server, "summarize_run", {"run_id": states[1]["run_no_signal"]})
-    assert dead["health"] == "no_signal" and dead["error_groups"][0]["hint"]
+    dead = call(server, "summarize_run", {"run_id": states[1]["run_failed"]})
+    assert dead["health"] == "failed" and dead["error_groups"][0]["hint"]
     assert all(h["value"] is None for h in dead["headlines"])
 
 
@@ -204,7 +204,7 @@ def test_cli_json_for_diff_calibrate_and_dry_run(states, tmp_path, monkeypatch):
 
 def test_heldout_runs_come_back_as_aggregates_only(states, tmp_path):
     runs = tmp_path / "runs"
-    for key in ("run_ok", "run_ok_small", "run_no_signal"):
+    for key in ("run_ok", "run_ok_small", "run_failed"):
         rid = states[1][key]
         shutil.copytree(states[0] / rid, runs / rid)
         if key != "run_ok_small":
@@ -216,7 +216,7 @@ def test_heldout_runs_come_back_as_aggregates_only(states, tmp_path):
     s = call(srv, "summarize_run", {"run_id": rid})
     assert s["headlines"] and s["worst_items"] == {} and "never leave this machine" in s["heldout"]
     assert "m1.ret." not in json.dumps(s)  # no task ids anywhere
-    dead = call(srv, "summarize_run", {"run_id": states[1]["run_no_signal"]})
+    dead = call(srv, "summarize_run", {"run_id": states[1]["run_failed"]})
     assert dead["error_groups"][0]["hint"] and "withheld" in dead["error_groups"][0]["message"]
     for tool, args in (("get_item", {"task_id": "m1.ret.164.308(a)(1)(ii)(A).exact_term"}),
                        ("list_items", {"task_type": "retrieval"})):
